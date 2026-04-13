@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bailey Katsu — Electronic Press Kit</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #f472b6;
+    --red: #e11d48;
+    --dark: #0d0d0d;
+    --mid: #1a1a1a;
+    --surface: #141414;
+    --text: #f0ece4;
+    --muted: #888;
+    --border: #2a2a2a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ---- HERO ---- */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 640px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+
+  .hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: brightness(0.55) saturate(1.2);
+  }
+
+  .hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 30%,
+      rgba(13,13,13,0.6) 65%,
+      var(--dark) 100%
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 48px 56px;
+    width: 100%;
+    max-width: 900px;
+    animation: fadeUp 1s ease both;
+  }
+
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 12vw, 140px);
+    line-height: 0.9;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+
+  .hero-name span {
+    color: var(--pink);
+  }
+
+  .hero-tagline {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: #ccc;
+    margin-top: 20px;
+    max-width: 480px;
+    line-height: 1.5;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 24px;
+    right: 48px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    writing-mode: vertical-rl;
+    animation: pulse 2s ease infinite;
+  }
+
+  /* ---- NAV ---- */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,13,13,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    color: var(--text);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--pink); }
+
+  /* ---- SECTIONS ---- */
+  section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 80px 48px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(42px, 6vw, 72px);
+    letter-spacing: 0.03em;
+    color: var(--text);
+    margin-bottom: 32px;
+    line-height: 1;
+  }
+
+  /* ---- BIO ---- */
+  .bio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .bio-photo {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    object-position: center top;
+    filter: grayscale(20%) contrast(1.05);
+  }
+
+  .bio-photo-credit {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .bio-photo-credit a {
+    color: var(--pink);
+    text-decoration: none;
+  }
+
+  .bio-text p {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 15.5px;
+    line-height: 1.85;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+
+  .bio-text p strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .credentials {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .credential {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: #aaa;
+  }
+
+  .credential::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--pink);
+    flex-shrink: 0;
+  }
+
+  /* ---- QUOTE ---- */
+  .quote-section {
+    background: var(--surface);
+    border-left: 3px solid var(--pink);
+    padding: 48px;
+    margin: 0 auto;
+    max-width: 960px;
+  }
+
+  .quote-section blockquote {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2.5vw, 24px);
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .quote-section cite {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--pink);
+  }
+
+  /* ---- MUSIC ---- */
+  .music-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 32px;
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+
+  .music-card:hover { border-color: var(--pink); }
+
+  .music-artwork {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .music-info h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .music-info p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .stream-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .stream-link {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    transition: all 0.2s;
+  }
+
+  .stream-link:hover {
+    border-color: var(--pink);
+    color: var(--pink);
+  }
+
+  /* ---- SHOWS ---- */
+  .show-row {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    transition: opacity 0.2s;
+  }
+
+  .show-row:first-child { border-top: 1px solid var(--border); }
+  .show-row:hover { opacity: 0.8; }
+
+  .show-date {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.03em;
+    color: var(--pink);
+    line-height: 1;
+  }
+
+  .show-date span {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .show-info h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .show-info p {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .show-tag {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .show-tag.headline {
+    border-color: var(--pink);
+    color: var(--pink);
+  }
+
+  /* ---- PHOTOS ---- */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 12px;
+  }
+
+  .photo-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.9) saturate(1.1);
+    transition: filter 0.3s;
+  }
+
+  .photo-grid img:hover { filter: brightness(1) saturate(1.2); }
+
+  .photo-grid .tall {
+    grid-row: span 2;
+    max-height: 600px;
+  }
+
+  .photo-grid .short {
+    max-height: 290px;
+  }
+
+  .photo-credit {
+    margin-top: 12px;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .photo-credit a { color: var(--pink); text-decoration: none; }
+
+  /* ---- CONTACT ---- */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .contact-block {
+    background: var(--surface);
+    padding: 32px;
+  }
+
+  .contact-block h3 {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 16px;
+  }
+
+  .contact-block p, .contact-block a {
+    font-size: 14px;
+    color: #ccc;
+    line-height: 2;
+    text-decoration: none;
+    display: block;
+  }
+
+  .contact-block a:hover { color: var(--pink); }
+
+  /* ---- FOOTER ---- */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  footer p {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  footer .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  /* ---- DIVIDER ---- */
+  .divider {
+    max-width: 960px;
+    margin: 0 auto;
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 680px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    section { padding: 60px 24px; }
+    .hero-content { padding: 0 24px 48px; }
+    .bio-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .photo-grid { grid-template-columns: 1fr; }
+    .photo-grid .tall { grid-row: span 1; max-height: 400px; }
+    .show-row { grid-template-columns: 70px 1fr; }
+    .show-tag { display: none; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <img class="hero-img"
+    src="photo-hero.jpg"
+    alt="Bailey Katsu press photo">
+  <div class="hero-gradient"></div>
+  <div class="hero-content">
+    <div class="hero-label">Electronic Press Kit — 2026</div>
+    <div class="hero-name">Bailey<br><span>Katsu</span></div>
+    <p class="hero-tagline">Pop-rock singer-songwriter. Queer. Japanese-American. Boston.</p>
+  </div>
+  <div class="hero-scroll">Scroll ↓</div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Bailey Katsu</div>
+  <ul class="nav-links">
+    <li><a href="#bio">Bio</a></li>
+    <li><a href="#music">Music</a></li>
+    <li><a href="#shows">Shows</a></li>
+    <li><a href="#photos">Photos</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- BIO -->
+<section id="bio">
+  <div class="section-label">Artist Bio</div>
+  <h2>About Bailey</h2>
+  <div class="bio-grid">
+    <div>
+      <img class="bio-photo"
+        src="photo-bio.jpg"
+        alt="Bailey Katsu — photo by Spiff">
+      <p class="bio-photo-credit">Photo by <a href="https://www.cophotos.net" target="_blank">Conor "Spiff" — cophotos.net</a></p>
+    </div>
+    <div class="bio-text">
+      <p><strong>Bailey Katsu</strong> is a queer, Japanese-American singer-songwriter and powerhouse vocalist based in Boston. Her solo project is pop-rock driven — emotionally direct, melodically sharp, and rooted in the euphoria and anxiety of navigating queerness and identity in real time.</p>
+      <p>Known for her rich, expressive tone and magnetic stage presence, Bailey brings unmatched energy to every performance. She is also the lead singer and marketing director of <strong>The Femmes</strong>, an all-women and nonbinary band celebrated throughout New England and beyond.</p>
+      <p>Her debut single <strong>"Something New"</strong> is out now on all platforms. Her debut album is expected in 2026. Press has compared her voice to Olivia Rodrigo and Renée Rapp, and Electric Lady Magazine called her "una nueva promesa dentro de la escena musical alternativa."</p>
+      <div class="credentials">
+        <div class="credential">2026 Mass Cultural Council Grant Recipient</div>
+        <div class="credential">Featured in Electric Lady Magazine</div>
+        <div class="credential">Featured in UMass Media</div>
+        <div class="credential">Lead Singer, The Femmes — New England & beyond</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- QUOTE -->
+<div class="quote-section">
+  <blockquote>"Her voice reminds us of artists like Olivia Rodrigo or Renée Rapp, and positions Katsu as a new promise within the alternative music scene. Bailey Katsu arrives with an authenticity that is impossible to ignore."</blockquote>
+  <cite>— Electric Lady Magazine</cite>
+</div>
+
+<!-- MUSIC -->
+<section id="music">
+  <div class="section-label">Music</div>
+  <h2>Discography</h2>
+
+  <div class="music-card">
+    <img class="music-artwork"
+      src="single-something-new.jpg"
+      alt="Something New single art">
+    <div class="music-info">
+      <h3>Something New</h3>
+      <p>Debut Single — 2026</p>
+      <div class="stream-links">
+        <a class="stream-link" href="https://open.spotify.com/track/0nKIjZrj1lb1XUvyAotF9K" target="_blank">Spotify</a>
+        <a class="stream-link" href="https://music.apple.com/us/album/something-new-single/1879527545" target="_blank">Apple Music</a>
+        <a class="stream-link" href="https://www.youtube.com/watch?v=IAoPWTBohPI" target="_blank">YouTube</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="music-card" style="opacity:0.5;">
+    <div style="width:100px;height:100px;background:var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+      <span style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">TBA</span>
+    </div>
+    <div class="music-info">
+      <h3>Debut Album</h3>
+      <p>Coming 2026</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SHOWS -->
+<section id="shows">
+  <div class="section-label">Live</div>
+  <h2>Upcoming Shows</h2>
+
+  <div class="show-row">
+    <div class="show-date">MAY 8<span>2026</span></div>
+    <div class="show-info">
+      <h3>BLOSSOM: AAPI Heritage Month Showcase</h3>
+      <p>Club Café — Moonshine Room &nbsp;·&nbsp; 209 Columbus Ave, Boston &nbsp;·&nbsp; Doors 6:30 PM / Show 8 PM</p>
+    </div>
+    <div class="show-tag">Guest</div>
+  </div>
+
+  <div class="show-row">
+    <div class="show-date">JUL 17<span>2026</span></div>
+    <div class="show-info">
+      <h3>Bailey Katsu — Debut Full Set</h3>
+      <p>The Middle East &nbsp;·&nbsp; Cambridge, MA &nbsp;·&nbsp; Doors 8 PM &nbsp;·&nbsp; w/ Olivia Dolphin Band & Zola Simone</p>
+    </div>
+    <div class="show-tag headline">Headline</div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PHOTOS -->
+<section id="photos">
+  <div class="section-label">Press Photos</div>
+  <h2>Photos</h2>
+  <div class="photo-grid">
+    <img class="tall"
+      src="photo-hero.jpg"
+      alt="Bailey Katsu press photo 1">
+    <img class="short"
+      src="photo-bio.jpg"
+      alt="Bailey Katsu press photo 2">
+    <img class="short"
+      src="photo-bio.jpg"
+      alt="Bailey Katsu press photo 3">
+  </div>
+  <p class="photo-credit">All photos by <a href="https://www.cophotos.net" target="_blank">Conor "Spiff" — cophotos.net &nbsp;·&nbsp; @spiffsphotos</a>. For hi-res downloads, contact <a href="/cdn-cgi/l/email-protection#2d4f4c44414854464c591c146d4a404c4441034e4240"><span class="__cf_email__" data-cfemail="6b090a02070e12000a1f5a522b0c060a020745080406">[email&#160;protected]</span></a>.</p>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Contact</div>
+  <h2>Get In Touch</h2>
+  <div class="contact-grid">
+    <div class="contact-block">
+      <h3>Press & Booking</h3>
+      <a href="/cdn-cgi/l/email-protection#0466656d68617d6f6570353d446369656d682a676b69"><span class="__cf_email__" data-cfemail="2745464e4b425e4c4653161e67404a464e4b0944484a">[email&#160;protected]</span></a>
+      <a href="https://baileykatsumusic.com" target="_blank">baileykatsumusic.com</a>
+    </div>
+    <div class="contact-block">
+      <h3>Socials</h3>
+      <a href="https://instagram.com/baileykatsu" target="_blank">Instagram — @baileykatsu</a>
+      <a href="https://tiktok.com/@baileykatsu" target="_blank">TikTok — @baileykatsu</a>
+      <a href="https://youtube.com/@baileykatsu" target="_blank">YouTube — @baileykatsu</a>
+    </div>
+    <div class="contact-block">
+      <h3>Streaming</h3>
+      <a href="https://open.spotify.com/track/0nKIjZrj1lb1XUvyAotF9K" target="_blank">Spotify</a>
+      <a href="https://music.apple.com/us/album/something-new-single/1879527545" target="_blank">Apple Music</a>
+      <a href="https://www.youtube.com/watch?v=IAoPWTBohPI" target="_blank">YouTube Music</a>
+    </div>
+    <div class="contact-block">
+      <h3>Tickets</h3>
+      <a href="https://clubcafe.com" target="_blank">May 8 — clubcafe.com</a>
+      <a href="https://mideastclub.com" target="_blank">July 17 — mideastclub.com</a>
+    </div>
+  </div>
+</se
