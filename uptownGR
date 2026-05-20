@@ -1,0 +1,592 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#1A1A18;--ink-2:#4A4A46;--ink-3:#8A8A84;
+  --rule:#E2E0DC;--surface:#FFFFFF;--bg:#F8F9FA;
+  --gold:#B8860B;--gold-light:#FFF8E7;
+  --teal:#1A6B5A;--teal-light:#E8F5F1;
+  --display:'Cardo',Georgia,serif;
+  --body:'DM Sans',sans-serif;
+}
+body{background:var(--bg);font-family:var(--body);color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center;}
+
+.phone{width:100%;max-width:390px;margin:0 auto;}
+.screen{display:none;flex-direction:column;}
+.screen.active{display:flex;}
+
+/* ── NAV ── */
+.demo-nav{display:flex;gap:5px;justify-content:center;padding:12px 8px;flex-wrap:wrap;background:var(--surface);border-radius:12px;margin-bottom:12px;border:1px solid var(--rule);}
+.demo-nav button{font-size:9px;letter-spacing:0.06em;text-transform:uppercase;padding:5px 8px;border:1px solid var(--rule);background:var(--bg);color:var(--ink-3);cursor:pointer;font-family:var(--body);border-radius:2px;}
+.demo-nav button.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+/* ── SHARED CARD SHELL ── */
+.card{background:var(--surface);border-radius:24px;overflow:hidden;}
+
+/* ══════════════════════════════
+   SCREEN 1 — WELCOME
+══════════════════════════════ */
+.welcome{background:var(--ink);color:#fff;align-items:center;justify-content:center;text-align:center;padding:56px 32px 48px;position:relative;overflow:hidden;border-radius:24px;min-height:580px;}
+.w-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,0.06);top:50%;left:50%;transform:translate(-50%,-50%);}
+.w-ring:nth-child(1){width:480px;height:480px;}
+.w-ring:nth-child(2){width:360px;height:360px;border-color:rgba(255,255,255,0.08);}
+.w-ring:nth-child(3){width:240px;height:240px;border-color:rgba(255,255,255,0.11);}
+.w-glow{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#2C5F4A,#B8860B);margin:0 auto 32px;display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 0 50px rgba(184,134,11,0.35);animation:glow 3s ease-in-out infinite;position:relative;z-index:2;}
+@keyframes glow{0%,100%{box-shadow:0 0 40px rgba(184,134,11,0.2);}50%{box-shadow:0 0 70px rgba(184,134,11,0.5);}}
+.w-business{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:16px;position:relative;z-index:2;}
+.w-headline{font-family:var(--display);font-size:36px;font-weight:700;line-height:1.1;margin-bottom:14px;position:relative;z-index:2;}
+.w-sub{font-size:14px;color:rgba(255,255,255,0.4);line-height:1.65;margin-bottom:48px;font-weight:300;max-width:260px;margin-left:auto;margin-right:auto;position:relative;z-index:2;}
+.w-btn{background:#fff;color:var(--ink);border:none;padding:16px;font-family:var(--body);font-size:13px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-weight:500;border-radius:2px;width:100%;position:relative;z-index:2;margin-bottom:48px;}
+.w-btn:hover{background:#f0f0f0;}
+.w-footer{font-size:10px;color:rgba(255,255,255,0.18);letter-spacing:0.08em;text-transform:uppercase;position:relative;z-index:2;}
+
+/* ══════════════════════════════
+   SCREEN 2 — RATING
+══════════════════════════════ */
+.rating-header{background:var(--ink);padding:28px 24px;}
+.rh-name{font-family:var(--display);font-size:22px;color:#fff;font-weight:700;margin-bottom:3px;}
+.rh-addr{font-size:12px;color:rgba(255,255,255,0.35);font-weight:300;}
+.rating-body{padding:36px 24px;}
+.rb-prompt{font-family:var(--display);font-size:28px;font-weight:700;color:var(--ink);margin-bottom:8px;line-height:1.2;}
+.rb-sub{font-size:13px;color:var(--ink-3);margin-bottom:40px;font-weight:300;}
+.rb-options{display:flex;gap:14px;justify-content:center;margin-bottom:48px;}
+.rb-btn{width:96px;height:96px;border:1px solid var(--rule);background:var(--bg);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;gap:8px;}
+.rb-btn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+.rb-btn.selected{border-color:var(--ink);background:var(--ink);}
+.rb-icon{font-size:34px;line-height:1;}
+.rb-label{font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);}
+.rb-btn.selected .rb-label{color:rgba(255,255,255,0.55);}
+.rb-continue{width:100%;padding:14px;background:var(--ink);color:#fff;border:none;font-family:var(--body);font-size:13px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border-radius:2px;opacity:0.25;pointer-events:none;transition:opacity 0.2s;}
+.rb-continue.ready{opacity:1;pointer-events:all;}
+.rb-skip{display:block;text-align:center;margin-top:12px;font-size:11px;color:var(--ink-3);cursor:pointer;}
+.rb-skip:hover{color:var(--ink);}
+
+/* ══════════════════════════════
+   SCREEN 3 — GENERATING
+══════════════════════════════ */
+.gen-wrap{background:var(--ink);align-items:center;justify-content:center;text-align:center;padding:48px 32px;border-radius:24px;min-height:580px;}
+.gen-anim{width:140px;height:140px;margin:0 auto 36px;position:relative;}
+.gen-ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,255,255,0.08);animation:spin 3s linear infinite;}
+.gen-ring:nth-child(2){inset:18px;animation-duration:2s;animation-direction:reverse;border-color:rgba(255,255,255,0.13);}
+.gen-ring:nth-child(3){inset:36px;animation-duration:4s;border-color:rgba(255,255,255,0.2);}
+.gen-center{position:absolute;inset:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;animation:pulse 1s ease-in-out infinite;}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.2);}}
+.gen-label{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:14px;}
+.gen-headline{font-family:var(--display);font-size:30px;color:#fff;font-weight:700;line-height:1.2;}
+
+/* ══════════════════════════════
+   SCREEN 4 — VISA / RECEIPT
+══════════════════════════════ */
+.visa-top{padding:22px 22px 0;}
+.visa-eyebrow{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px;}
+.visa-card{width:100%;aspect-ratio:1;border-radius:10px;margin-bottom:16px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;animation:revealVisa 0.5s ease-out;}
+@keyframes revealVisa{from{opacity:0;transform:scale(0.94);}to{opacity:1;transform:scale(1);}}
+.visa-card-bg{position:absolute;inset:0;}
+.visa-biz-tag{position:absolute;top:14px;left:16px;font-size:10px;color:rgba(255,255,255,0.55);font-family:var(--body);letter-spacing:0.06em;text-transform:uppercase;z-index:2;}
+.visa-stamp{position:absolute;top:12px;right:14px;font-size:10px;color:rgba(255,255,255,0.4);font-family:var(--body);letter-spacing:0.06em;text-transform:uppercase;z-index:2;border:1px solid rgba(255,255,255,0.2);padding:3px 8px;border-radius:2px;}
+.visa-content{position:relative;z-index:2;text-align:center;padding:24px;}
+.visa-emoji{font-size:56px;display:block;margin-bottom:14px;filter:drop-shadow(0 4px 16px rgba(0,0,0,0.25));}
+.visa-name{font-family:var(--display);font-size:24px;font-weight:700;color:#fff;margin-bottom:6px;text-shadow:0 2px 8px rgba(0,0,0,0.3);line-height:1.2;}
+.visa-detail{font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:0.08em;text-transform:uppercase;}
+.visa-date{position:absolute;bottom:14px;right:16px;font-size:10px;color:rgba(255,255,255,0.35);font-family:var(--body);letter-spacing:0.06em;z-index:2;}
+.visa-rows{padding:0 22px;}
+.visa-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--rule);}
+.visa-row:last-child{border-bottom:none;}
+.visa-key{font-size:10px;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-3);}
+.visa-val{font-size:13px;color:var(--ink);font-weight:500;}
+.visa-val.good{color:var(--teal);}
+.visa-teaser{margin:14px 22px;background:var(--gold-light);border:1px solid #E8D49A;padding:14px;border-radius:4px;}
+.vt-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.vt-text{font-family:var(--display);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.4;}
+.vt-dots{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap;}
+.vt-dot{width:22px;height:22px;border-radius:50%;border:1px solid #D4C080;background:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--ink-3);}
+.vt-dot.filled{background:var(--gold);border-color:var(--gold);color:#fff;font-size:11px;}
+.vt-cta{font-size:11px;color:var(--gold);letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-weight:500;background:none;border:none;padding:0;font-family:var(--body);}
+.visa-actions{padding:12px 22px 24px;display:flex;gap:10px;}
+.btn-save{flex:1;padding:12px;background:var(--ink);color:#fff;border:none;font-family:var(--body);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border-radius:2px;}
+.btn-share{flex:1;padding:12px;background:transparent;color:var(--ink);border:1px solid var(--rule);font-family:var(--body);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border-radius:2px;}
+
+/* ══════════════════════════════
+   SCREEN 5 — VISAS COLLECTION
+══════════════════════════════ */
+.col-header{background:var(--ink);padding:22px 20px 18px;}
+.col-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.col-back{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;}
+.col-logo{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.22);}
+.col-title{font-family:var(--display);font-size:26px;color:#fff;font-weight:700;margin-bottom:3px;}
+.col-sub{font-size:12px;color:rgba(255,255,255,0.3);font-weight:300;}
+.col-prog-row{display:flex;align-items:center;gap:10px;margin-top:12px;}
+.col-prog-track{flex:1;height:2px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
+.col-prog-fill{height:100%;background:var(--gold);border-radius:2px;width:6%;transition:width 1s ease;}
+.col-prog-count{font-size:11px;color:rgba(255,255,255,0.3);white-space:nowrap;}
+.col-filters{padding:10px 14px;border-bottom:1px solid var(--rule);display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;}
+.col-filters::-webkit-scrollbar{display:none;}
+.col-filter{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;padding:4px 9px;border:1px solid var(--rule);background:transparent;color:var(--ink-3);cursor:pointer;white-space:nowrap;border-radius:2px;font-family:var(--body);flex-shrink:0;}
+.col-filter.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+.col-grid-wrap{padding:12px 12px 20px;max-height:400px;overflow-y:auto;}
+.col-section-label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;padding:0 2px;}
+.col-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px;}
+.col-badge{aspect-ratio:1;border-radius:7px;position:relative;overflow:hidden;cursor:pointer;transition:transform 0.15s;}
+.col-badge.locked{filter:grayscale(1);opacity:0.32;}
+.col-badge.locked:hover{opacity:0.42;}
+.col-badge.earned:hover{transform:scale(1.05);}
+.col-badge.earned.new-b{animation:popIn 0.5s ease-out;}
+@keyframes popIn{0%{transform:scale(0.8);opacity:0;}65%{transform:scale(1.07);}100%{transform:scale(1);opacity:1;}}
+.col-badge-bg{position:absolute;inset:0;}
+.col-badge-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:5px;gap:3px;}
+.col-badge-emoji{font-size:26px;display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));}
+.col-badge-name{font-size:7px;color:rgba(255,255,255,0.75);text-align:center;line-height:1.3;letter-spacing:0.02em;}
+.col-badge.locked .col-badge-emoji{filter:brightness(0) opacity(0.25);}
+.col-badge.locked .col-badge-name{color:rgba(0,0,0,0.18);}
+.col-lock{position:absolute;top:5px;right:5px;font-size:9px;opacity:0.28;z-index:3;}
+.col-new{position:absolute;top:5px;left:5px;background:var(--gold);color:#fff;font-size:6px;letter-spacing:0.08em;text-transform:uppercase;padding:2px 4px;border-radius:1px;z-index:3;font-family:var(--body);}
+.sf-card{grid-column:1/-1;height:80px;border-radius:7px;position:relative;overflow:hidden;cursor:pointer;transition:transform 0.15s;}
+.sf-card:hover{transform:scale(1.01);}
+.sf-card.locked{filter:grayscale(1);opacity:0.28;}
+.sf-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1A1A18,#4A3A08,#1A1A18);}
+.sf-shimmer{position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(184,134,11,0.2),transparent);animation:shimmer 3s ease-in-out infinite;}
+@keyframes shimmer{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+.sf-inner{position:relative;z-index:2;display:flex;align-items:center;padding:14px 18px;gap:12px;height:100%;}
+.sf-emoji{font-size:28px;flex-shrink:0;}
+.sf-name{font-family:var(--display);font-size:15px;color:#fff;font-weight:700;margin-bottom:1px;line-height:1.2;}
+.sf-desc{font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:0.06em;text-transform:uppercase;}
+.sf-lock-icon{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:16px;opacity:0.18;z-index:3;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:200;display:none;align-items:flex-end;justify-content:center;padding:0 16px;}
+.modal-overlay.open{display:flex;}
+.modal-sheet{background:var(--surface);border-radius:20px 20px 0 0;padding:22px 22px 36px;width:100%;max-width:390px;animation:slideUp 0.25s ease-out;}
+@keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.modal-handle{width:32px;height:3px;background:var(--rule);border-radius:2px;margin:0 auto 16px;}
+.modal-icon{width:90px;height:90px;border-radius:9px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:40px;}
+.modal-title{font-family:var(--display);font-size:20px;font-weight:700;text-align:center;margin-bottom:3px;}
+.modal-sub{font-size:12px;color:var(--ink-3);text-align:center;margin-bottom:16px;}
+.modal-rows{border-top:1px solid var(--rule);}
+.modal-row{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--rule);}
+.modal-row:last-child{border-bottom:none;}
+.modal-key{font-size:10px;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-3);}
+.modal-val{font-size:12px;color:var(--ink);font-weight:500;}
+.modal-val.good{color:var(--teal);}
+.modal-val.muted{color:var(--ink-3);}
+.modal-close{width:100%;padding:12px;background:var(--ink);color:#fff;border:none;font-family:var(--body);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border-radius:2px;margin-top:14px;}
+</style>
+</head>
+<body>
+<div style="width:100%;max-width:420px;margin:0 auto;padding:12px;">
+
+  <div class="demo-nav">
+    <button onclick="go('welcome')" id="nav-welcome" class="active">① Welcome</button>
+    <button onclick="go('rating')" id="nav-rating">② Rate</button>
+    <button onclick="go('gen')" id="nav-gen">③ Generate</button>
+    <button onclick="go('visa')" id="nav-visa">④ Your Visa</button>
+    <button onclick="go('collection')" id="nav-collection">⑤ All Visas</button>
+  </div>
+
+  <!-- 1. WELCOME -->
+  <div class="screen active" id="screen-welcome">
+    <div class="welcome">
+      <div class="w-ring"></div><div class="w-ring"></div><div class="w-ring"></div>
+      <div class="w-glow">🏅</div>
+      <div class="w-business">Scorpion Hearts Club · Eastown · Grand Rapids</div>
+      <div class="w-headline">Welcome to your<br>Local Passport.</div>
+      <div class="w-sub">Every visit earns a visa.<br>Collect them all. Unlock Eastown.</div>
+      <button class="w-btn" onclick="go('rating')">View your visa →</button>
+      <div class="w-footer">Eastown Passport · Powered by TrustAnchor</div>
+    </div>
+  </div>
+
+  <!-- 2. RATING -->
+  <div class="screen" id="screen-rating">
+    <div class="card">
+      <div class="rating-header">
+        <div class="rh-name">Scorpion Hearts Club</div>
+        <div class="rh-addr">1035 Wealthy St SE · Eastown · Grand Rapids</div>
+      </div>
+      <div class="rating-body">
+        <div class="rb-prompt">How was your visit?</div>
+        <div class="rb-sub">Takes one second. Helps the business.<br>Shapes your visa.</div>
+        <div class="rb-options">
+          <div class="rb-btn" onclick="selectRating(this,'👍','Loved it')">
+            <span class="rb-icon">👍</span>
+            <span class="rb-label">Loved it</span>
+          </div>
+          <div class="rb-btn" onclick="selectRating(this,'❤️','Amazing')">
+            <span class="rb-icon">❤️</span>
+            <span class="rb-label">Amazing</span>
+          </div>
+          <div class="rb-btn" onclick="selectRating(this,'👎','Not great')">
+            <span class="rb-icon">👎</span>
+            <span class="rb-label">Not great</span>
+          </div>
+        </div>
+        <button class="rb-continue" id="rb-continue" onclick="go('gen')">Generate my visa →</button>
+        <span class="rb-skip" onclick="go('gen')">Skip</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. GENERATING -->
+  <div class="screen" id="screen-gen">
+    <div class="gen-wrap">
+      <div class="gen-anim">
+        <div class="gen-ring"></div>
+        <div class="gen-ring"></div>
+        <div class="gen-ring"></div>
+        <div class="gen-center" id="gen-icon">☕</div>
+      </div>
+      <div class="gen-label">Issuing your visa</div>
+      <div class="gen-headline" id="gen-headline">Proving you were here.<br>Creating your moment.</div>
+    </div>
+  </div>
+
+  <!-- 4. VISA -->
+  <div class="screen" id="screen-visa">
+    <div class="card">
+      <div class="visa-top">
+        <div class="visa-eyebrow">Your visa · May 20, 2026 · 9:14 AM</div>
+        <div class="visa-card" id="visa-card">
+          <div class="visa-card-bg" id="visa-bg"></div>
+          <div class="visa-biz-tag">Scorpion Hearts Club</div>
+          <div class="visa-stamp">Visa #1</div>
+          <div class="visa-content">
+            <span class="visa-emoji" id="visa-emoji">☕</span>
+            <div class="visa-name" id="visa-name">Tuesday Morning</div>
+            <div class="visa-detail" id="visa-detail">Eastown · May 20, 2026</div>
+          </div>
+          <div class="visa-date">9:14 AM · Wealthy St SE</div>
+        </div>
+      </div>
+      <div class="visa-rows">
+        <div class="visa-row"><span class="visa-key">Location</span><span class="visa-val">Scorpion Hearts Club</span></div>
+        <div class="visa-row"><span class="visa-key">Address</span><span class="visa-val">1035 Wealthy St SE</span></div>
+        <div class="visa-row"><span class="visa-key">Neighborhood</span><span class="visa-val">Eastown, Grand Rapids</span></div>
+        <div class="visa-row"><span class="visa-key">Issued</span><span class="visa-val">May 20, 2026 · 9:14 AM</span></div>
+        <div class="visa-row"><span class="visa-key">Your rating</span><span class="visa-val" id="visa-rating-val">—</span></div>
+        <div class="visa-row"><span class="visa-key">On-chain proof</span><span class="visa-val good">✓ Anchored · TrustAnchor</span></div>
+      </div>
+      <div class="visa-teaser">
+        <div class="vt-label">Eastown Passport</div>
+        <div class="vt-text">1 visa collected.<br>16 more locations to explore.</div>
+        <div class="vt-dots">
+          <div class="vt-dot filled">✓</div>
+          <div class="vt-dot">2</div><div class="vt-dot">3</div><div class="vt-dot">4</div>
+          <div class="vt-dot">5</div><div class="vt-dot">6</div><div class="vt-dot">7</div>
+          <div class="vt-dot">8</div><div class="vt-dot">9</div><div class="vt-dot">10</div>
+        </div>
+        <button class="vt-cta" onclick="go('collection')">View your visas →</button>
+      </div>
+      <div class="visa-actions">
+        <button class="btn-save">Save to wallet</button>
+        <button class="btn-share">Share</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. COLLECTION -->
+  <div class="screen" id="screen-collection">
+    <div class="card">
+      <div class="col-header">
+        <div class="col-top">
+          <span class="col-back" onclick="go('visa')">← My Visa</span>
+          <span class="col-logo">Eastown Passport</span>
+        </div>
+        <div class="col-title">Your Visas</div>
+        <div class="col-sub">Eastown + East Hills · 17 locations</div>
+        <div class="col-prog-row">
+          <div class="col-prog-track"><div class="col-prog-fill" id="col-prog"></div></div>
+          <div class="col-prog-count">1 of 17 earned</div>
+        </div>
+      </div>
+
+      <div class="col-filters">
+        <button class="col-filter active" onclick="colFilter('all',this)">All</button>
+        <button class="col-filter" onclick="colFilter('earned',this)">Earned ✓</button>
+        <button class="col-filter" onclick="colFilter('food',this)">Food & Drink</button>
+        <button class="col-filter" onclick="colFilter('shop',this)">Shops</button>
+        <button class="col-filter" onclick="colFilter('wellness',this)">Wellness</button>
+        <button class="col-filter" onclick="colFilter('arts',this)">Arts</button>
+      </div>
+
+      <div class="col-grid-wrap">
+
+        <div class="col-section-label" id="sl-food">Food & Drink</div>
+        <div class="col-grid" id="cg-food">
+          <div class="col-badge earned new-b" data-cat="food" onclick="openM('scorpion')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#3D1A00,#1A0A00);"></div>
+            <div class="col-new">New</div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">☕</span><span class="col-badge-name">Scorpion Hearts</span></div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('earlybird')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#2C4A6B,#1A2D40);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🌅</span><span class="col-badge-name">That Early Bird</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('harmony')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#1A3D1A,#0A200A);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🍺</span><span class="col-badge-name">Harmony Brewing</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('kombucha')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#4A2C6B,#2A1A3D);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🍵</span><span class="col-badge-name">Sacred Springs</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('epicurean')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#5C2D00,#3A1C00);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🍽️</span><span class="col-badge-name">Local Epicurean</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('buns')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#6B1A2C,#3D0F1A);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🍔</span><span class="col-badge-name">Slutty Buns</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('boba')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#1A5C4A,#0A3D30);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🧋</span><span class="col-badge-name">Street Eats & Boba</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('pickwick')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#3D3000,#261E00);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🍻</span><span class="col-badge-name">Pickwick Tavern</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('mangiamo')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#6B2A00,#3D1800);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🍝</span><span class="col-badge-name">Mangiamo</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+        </div>
+
+        <div class="col-section-label" id="sl-shop">Shops</div>
+        <div class="col-grid" id="cg-shop">
+          <div class="col-badge locked" data-cat="shop" onclick="openM('books')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#1A2D5C,#0F1A38);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">📚</span><span class="col-badge-name">Books & Mortar</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="shop" onclick="openM('hopscotch')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#4A8B3A,#2D5C22);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🧸</span><span class="col-badge-name">Hopscotch Children's</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="shop" onclick="openM('rps')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#4A2C1A,#2E1A0F);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">👗</span><span class="col-badge-name">Rock Paper Scissors</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="shop" onclick="openM('counting')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#1A1A4A,#0F0F2E);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🛍️</span><span class="col-badge-name">The Counting House</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="shop" onclick="openM('floral')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#4A1A3D,#2E0F26);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">💐</span><span class="col-badge-name">New Design Floral</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+        </div>
+
+        <div class="col-section-label" id="sl-wellness">Wellness</div>
+        <div class="col-grid" id="cg-wellness">
+          <div class="col-badge locked" data-cat="wellness" onclick="openM('kula')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#1A4A3D,#0F2E26);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🧘</span><span class="col-badge-name">Kula Yoga</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="wellness" onclick="openM('jude')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#2A2A2A,#141414);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">✂️</span><span class="col-badge-name">Jude's Barbershop</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="wellness" onclick="openM('lorde')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#6B1A5C,#3D0F36);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">💄</span><span class="col-badge-name">Lorde Beauty</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+        </div>
+
+        <div class="col-section-label" id="sl-arts">Arts & Community</div>
+        <div class="col-grid" id="cg-arts">
+          <div class="col-badge locked" data-cat="arts" onclick="openM('cocoon')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#3D1A5C,#261040);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🎨</span><span class="col-badge-name">Cocoon Art Space</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="arts" onclick="openM('joyful')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#1A3D5C,#0F2638);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🎵</span><span class="col-badge-name">Joyful Sounds Music</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="sf-card locked" data-cat="arts" onclick="openM('streetfair')" style="grid-column:1/-1;">
+            <div class="sf-bg"></div>
+            <div class="sf-shimmer"></div>
+            <div class="sf-inner">
+              <span class="sf-emoji">🎪</span>
+              <div>
+                <div class="sf-name">Eastown Street Fair</div>
+                <div class="sf-desc">Special Visa · Sep 19, 2026 only</div>
+              </div>
+            </div>
+            <div class="sf-lock-icon">🔒</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeM(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-icon" id="m-icon"></div>
+    <div class="modal-title" id="m-title"></div>
+    <div class="modal-sub" id="m-sub"></div>
+    <div class="modal-rows">
+      <div class="modal-row"><span class="modal-key">Status</span><span class="modal-val" id="m-status"></span></div>
+      <div class="modal-row" id="m-earned-r"><span class="modal-key">Issued</span><span class="modal-val good" id="m-earned"></span></div>
+      <div class="modal-row" id="m-rating-r"><span class="modal-key">Rating</span><span class="modal-val" id="m-rating"></span></div>
+      <div class="modal-row" id="m-proof-r"><span class="modal-key">On-chain proof</span><span class="modal-val good">✓ Anchored · TrustAnchor</span></div>
+      <div class="modal-row" id="m-hint-r"><span class="modal-key">How to earn</span><span class="modal-val muted" id="m-hint"></span></div>
+      <div class="modal-row"><span class="modal-key">Neighborhood</span><span class="modal-val" id="m-hood"></span></div>
+    </div>
+    <button class="modal-close" onclick="closeM()">Close</button>
+  </div>
+</div>
+
+<script>
+const visaData = {
+  scorpion:  {e:'☕',bg:'linear-gradient(135deg,#3D1A00,#1A0A00)',title:'Scorpion Hearts Visa',sub:'Scorpion Hearts Club',earned:true,issuedAt:'May 20, 2026 · 9:14 AM',rating:'👍 Loved it',hood:'Eastown · Wealthy St SE',hint:'Visit Scorpion Hearts Club'},
+  earlybird: {e:'🌅',bg:'linear-gradient(135deg,#2C4A6B,#1A2D40)',title:'Early Bird Visa',sub:'That Early Bird',earned:false,hood:'Eastown · Lake Dr SE',hint:'Visit That Early Bird'},
+  harmony:   {e:'🍺',bg:'linear-gradient(135deg,#1A3D1A,#0A200A)',title:'Harmony Brewing Visa',sub:'Harmony Brewing Company',earned:false,hood:'Eastown · Lake Dr SE',hint:'Visit Harmony Brewing Company'},
+  kombucha:  {e:'🍵',bg:'linear-gradient(135deg,#4A2C6B,#2A1A3D)',title:'Sacred Springs Visa',sub:'Sacred Springs Kombucha Tap Room',earned:false,hood:'Wealthy St SE',hint:'Visit Sacred Springs Kombucha'},
+  epicurean: {e:'🍽️',bg:'linear-gradient(135deg,#5C2D00,#3A1C00)',title:'Local Epicurean Visa',sub:'The Local Epicurean',earned:false,hood:'Eastown · Wealthy St SE',hint:'Visit The Local Epicurean'},
+  buns:      {e:'🍔',bg:'linear-gradient(135deg,#6B1A2C,#3D0F1A)',title:'Slutty Buns Visa',sub:'Slutty Buns',earned:false,hood:'East Hills · Lake Dr SE',hint:'Visit Slutty Buns'},
+  boba:      {e:'🧋',bg:'linear-gradient(135deg,#1A5C4A,#0A3D30)',title:'Street Eats Visa',sub:'Street Eats & Boba',earned:false,hood:'Wealthy St SE',hint:'Visit Street Eats & Boba'},
+  pickwick:  {e:'🍻',bg:'linear-gradient(135deg,#3D3000,#261E00)',title:'Pickwick Tavern Visa',sub:'Pickwick Tavern',earned:false,hood:'East Hills · Cherry St SE',hint:'Visit Pickwick Tavern'},
+  mangiamo:  {e:'🍝',bg:'linear-gradient(135deg,#6B2A00,#3D1800)',title:'Mangiamo Visa',sub:'Mangiamo',earned:false,hood:'East Hills · Lake Dr SE',hint:'Visit Mangiamo'},
+  books:     {e:'📚',bg:'linear-gradient(135deg,#1A2D5C,#0F1A38)',title:'Books & Mortar Visa',sub:'Books & Mortar',earned:false,hood:'East Hills · Cherry St SE',hint:'Visit Books & Mortar'},
+  hopscotch: {e:'🧸',bg:'linear-gradient(135deg,#4A8B3A,#2D5C22)',title:'Hopscotch Visa',sub:"Hopscotch Children's Store",earned:false,hood:'East Hills · Cherry St SE',hint:"Visit Hopscotch Children's Store"},
+  rps:       {e:'👗',bg:'linear-gradient(135deg,#4A2C1A,#2E1A0F)',title:'Rock Paper Scissors Visa',sub:'Rock Paper Scissors Consignment',earned:false,hood:'East Hills · Diamond Ave SE',hint:'Visit Rock Paper Scissors Consignment'},
+  counting:  {e:'🛍️',bg:'linear-gradient(135deg,#1A1A4A,#0F0F2E)',title:'Counting House Visa',sub:'The Counting House',earned:false,hood:'Wealthy St SE',hint:'Visit The Counting House'},
+  floral:    {e:'💐',bg:'linear-gradient(135deg,#4A1A3D,#2E0F26)',title:'New Design Floral Visa',sub:'New Design Floral',earned:false,hood:'East Hills · Cherry St SE',hint:'Visit New Design Floral'},
+  kula:      {e:'🧘',bg:'linear-gradient(135deg,#1A4A3D,#0F2E26)',title:'Kula Yoga Visa',sub:'Kula Yoga',earned:false,hood:'Wealthy St SE',hint:'Visit Kula Yoga'},
+  jude:      {e:'✂️',bg:'linear-gradient(135deg,#2A2A2A,#141414)',title:"Jude's Barbershop Visa",sub:"Jude's Barbershop",earned:false,hood:'Eastown · Wealthy St SE',hint:"Visit Jude's Barbershop"},
+  lorde:     {e:'💄',bg:'linear-gradient(135deg,#6B1A5C,#3D0F36)',title:'Lorde Beauty Visa',sub:'Lorde Beauty and Cosmetics',earned:false,hood:'Eastown · Wealthy St SE',hint:'Visit Lorde Beauty and Cosmetics'},
+  cocoon:    {e:'🎨',bg:'linear-gradient(135deg,#3D1A5C,#261040)',title:'Cocoon Art Visa',sub:'Cocoon Art Space',earned:false,hood:'Eastown · Lake Dr SE',hint:'Visit Cocoon Art Space'},
+  joyful:    {e:'🎵',bg:'linear-gradient(135deg,#1A3D5C,#0F2638)',title:'Joyful Sounds Visa',sub:'Joyful Sounds Music Studio',earned:false,hood:'East Hills · Lake Dr SE',hint:'Visit Joyful Sounds Music Studio'},
+  streetfair:{e:'🎪',bg:'linear-gradient(135deg,#1A1A18,#4A3A08,#1A1A18)',title:'Eastown Street Fair 2026',sub:'Eastown Community Association',earned:false,hood:'Eastown',hint:'Attend the Street Fair · September 19, 2026 only'},
+};
+
+const ratings = {
+  '👍': {e:'☕', name:'Tuesday Morning', detail:'Eastown · May 20, 2026', bg:'linear-gradient(135deg,#2C5F4A,#1A3D30)', label:'👍 Loved it'},
+  '❤️': {e:'✨', name:'Golden Hour',     detail:'Eastown · May 20, 2026', bg:'linear-gradient(135deg,#B8860B,#7A5A08)', label:'❤️ Amazing'},
+  '👎': {e:'🌧️', name:'Rainy Tuesday',  detail:'Eastown · May 20, 2026', bg:'linear-gradient(135deg,#3A4A6B,#1A2540)', label:'👎 Not great'},
+};
+
+let selectedRating = '👍';
+
+function selectRating(el, emoji, label) {
+  document.querySelectorAll('.rb-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedRating = emoji;
+  document.getElementById('rb-continue').classList.add('ready');
+}
+
+function go(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.demo-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-'+screen).classList.add('active');
+  document.getElementById('nav-'+screen).classList.add('active');
+
+  if(screen === 'gen') {
+    const r = ratings[selectedRating] || ratings['👍'];
+    document.getElementById('gen-icon').textContent = r.e;
+    setTimeout(() => go('visa'), 2200);
+  }
+  if(screen === 'visa') {
+    const r = ratings[selectedRating] || ratings['👍'];
+    document.getElementById('visa-emoji').textContent = r.e;
+    document.getElementById('visa-name').textContent = r.name;
+    document.getElementById('visa-detail').textContent = r.detail;
+    document.getElementById('visa-bg').style.background = r.bg;
+    document.getElementById('visa-rating-val').textContent = r.label;
+  }
+  if(screen === 'collection') {
+    setTimeout(() => {
+      document.getElementById('col-prog').style.width = '6%';
+    }, 400);
+  }
+}
+
+function openM(key) {
+  const d = visaData[key];
+  const icon = document.getElementById('m-icon');
+  icon.textContent = d.e;
+  icon.style.background = d.bg;
+  document.getElementById('m-title').textContent = d.title;
+  document.getElementById('m-sub').textContent = d.sub;
+  document.getElementById('m-hood').textContent = d.hood;
+  const st = document.getElementById('m-status');
+  st.textContent = d.earned ? '✓ Visa earned' : '🔒 Not yet earned';
+  st.className = 'modal-val ' + (d.earned ? 'good' : 'muted');
+  document.getElementById('m-earned-r').style.display = d.earned ? 'flex' : 'none';
+  document.getElementById('m-rating-r').style.display = d.earned ? 'flex' : 'none';
+  document.getElementById('m-proof-r').style.display = d.earned ? 'flex' : 'none';
+  document.getElementById('m-hint-r').style.display = d.earned ? 'none' : 'flex';
+  if(d.earned) {
+    document.getElementById('m-earned').textContent = d.issuedAt;
+    document.getElementById('m-rating').textContent = d.rating;
+  }
+  document.getElementById('m-hint').textContent = d.hint;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeM(e) {
+  if(!e || e.target === document.getElementById('modal'))
+    document.getElementById('modal').classList.remove('open');
+}
+
+function colFilter(cat, btn) {
+  document.querySelectorAll('.col-filter').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const cats = ['food','shop','wellness','arts'];
+  if(cat === 'all') {
+    document.querySelectorAll('.col-badge,.sf-card').forEach(c => c.style.display='');
+    cats.forEach(c => {
+      document.getElementById('sl-'+c).style.display='';
+      document.getElementById('cg-'+c).style.display='grid';
+    });
+  } else if(cat === 'earned') {
+    document.querySelectorAll('.col-badge,.sf-card').forEach(c => {
+      c.style.display = c.classList.contains('earned') ? '' : 'none';
+    });
+    cats.forEach(c => {
+      document.getElementById('sl-'+c).style.display='';
+      document.getElementById('cg-'+c).style.display='grid';
+    });
+  } else {
+    document.querySelectorAll('.col-badge,.sf-card').forEach(c => {
+      c.style.display = c.dataset.cat === cat ? '' : 'none';
+    });
+    cats.forEach(c => {
+      const show = c === cat;
+      document.getElementById('sl-'+c).style.display = show ? '' : 'none';
+      document.getElementById('cg-'+c).style.display = show ? 'grid' : 'none';
+    });
+  }
+}
+</script>
+</body>
+</html>
