@@ -1,443 +1,593 @@
+@ -1,592 +0,0 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
-<title>Uptown GR Local Passport · MediaLab Midwest</title>
-<link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+*{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --ink:#1A1A18;--ink-2:#4A4A46;--ink-3:#8A8A84;
   --rule:#E2E0DC;--surface:#FFFFFF;--bg:#F8F9FA;
-  --gold:#B8860B;--gold-light:#FFF8E7;--gold-mid:#E8D49A;
-  --teal:#1A6B5A;--navy:#0C447C;--navy-light:#5B90C8;
-  --display:'Cardo',Georgia,serif;--body:'DM Sans',sans-serif;
+  --gold:#B8860B;--gold-light:#FFF8E7;
+  --teal:#1A6B5A;--teal-light:#E8F5F1;
+  --display:'Cardo',Georgia,serif;
+  --body:'DM Sans',sans-serif;
 }
-html,body{height:100%;overflow:hidden;background:#0A0A08;}
-body{font-family:var(--body);color:var(--ink);display:flex;align-items:center;justify-content:center;}
-.deck{width:100vw;height:100vh;max-width:430px;position:relative;overflow:hidden;}
-.slide{position:absolute;inset:0;display:none;flex-direction:column;}
-.slide.active{display:flex;}
-.prog{position:absolute;top:0;left:0;right:0;height:2px;z-index:200;display:flex;gap:2px;padding:0 10px;padding-top:10px;}
-.prog-seg{flex:1;height:2px;background:rgba(255,255,255,0.2);border-radius:1px;overflow:hidden;}
-.prog-seg .pf{height:100%;background:rgba(255,255,255,0.8);width:0%;}
-.prog-seg.done .pf{width:100%;}
-.prog-seg.cur .pf{width:100%;}
-.slide-num{position:absolute;bottom:14px;right:16px;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;opacity:0.3;z-index:200;color:#fff;font-family:var(--body);}
-.z-prev{position:absolute;left:0;top:0;width:28%;height:100%;z-index:150;cursor:pointer;}
-.z-next{position:absolute;right:0;top:0;width:72%;height:100%;z-index:150;cursor:pointer;}
+body{background:var(--bg);font-family:var(--body);color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center;}
 
-/* TITLE */
-.s-title{background:var(--ink);}
-.s-title-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 32px;position:relative;overflow:hidden;}
-.t-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,0.05);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
-.t-glow{width:110px;height:110px;border-radius:50%;background:conic-gradient(from 0deg,#2C5F4A,#B8860B,#0C447C,#2C5F4A);display:flex;align-items:center;justify-content:center;font-size:46px;margin:0 auto 32px;box-shadow:0 0 60px rgba(184,134,11,0.4);animation:gp 4s ease-in-out infinite;position:relative;z-index:2;}
-@keyframes gp{0%,100%{box-shadow:0 0 40px rgba(184,134,11,0.2);}50%{box-shadow:0 0 80px rgba(184,134,11,0.5);}}
-.t-eyebrow{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:16px;position:relative;z-index:2;}
-.t-headline{font-family:var(--display);font-size:46px;font-weight:700;line-height:1.0;color:#fff;margin-bottom:14px;position:relative;z-index:2;}
-.t-sub{font-size:14px;color:rgba(255,255,255,0.38);line-height:1.65;font-weight:300;max-width:280px;margin:0 auto;position:relative;z-index:2;}
-.t-pills{display:flex;gap:6px;justify-content:center;margin-top:20px;flex-wrap:wrap;position:relative;z-index:2;}
-.t-pill{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.4);border-radius:20px;}
-.t-footer{padding:16px 32px 28px;text-align:center;}
-.t-footer-text{font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.18);}
+.phone{width:100%;max-width:390px;margin:0 auto;}
+.screen{display:none;flex-direction:column;}
+.screen.active{display:flex;}
 
-/* LIGHT SLIDES */
-.s-light{background:var(--surface);}
-.s-bg{background:var(--bg);}
-.s-dark{background:var(--ink);}
-.std-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:52px 36px;}
-.eyebrow{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:20px;}
-.eyebrow-light{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:20px;}
-.big-h{font-family:var(--display);font-size:40px;font-weight:700;line-height:1.05;color:var(--ink);margin-bottom:20px;}
-.big-h em.g{font-style:italic;color:var(--gold);}
-.big-h em.n{font-style:italic;color:var(--navy);}
-.big-h-light{font-family:var(--display);font-size:38px;font-weight:700;line-height:1.05;color:#fff;margin-bottom:20px;}
-.body-t{font-size:15px;color:var(--ink-2);line-height:1.75;font-weight:300;}
-.i-rule-h{height:3px;background:#fff;margin-bottom:2px;}
-.i-rule-t{height:1px;background:rgba(255,255,255,0.3);margin-bottom:28px;}
-.i-quote{font-family:var(--display);font-size:32px;font-weight:400;line-height:1.3;color:#fff;}
-.i-quote em{font-style:italic;color:var(--gold);}
+/* ── NAV ── */
+.demo-nav{display:flex;gap:5px;justify-content:center;padding:12px 8px;flex-wrap:wrap;background:var(--surface);border-radius:12px;margin-bottom:12px;border:1px solid var(--rule);}
+.demo-nav button{font-size:9px;letter-spacing:0.06em;text-transform:uppercase;padding:5px 8px;border:1px solid var(--rule);background:var(--bg);color:var(--ink-3);cursor:pointer;font-family:var(--body);border-radius:2px;}
+.demo-nav button.active{background:var(--ink);color:#fff;border-color:var(--ink);}
 
-/* HOW */
-.how-body{flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding:44px 32px;}
-.how-steps{display:flex;flex-direction:column;gap:20px;margin-top:8px;}
-.how-step{display:flex;gap:14px;}
-.how-num{font-family:var(--display);font-size:28px;color:rgba(0,0,0,0.1);font-weight:700;flex-shrink:0;width:30px;line-height:1.1;}
-.step-t{font-family:var(--display);font-size:18px;font-weight:700;color:var(--ink);margin-bottom:3px;}
-.step-b{font-size:12px;color:var(--ink-3);line-height:1.55;}
+/* ── SHARED CARD SHELL ── */
+.card{background:var(--surface);border-radius:24px;overflow:hidden;}
 
-/* VISA */
-.s-visa-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;}
-.vc{width:100%;max-width:300px;aspect-ratio:1;border-radius:18px;position:relative;overflow:hidden;margin-bottom:20px;box-shadow:0 24px 64px rgba(0,0,0,0.6);}
-.vc-bg{position:absolute;inset:0;background:linear-gradient(135deg,#2C5F4A,#1A3D30,#0A200A);}
-.vc-tex{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 30%,rgba(255,255,255,0.08),transparent 60%);}
-.vc-biz{position:absolute;top:14px;left:16px;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;z-index:2;}
-.vc-stamp{position:absolute;top:12px;right:14px;font-size:9px;color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.15);padding:2px 7px;border-radius:2px;z-index:2;letter-spacing:0.06em;text-transform:uppercase;}
-.vc-c{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-align:center;padding:20px;}
-.vc-e{font-size:54px;display:block;margin-bottom:12px;filter:drop-shadow(0 4px 20px rgba(0,0,0,0.3));}
-.vc-name{font-family:var(--display);font-size:22px;font-weight:700;color:#fff;margin-bottom:5px;text-shadow:0 2px 12px rgba(0,0,0,0.4);line-height:1.2;}
-.vc-det{font-size:10px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;}
-.vc-proof{position:absolute;bottom:12px;left:14px;font-size:8px;color:rgba(255,255,255,0.22);z-index:2;font-family:var(--body);letter-spacing:0.04em;}
-.vc-date{position:absolute;bottom:12px;right:14px;font-size:8px;color:rgba(255,255,255,0.22);z-index:2;font-family:var(--body);}
-.visa-cap{text-align:center;}
-.visa-cap-t{font-family:var(--display);font-size:15px;color:rgba(255,255,255,0.55);margin-bottom:4px;}
-.visa-cap-s{font-size:10px;color:rgba(255,255,255,0.22);letter-spacing:0.08em;text-transform:uppercase;}
+/* ══════════════════════════════
+   SCREEN 1 — WELCOME
+══════════════════════════════ */
+.welcome{background:var(--ink);color:#fff;align-items:center;justify-content:center;text-align:center;padding:56px 32px 48px;position:relative;overflow:hidden;border-radius:24px;min-height:580px;}
+.w-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,0.06);top:50%;left:50%;transform:translate(-50%,-50%);}
+.w-ring:nth-child(1){width:480px;height:480px;}
+.w-ring:nth-child(2){width:360px;height:360px;border-color:rgba(255,255,255,0.08);}
+.w-ring:nth-child(3){width:240px;height:240px;border-color:rgba(255,255,255,0.11);}
+.w-glow{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#2C5F4A,#B8860B);margin:0 auto 32px;display:flex;align-items:center;justify-content:center;font-size:40px;box-shadow:0 0 50px rgba(184,134,11,0.35);animation:glow 3s ease-in-out infinite;position:relative;z-index:2;}
+@keyframes glow{0%,100%{box-shadow:0 0 40px rgba(184,134,11,0.2);}50%{box-shadow:0 0 70px rgba(184,134,11,0.5);}}
+.w-business{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:16px;position:relative;z-index:2;}
+.w-headline{font-family:var(--display);font-size:36px;font-weight:700;line-height:1.1;margin-bottom:14px;position:relative;z-index:2;}
+.w-sub{font-size:14px;color:rgba(255,255,255,0.4);line-height:1.65;margin-bottom:48px;font-weight:300;max-width:260px;margin-left:auto;margin-right:auto;position:relative;z-index:2;}
+.w-btn{background:#fff;color:var(--ink);border:none;padding:16px;font-family:var(--body);font-size:13px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-weight:500;border-radius:2px;width:100%;position:relative;z-index:2;margin-bottom:48px;}
+.w-btn:hover{background:#f0f0f0;}
+.w-footer{font-size:10px;color:rgba(255,255,255,0.18);letter-spacing:0.08em;text-transform:uppercase;position:relative;z-index:2;}
 
-/* DISTRICTS */
-.dist-body{flex:1;display:flex;flex-direction:column;padding:26px 22px;}
-.dist-header{margin-bottom:12px;}
-.dist-tag{display:inline-block;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;padding:3px 9px;border:1px solid var(--rule);color:var(--ink-3);margin-bottom:7px;border-radius:2px;}
-.dist-name{font-family:var(--display);font-size:30px;font-weight:700;color:var(--ink);line-height:1.0;margin-bottom:3px;}
-.dist-sub{font-size:11px;color:var(--ink-3);}
-.biz-list{display:flex;flex-direction:column;}
-.biz-row{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--rule);}
-.biz-row:first-child{border-top:1px solid var(--rule);}
-.biz-ew{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
-.biz-n{font-size:13px;color:var(--ink);font-weight:500;line-height:1.2;}
-.biz-c{font-size:10px;color:var(--ink-3);letter-spacing:0.03em;margin-top:1px;}
-.biz-footer{font-size:10px;color:var(--ink-3);margin-top:8px;letter-spacing:0.04em;}
-.total-box{margin-top:10px;padding:11px 14px;background:var(--gold-light);border:1px solid var(--gold-mid);border-radius:4px;}
-.total-label{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
-.total-num{font-family:var(--display);font-size:20px;font-weight:700;color:var(--ink);}
+/* ══════════════════════════════
+   SCREEN 2 — RATING
+══════════════════════════════ */
+.rating-header{background:var(--ink);padding:28px 24px;}
+.rh-name{font-family:var(--display);font-size:22px;color:#fff;font-weight:700;margin-bottom:3px;}
+.rh-addr{font-size:12px;color:rgba(255,255,255,0.35);font-weight:300;}
+.rating-body{padding:36px 24px;}
+.rb-prompt{font-family:var(--display);font-size:28px;font-weight:700;color:var(--ink);margin-bottom:8px;line-height:1.2;}
+.rb-sub{font-size:13px;color:var(--ink-3);margin-bottom:40px;font-weight:300;}
+.rb-options{display:flex;gap:14px;justify-content:center;margin-bottom:48px;}
+.rb-btn{width:96px;height:96px;border:1px solid var(--rule);background:var(--bg);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;gap:8px;}
+.rb-btn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+.rb-btn.selected{border-color:var(--ink);background:var(--ink);}
+.rb-icon{font-size:34px;line-height:1;}
+.rb-label{font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);}
+.rb-btn.selected .rb-label{color:rgba(255,255,255,0.55);}
+.rb-continue{width:100%;padding:14px;background:var(--ink);color:#fff;border:none;font-family:var(--body);font-size:13px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border-radius:2px;opacity:0.25;pointer-events:none;transition:opacity 0.2s;}
+.rb-continue.ready{opacity:1;pointer-events:all;}
+.rb-skip{display:block;text-align:center;margin-top:12px;font-size:11px;color:var(--ink-3);cursor:pointer;}
+.rb-skip:hover{color:var(--ink);}
 
-/* COLLECTION */
-.col-body{flex:1;display:flex;flex-direction:column;padding:26px 20px;}
-.mini-pp{border:1px solid var(--rule);background:var(--surface);border-radius:8px;overflow:hidden;margin-bottom:10px;}
-.mp-hdr{background:var(--ink);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;}
-.mp-t{font-family:var(--display);font-size:15px;color:#fff;font-weight:700;}
-.mp-c{font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.06em;}
-.mp-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:8px;}
-.mpb{aspect-ratio:1;border-radius:4px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;}
-.mpb.e{box-shadow:0 1px 4px rgba(0,0,0,0.15);}
-.mpb.l{filter:grayscale(1);opacity:0.26;}
-.mpb-bg{position:absolute;inset:0;}
-.mpb-e{font-size:16px;position:relative;z-index:2;}
-.mpb-n{font-size:5px;color:rgba(255,255,255,0.65);text-align:center;position:relative;z-index:2;line-height:1.2;padding:0 1px;}
-.mpb.l .mpb-e{filter:brightness(0) opacity(0.18);}
-.sf-r{grid-column:1/-1;height:32px;border-radius:4px;position:relative;overflow:hidden;display:flex;align-items:center;padding:0 8px;}
-.sf-rbg{position:absolute;inset:0;background:linear-gradient(135deg,#1A1A18,#4A3A08,#1A1A18);}
-.sf-rsh{position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(184,134,11,0.2),transparent);animation:sh 3s ease-in-out infinite;}
-@keyframes sh{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
-.sf-rc{position:relative;z-index:2;display:flex;align-items:center;gap:6px;width:100%;}
-.sf-re{font-size:14px;}
-.sf-rt{font-family:var(--display);font-size:11px;color:#fff;font-weight:700;}
-.sf-rd{font-size:7px;color:rgba(255,255,255,0.28);text-transform:uppercase;letter-spacing:0.05em;margin-left:auto;}
-.col-note{font-size:11px;color:var(--ink-3);line-height:1.6;}
+/* ══════════════════════════════
+   SCREEN 3 — GENERATING
+══════════════════════════════ */
+.gen-wrap{background:var(--ink);align-items:center;justify-content:center;text-align:center;padding:48px 32px;border-radius:24px;min-height:580px;}
+.gen-anim{width:140px;height:140px;margin:0 auto 36px;position:relative;}
+.gen-ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,255,255,0.08);animation:spin 3s linear infinite;}
+.gen-ring:nth-child(2){inset:18px;animation-duration:2s;animation-direction:reverse;border-color:rgba(255,255,255,0.13);}
+.gen-ring:nth-child(3){inset:36px;animation-duration:4s;border-color:rgba(255,255,255,0.2);}
+.gen-center{position:absolute;inset:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;animation:pulse 1s ease-in-out infinite;}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.2);}}
+.gen-label{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:14px;}
+.gen-headline{font-family:var(--display);font-size:30px;color:#fff;font-weight:700;line-height:1.2;}
 
-/* FAIR */
-.fair-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 36px;text-align:center;}
-.fair-e{font-size:68px;margin-bottom:22px;animation:ff 3s ease-in-out infinite;}
-@keyframes ff{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-10px) rotate(2deg);}}
-.fair-h{font-family:var(--display);font-size:40px;font-weight:700;color:#fff;margin-bottom:10px;line-height:1.05;}
-.fair-d{font-size:14px;color:var(--gold);letter-spacing:0.1em;margin-bottom:16px;font-weight:500;}
-.fair-b{font-size:13px;color:rgba(255,255,255,0.38);line-height:1.7;font-weight:300;max-width:280px;}
+/* ══════════════════════════════
+   SCREEN 4 —  / RECEIPT
+══════════════════════════════ */
+.stamp-top{padding:22px 22px 0;}
+.stamp-eyebrow{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px;}
+.stamp-card{width:100%;aspect-ratio:1;border-radius:10px;margin-bottom:16px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;animation:revealstamp 0.5s ease-out;}
+@keyframes revealstamp{from{opacity:0;transform:scale(0.94);}to{opacity:1;transform:scale(1);}}
+.stamp-card-bg{position:absolute;inset:0;}
+.stamp-biz-tag{position:absolute;top:14px;left:16px;font-size:10px;color:rgba(255,255,255,0.55);font-family:var(--body);letter-spacing:0.06em;text-transform:uppercase;z-index:2;}
+.stamp-label{position:absolute;top:12px;right:14px;font-size:10px;color:rgba(255,255,255,0.4);font-family:var(--body);letter-spacing:0.06em;text-transform:uppercase;z-index:2;border:1px solid rgba(255,255,255,0.2);padding:3px 8px;border-radius:2px;}
+.stamp-content{position:relative;z-index:2;text-align:center;padding:24px;}
+.stamp-emoji{font-size:56px;display:block;margin-bottom:14px;filter:drop-shadow(0 4px 16px rgba(0,0,0,0.25));}
+.stamp-name{font-family:var(--display);font-size:24px;font-weight:700;color:#fff;margin-bottom:6px;text-shadow:0 2px 8px rgba(0,0,0,0.3);line-height:1.2;}
+.stamp-detail{font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:0.08em;text-transform:uppercase;}
+.stamp-date{position:absolute;bottom:14px;right:16px;font-size:10px;color:rgba(255,255,255,0.35);font-family:var(--body);letter-spacing:0.06em;z-index:2;}
+.stamp-rows{padding:0 22px;}
+.stamp-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--rule);}
+.stamp-row:last-child{border-bottom:none;}
+.stamp-key{font-size:10px;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-3);}
+.stamp-val{font-size:13px;color:var(--ink);font-weight:500;}
+.stamp-val.good{color:var(--teal);}
+.stamp-teaser{margin:14px 22px;background:var(--gold-light);border:1px solid #E8D49A;padding:14px;border-radius:4px;}
+.vt-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.vt-text{font-family:var(--display);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.4;}
+.vt-dots{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap;}
+.vt-dot{width:22px;height:22px;border-radius:50%;border:1px solid #D4C080;background:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--ink-3);}
+.vt-dot.filled{background:var(--gold);border-color:var(--gold);color:#fff;font-size:11px;}
+.vt-cta{font-size:11px;color:var(--gold);letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-weight:500;background:none;border:none;padding:0;font-family:var(--body);}
+.stamp-actions{padding:12px 22px 24px;display:flex;gap:10px;}
+.btn-save{flex:1;padding:12px;background:var(--ink);color:#fff;border:none;font-family:var(--body);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border-radius:2px;}
+.btn-share{flex:1;padding:12px;background:transparent;color:var(--ink);border:1px solid var(--rule);font-family:var(--body);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border-radius:2px;}
 
-/* ANCHOR */
-.anchor-proof{background:var(--bg);border:1px solid var(--rule);padding:14px 16px;border-radius:4px;margin-top:18px;}
-.ap-label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px;}
-.ap-hash{font-family:'Courier New',monospace;font-size:10px;color:var(--ink-3);word-break:break-all;line-height:1.6;}
-.ap-ok{display:flex;align-items:center;gap:5px;margin-top:8px;font-size:11px;color:var(--teal);font-weight:500;}
+/* ══════════════════════════════
+   SCREEN 5 — stampS COLLECTION
+══════════════════════════════ */
+.col-header{background:var(--ink);padding:22px 20px 18px;}
+.col-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.col-back{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;}
+.col-logo{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.22);}
+.col-title{font-family:var(--display);font-size:26px;color:#fff;font-weight:700;margin-bottom:3px;}
+.col-sub{font-size:12px;color:rgba(255,255,255,0.3);font-weight:300;}
+.col-prog-row{display:flex;align-items:center;gap:10px;margin-top:12px;}
+.col-prog-track{flex:1;height:2px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
+.col-prog-fill{height:100%;background:var(--gold);border-radius:2px;width:6%;transition:width 1s ease;}
+.col-prog-count{font-size:11px;color:rgba(255,255,255,0.3);white-space:nowrap;}
+.col-filters{padding:10px 14px;border-bottom:1px solid var(--rule);display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;}
+.col-filters::-webkit-scrollbar{display:none;}
+.col-filter{font-size:9px;letter-spacing:0.08em;text-transform:uppercase;padding:4px 9px;border:1px solid var(--rule);background:transparent;color:var(--ink-3);cursor:pointer;white-space:nowrap;border-radius:2px;font-family:var(--body);flex-shrink:0;}
+.col-filter.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+.col-grid-wrap{padding:12px 12px 20px;max-height:400px;overflow-y:auto;}
+.col-section-label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:8px;padding:0 2px;}
+.col-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px;}
+.col-badge{aspect-ratio:1;border-radius:7px;position:relative;overflow:hidden;cursor:pointer;transition:transform 0.15s;}
+.col-badge.locked{filter:grayscale(1);opacity:0.32;}
+.col-badge.locked:hover{opacity:0.42;}
+.col-badge.earned:hover{transform:scale(1.05);}
+.col-badge.earned.new-b{animation:popIn 0.5s ease-out;}
+@keyframes popIn{0%{transform:scale(0.8);opacity:0;}65%{transform:scale(1.07);}100%{transform:scale(1);opacity:1;}}
+.col-badge-bg{position:absolute;inset:0;}
+.col-badge-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:5px;gap:3px;}
+.col-badge-emoji{font-size:26px;display:block;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));}
+.col-badge-name{font-size:7px;color:rgba(255,255,255,0.75);text-align:center;line-height:1.3;letter-spacing:0.02em;}
+.col-badge.locked .col-badge-emoji{filter:brightness(0) opacity(0.25);}
+.col-badge.locked .col-badge-name{color:rgba(0,0,0,0.18);}
+.col-lock{position:absolute;top:5px;right:5px;font-size:9px;opacity:0.28;z-index:3;}
+.col-new{position:absolute;top:5px;left:5px;background:var(--gold);color:#fff;font-size:6px;letter-spacing:0.08em;text-transform:uppercase;padding:2px 4px;border-radius:1px;z-index:3;font-family:var(--body);}
+.sf-card{grid-column:1/-1;height:80px;border-radius:7px;position:relative;overflow:hidden;cursor:pointer;transition:transform 0.15s;}
+.sf-card:hover{transform:scale(1.01);}
+.sf-card.locked{filter:grayscale(1);opacity:0.28;}
+.sf-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1A1A18,#4A3A08,#1A1A18);}
+.sf-shimmer{position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(184,134,11,0.2),transparent);animation:shimmer 3s ease-in-out infinite;}
+@keyframes shimmer{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+.sf-inner{position:relative;z-index:2;display:flex;align-items:center;padding:14px 18px;gap:12px;height:100%;}
+.sf-emoji{font-size:28px;flex-shrink:0;}
+.sf-name{font-family:var(--display);font-size:15px;color:#fff;font-weight:700;margin-bottom:1px;line-height:1.2;}
+.sf-desc{font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:0.06em;text-transform:uppercase;}
+.sf-lock-icon{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:16px;opacity:0.18;z-index:3;}
 
-/* ASK */
-.ask-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:52px 36px;}
-.ask-rh{height:3px;background:#fff;margin-bottom:2px;}
-.ask-rt{height:1px;background:rgba(255,255,255,0.25);margin-bottom:26px;}
-.ask-items{display:flex;flex-direction:column;gap:14px;margin-top:4px;}
-.ask-item{display:flex;gap:12px;align-items:flex-start;}
-.ask-dot{width:5px;height:5px;background:var(--gold);border-radius:50%;flex-shrink:0;margin-top:7px;}
-.ask-text{font-size:14px;color:rgba(255,255,255,0.45);line-height:1.65;font-weight:300;}
-.ask-text strong{color:#fff;font-weight:500;}
-
-/* END */
-.end-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 36px;}
-.end-logo{font-family:var(--display);font-size:34px;color:#fff;font-weight:700;margin-bottom:6px;}
-.end-logo span{color:var(--navy-light);}
-.end-plus{font-size:18px;color:rgba(255,255,255,0.18);margin-bottom:6px;}
-.end-up{font-family:var(--display);font-size:20px;color:rgba(255,255,255,0.35);margin-bottom:44px;}
-.end-tag{font-family:var(--display);font-size:22px;color:rgba(255,255,255,0.42);font-style:italic;line-height:1.5;max-width:280px;}
-.end-url{font-size:10px;color:rgba(255,255,255,0.18);letter-spacing:0.1em;text-transform:uppercase;margin-top:32px;}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:200;display:none;align-items:flex-end;justify-content:center;padding:0 16px;}
+.modal-overlay.open{display:flex;}
+.modal-sheet{background:var(--surface);border-radius:20px 20px 0 0;padding:22px 22px 36px;width:100%;max-width:390px;animation:slideUp 0.25s ease-out;}
+@keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.modal-handle{width:32px;height:3px;background:var(--rule);border-radius:2px;margin:0 auto 16px;}
+.modal-icon{width:90px;height:90px;border-radius:9px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:40px;}
+.modal-title{font-family:var(--display);font-size:20px;font-weight:700;text-align:center;margin-bottom:3px;}
+.modal-sub{font-size:12px;color:var(--ink-3);text-align:center;margin-bottom:16px;}
+.modal-rows{border-top:1px solid var(--rule);}
+.modal-row{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--rule);}
+.modal-row:last-child{border-bottom:none;}
+.modal-key{font-size:10px;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-3);}
+.modal-val{font-size:12px;color:var(--ink);font-weight:500;}
+.modal-val.good{color:var(--teal);}
+.modal-val.muted{color:var(--ink-3);}
+.modal-close{width:100%;padding:12px;background:var(--ink);color:#fff;border:none;font-family:var(--body);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border-radius:2px;margin-top:14px;}
 </style>
 </head>
 <body>
-<div class="deck" id="deck">
-  <div class="prog" id="prog"></div>
-  <div class="slide-num" id="snum"></div>
-  <div class="z-prev" onclick="prev()"></div>
-  <div class="z-next" onclick="next()"></div>
+<div style="width:100%;max-width:420px;margin:0 auto;padding:12px;">
 
-  <!-- 1 TITLE -->
-  <div class="slide s-title" id="s0">
-    <div class="s-title-body">
-      <div class="t-ring" style="width:520px;height:520px;"></div>
-      <div class="t-ring" style="width:380px;height:380px;border-color:rgba(255,255,255,0.07);"></div>
-      <div class="t-ring" style="width:250px;height:250px;border-color:rgba(255,255,255,0.1);"></div>
-      <div class="t-glow">🗺️</div>
-      <div class="t-eyebrow">MediaLab Midwest · Grand Rapids, MI</div>
-      <div class="t-headline">Uptown GR<br>Local Passport</div>
-      <div class="t-sub">A neighborhood loyalty experience built on blockchain provenance — across all four walkable districts.</div>
-      <div class="t-pills">
-        <div class="t-pill">Eastown</div>
-        <div class="t-pill">Wealthy St</div>
-        <div class="t-pill">East Hills</div>
-        <div class="t-pill">East Fulton</div>
+  <div class="demo-nav">
+    <button onclick="go('welcome')" id="nav-welcome" class="active">① Welcome</button>
+    <button onclick="go('rating')" id="nav-rating">② Rate</button>
+    <button onclick="go('gen')" id="nav-gen">③ Generate</button>
+    <button onclick="go('stamp')" id="nav-stamp">④ Your stamp</button>
+    <button onclick="go('collection')" id="nav-collection">⑤ All stamps</button>
+  </div>
+
+  <!-- 1. WELCOME -->
+  <div class="screen active" id="screen-welcome">
+    <div class="welcome">
+      <div class="w-ring"></div><div class="w-ring"></div><div class="w-ring"></div>
+      <div class="w-glow">🏅</div>
+      <div class="w-business">Scorpion Hearts Club · Eastown · Grand Rapids</div>
+      <div class="w-headline">Welcome to your<br>Local Passport.</div>
+      <div class="w-sub">Every visit earns a stamp.<br>Collect them all. Unlock Eastown.</div>
+      <button class="w-btn" onclick="go('rating')">View your stamp →</button>
+      <div class="w-footer">Eastown Passport · Powered by TrustAnchor</div>
+    </div>
+  </div>
+
+  <!-- 2. RATING -->
+  <div class="screen" id="screen-rating">
+    <div class="card">
+      <div class="rating-header">
+        <div class="rh-name">Scorpion Hearts Club</div>
+        <div class="rh-addr">1035 Wealthy St SE · Eastown · Grand Rapids</div>
       </div>
-    </div>
-    <div class="t-footer"><div class="t-footer-text">Ritsu Katsumata + Aaron Sundman · June 2026</div></div>
-  </div>
-
-  <!-- 2 PROBLEM -->
-  <div class="slide s-light" id="s1">
-    <div class="std-body">
-      <div class="eyebrow">The problem</div>
-      <div class="big-h">Local businesses<br>are losing to<br><em class="g">platforms.</em></div>
-      <div class="body-t">Amazon owns the delivery. Square owns the loyalty data. DoorDash owns the customer relationship.<br><br>The independent business on Wealthy Street pays fees, surrenders data, and hands out a paper punch card in return.<br><br>There is no infrastructure built for neighborhoods. Only for platforms.</div>
-    </div>
-  </div>
-
-  <!-- 3 INSIGHT -->
-  <div class="slide s-dark" id="s2">
-    <div class="std-body">
-      <div class="i-rule-h"></div>
-      <div class="i-rule-t"></div>
-      <div class="eyebrow-light">The insight</div>
-      <div class="i-quote">A receipt doesn't<br>have to be the end<br>of the experience.<br><br>It can be<br><em>the beginning.</em></div>
-    </div>
-  </div>
-
-  <!-- 4 HOW -->
-  <div class="slide s-bg" id="s3">
-    <div class="how-body">
-      <div class="eyebrow">How it works</div>
-      <div class="big-h" style="font-size:32px;margin-bottom:4px;">Tap. Rate.<br>Collect your visa.</div>
-      <div class="how-steps">
-        <div class="how-step"><div class="how-num">I.</div><div><div class="step-t">NFC tap at the business</div><div class="step-b">Each business has an NFC card. Customer taps their phone. No app. No login required.</div></div></div>
-        <div class="how-step"><div class="how-num">II.</div><div><div class="step-t">Rate your visit</div><div class="step-b">One tap — 👍 ❤️ 👎. Shapes the visa and sends real feedback to the business.</div></div></div>
-        <div class="how-step"><div class="how-num">III.</div><div><div class="step-t">Visa issued on-chain</div><div class="step-b">A unique visa anchored to the blockchain. Location. Time. Date. Owned by the customer forever.</div></div></div>
-        <div class="how-step"><div class="how-num">IV.</div><div><div class="step-t">Collect across all four districts</div><div class="step-b">Complete your Uptown GR passport. Unlock the district reward.</div></div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 5 VISA -->
-  <div class="slide s-dark" id="s4">
-    <div class="s-visa-body">
-      <div class="vc">
-        <div class="vc-bg"></div><div class="vc-tex"></div>
-        <div class="vc-biz">Rowster Coffee · Wealthy St</div>
-        <div class="vc-stamp">Visa #1</div>
-        <div class="vc-c">
-          <span class="vc-e">☕</span>
-          <div class="vc-name">Tuesday Morning</div>
-          <div class="vc-det">Wealthy St · June 12, 2026</div>
+      <div class="rating-body">
+        <div class="rb-prompt">How was your visit?</div>
+        <div class="rb-sub">Takes one second. Helps the business.<br>Shapes your stamp.</div>
+        <div class="rb-options">
+          <div class="rb-btn" onclick="selectRating(this,'👍','Loved it')">
+            <span class="rb-icon">👍</span>
+            <span class="rb-label">Loved it</span>
+          </div>
+          <div class="rb-btn" onclick="selectRating(this,'❤️','Amazing')">
+            <span class="rb-icon">❤️</span>
+            <span class="rb-label">Amazing</span>
+          </div>
+          <div class="rb-btn" onclick="selectRating(this,'👎','Not great')">
+            <span class="rb-icon">👎</span>
+            <span class="rb-label">Not great</span>
+          </div>
         </div>
-        <div class="vc-proof">✓ TrustAnchor · On-chain</div>
-        <div class="vc-date">9:14 AM</div>
-      </div>
-      <div class="visa-cap">
-        <div class="visa-cap-t">Your visit. Your proof. Your visa.</div>
-        <div class="visa-cap-s">Location · Time · Date · Blockchain-anchored</div>
+        <button class="rb-continue" id="rb-continue" onclick="go('gen')">Generate my stamp →</button>
+        <span class="rb-skip" onclick="go('gen')">Skip</span>
       </div>
     </div>
   </div>
 
-  <!-- 6 EASTOWN -->
-  <div class="slide s-light" id="s5">
-    <div class="dist-body">
-      <div class="dist-header">
-        <div class="dist-tag">District 1 of 4</div>
-        <div class="dist-name">Eastown</div>
-        <div class="dist-sub">Lake Dr SE · Wealthy St SE · 132 businesses</div>
+  <!-- 3. GENERATING -->
+  <div class="screen" id="screen-gen">
+    <div class="gen-wrap">
+      <div class="gen-anim">
+        <div class="gen-ring"></div>
+        <div class="gen-ring"></div>
+        <div class="gen-ring"></div>
+        <div class="gen-center" id="gen-icon">☕</div>
       </div>
-      <div class="biz-list">
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#3D1A00,#1A0A00);">☕</div><div><div class="biz-n">Scorpion Hearts Club</div><div class="biz-c">Coffee · Grocery</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#2C4A6B,#1A2D40);">🌅</div><div><div class="biz-n">That Early Bird</div><div class="biz-c">Coffee · Sweeteries · Dining</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#1A3D1A,#0A200A);">🍺</div><div><div class="biz-n">Harmony Brewing Company</div><div class="biz-c">Drinks & Dining</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#4A1A3D,#2E0F26);">🎨</div><div><div class="biz-n">Cocoon Art Space</div><div class="biz-c">Art · Boutiques & Galleries</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#6B1A2C,#3D0F1A);">🍔</div><div><div class="biz-n">Slutty Buns</div><div class="biz-c">Food & Drink · East Hills</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#3D2B1A,#261A10);">👗</div><div><div class="biz-n">Yours Truly Galleria</div><div class="biz-c">Boutiques · Clothing</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#3D3D1A,#262608);">🍬</div><div><div class="biz-n">Sticky Fingers</div><div class="biz-c">Sweeteries · EAT/DRINK</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#2A2A2A,#141414);">✂️</div><div><div class="biz-n">Jude's Barbershop</div><div class="biz-c">Services · Grooming</div></div></div>
-      </div>
+      <div class="gen-label">Issuing your stamp</div>
+      <div class="gen-headline" id="gen-headline">Proving you were here.<br>Creating your moment.</div>
     </div>
   </div>
 
-  <!-- 7 WEALTHY -->
-  <div class="slide s-light" id="s6">
-    <div class="dist-body">
-      <div class="dist-header">
-        <div class="dist-tag">District 2 of 4</div>
-        <div class="dist-name">Wealthy Street</div>
-        <div class="dist-sub">Wealthy St SE · Diamond Ave SE · 95 businesses</div>
-      </div>
-      <div class="biz-list">
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#2C3D1A,#1A260A);">☕</div><div><div class="biz-n">Rowster Coffee</div><div class="biz-c">Coffee · EAT/DRINK</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#4A2C6B,#2A1A3D);">🍵</div><div><div class="biz-n">Sacred Springs Kombucha</div><div class="biz-c">Drinks & Dining · Grocery</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#3D2200,#261500);">🍻</div><div><div class="biz-n">Speciation Artisan Ales</div><div class="biz-c">Drinks & Dining · Entertainment</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#5C3A00,#3A2400);">🥩</div><div><div class="biz-n">Louise Earl Butcher</div><div class="biz-c">Food · EAT/DRINK · Services</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#1A1A4A,#0F0F2E);">🏠</div><div><div class="biz-n">Stoffer Home</div><div class="biz-c">Boutiques · Coffee · Shop</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#4A1A3D,#2E0F26);">🕯️</div><div><div class="biz-n">Sable Candle Co</div><div class="biz-c">Boutiques & Galleries</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#3D2B1A,#261A10);">👘</div><div><div class="biz-n">Dime and Regal</div><div class="biz-c">Clothing · Boutiques</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#1A4A3D,#0F2E26);">🧘</div><div><div class="biz-n">Kula Yoga</div><div class="biz-c">Wellness & Yoga · Health</div></div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 8 EAST HILLS -->
-  <div class="slide s-light" id="s7">
-    <div class="dist-body">
-      <div class="dist-header">
-        <div class="dist-tag">District 3 of 4</div>
-        <div class="dist-name">East Hills</div>
-        <div class="dist-sub">Cherry St SE · Lake Dr SE · 74 businesses</div>
-      </div>
-      <div class="biz-list">
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#1A3D1A,#0A200A);">🍺</div><div><div class="biz-n">Vivant Brewery & Spirits</div><div class="biz-c">Drinks & Dining</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#1A2D5C,#0F1A38);">📚</div><div><div class="biz-n">Books & Mortar</div><div class="biz-c">Boutiques & Galleries · Shop</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#3D1A5C,#261040);">🎭</div><div><div class="biz-n">Ambrosia Theater</div><div class="biz-c">Entertainment</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#3D2B1A,#261A10);">🏡</div><div><div class="biz-n">Nestology Shop & Studio</div><div class="biz-c">Art · Boutiques · Shop</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#4A2C1A,#2E1A0F);">👗</div><div><div class="biz-n">Commune</div><div class="biz-c">Boutiques & Galleries</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#6B1A5C,#3D0F36);">💎</div><div><div class="biz-n">Covet</div><div class="biz-c">Clothing & Accessories</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#4A8B3A,#2D5C22);">🧸</div><div><div class="biz-n">Hopscotch Children's Store</div><div class="biz-c">Boutiques · Shop</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#4A2C1A,#2E1A0F);">👗</div><div><div class="biz-n">Rock Paper Scissors</div><div class="biz-c">Consignment · Clothing</div></div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 9 EAST FULTON -->
-  <div class="slide s-light" id="s8">
-    <div class="dist-body">
-      <div class="dist-header">
-        <div class="dist-tag">District 4 of 4</div>
-        <div class="dist-name">East Fulton</div>
-        <div class="dist-sub">Fulton St E · Diamond Ave SE · 53 businesses</div>
-      </div>
-      <div class="biz-list">
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#5C2D00,#3A1C00);">🥐</div><div><div class="biz-n">Van's Pastry Shoppe</div><div class="biz-c">Coffee · Sweeteries · EAT/DRINK</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#3D3000,#261E00);">🥪</div><div><div class="biz-n">Schnitz Deli</div><div class="biz-c">Drinks & Dining · EAT/DRINK</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#1A5C4A,#0A3D30);">🥬</div><div><div class="biz-n">Rakowski Family Farm & Market</div><div class="biz-c">Grocery & Packaged Goods</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#6B2A00,#3D1800);">🌮</div><div><div class="biz-n">Tienda Emy Latina</div><div class="biz-c">Grocery · Shop</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#3D3000,#261E00);">🍸</div><div><div class="biz-n">Hard Times</div><div class="biz-c">Drinks & Dining · EAT/DRINK</div></div></div>
-        <div class="biz-row"><div class="biz-ew" style="background:linear-gradient(135deg,#5C2D00,#3A1C00);">🥧</div><div><div class="biz-n">Van's Pastry Shoppe</div><div class="biz-c">Coffee · Sweeteries</div></div></div>
-      </div>
-      <div class="total-box">
-        <div class="total-label">Total Uptown GR network</div>
-        <div class="total-num">356 businesses · 4 districts</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 10 COLLECTION -->
-  <div class="slide s-bg" id="s9">
-    <div class="col-body">
-      <div class="eyebrow" style="margin-bottom:6px;">The passport</div>
-      <div class="big-h" style="font-size:28px;margin-bottom:12px;">Collect all<br>your visas.</div>
-      <div class="mini-pp">
-        <div class="mp-hdr"><div class="mp-t">Uptown GR Passport</div><div class="mp-c">1 of 20 earned</div></div>
-        <div class="mp-grid">
-          <div class="mpb e"><div class="mpb-bg" style="background:linear-gradient(135deg,#3D1A00,#1A0A00);"></div><span class="mpb-e">☕</span><span class="mpb-n">Scorpion</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#2C3D1A,#1A260A);"></div><span class="mpb-e">☕</span><span class="mpb-n">Rowster</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#1A3D1A,#0A200A);"></div><span class="mpb-e">🍺</span><span class="mpb-n">Harmony</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#3D2200,#261500);"></div><span class="mpb-e">🍻</span><span class="mpb-n">Speciation</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#1A3D1A,#0A200A);"></div><span class="mpb-e">🍺</span><span class="mpb-n">Vivant</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#4A2C6B,#2A1A3D);"></div><span class="mpb-e">🍵</span><span class="mpb-n">Sacred Spg</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#5C2D00,#3A1C00);"></div><span class="mpb-e">🥐</span><span class="mpb-n">Van's</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#3D3000,#261E00);"></div><span class="mpb-e">🥪</span><span class="mpb-n">Schnitz</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#1A2D5C,#0F1A38);"></div><span class="mpb-e">📚</span><span class="mpb-n">Books</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#1A1A4A,#0F0F2E);"></div><span class="mpb-e">🏠</span><span class="mpb-n">Stoffer</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#4A1A3D,#2E0F26);"></div><span class="mpb-e">🕯️</span><span class="mpb-n">Sable</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#3D2B1A,#261A10);"></div><span class="mpb-e">🏡</span><span class="mpb-n">Nestology</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#4A2C1A,#2E1A0F);"></div><span class="mpb-e">👗</span><span class="mpb-n">Commune</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#4A8B3A,#2D5C22);"></div><span class="mpb-e">🧸</span><span class="mpb-n">Hopscotch</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#1A5C4A,#0A3D30);"></div><span class="mpb-e">🥬</span><span class="mpb-n">Rakowski</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#6B1A2C,#3D0F1A);"></div><span class="mpb-e">🍔</span><span class="mpb-n">Slutty Buns</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#4A1A3D,#2E0F26);"></div><span class="mpb-e">🎨</span><span class="mpb-n">Cocoon</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#6B2A00,#3D1800);"></div><span class="mpb-e">🌮</span><span class="mpb-n">Tienda Emy</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#3D1A5C,#261040);"></div><span class="mpb-e">🎭</span><span class="mpb-n">Ambrosia</span></div>
-          <div class="mpb l"><div class="mpb-bg" style="background:linear-gradient(135deg,#1A4A3D,#0F2E26);"></div><span class="mpb-e">🧘</span><span class="mpb-n">Kula Yoga</span></div>
-          <div class="sf-r"><div class="sf-rbg"></div><div class="sf-rsh"></div><div class="sf-rc"><span class="sf-re">🎪</span><span class="sf-rt">Uptown GR Street Fair</span><span class="sf-rd">Sep · Special</span></div></div>
+  <!-- 4. stamp -->
+  <div class="screen" id="screen-stamp">
+    <div class="card">
+      <div class="stamp-top">
+        <div class="stamp-eyebrow">Your stamp · May 20, 2026 · 9:14 AM</div>
+        <div class="stamp-card" id="stamp-card">
+          <div class="stamp-card-bg" id="stamp-bg"></div>
+          <div class="stamp-biz-tag">Scorpion Hearts Club</div>
+          <div class="stamp-label">stamp #1</div>
+          <div class="stamp-content">
+            <span class="stamp-emoji" id="stamp-emoji">☕</span>
+            <div class="stamp-name" id="stamp-name">Tuesday Morning</div>
+            <div class="stamp-detail" id="stamp-detail">Eastown · May 20, 2026</div>
+          </div>
+          <div class="stamp-date">9:14 AM · Wealthy St SE</div>
         </div>
       </div>
-      <div class="col-note">One visa per business, anchored on-chain with location, time, and date. The Street Fair visa is only earnable on the day of the fair — the rarest in the passport.</div>
-    </div>
-  </div>
-
-  <!-- 11 STREET FAIR -->
-  <div class="slide s-dark" id="s10">
-    <div class="fair-body">
-      <div class="fair-e">🎪</div>
-      <div class="eyebrow-light">Special visa · One day only</div>
-      <div class="fair-h">Uptown GR<br>Street Fair</div>
-      <div class="fair-d">Eastown · September 2026</div>
-      <div class="fair-b">The Street Fair visa is only earnable on the day of the fair. A permanent on-chain record that you were there — rarer than anything else in the passport. Every Uptown event becomes a moment worth collecting.</div>
-    </div>
-  </div>
-
-  <!-- 12 TRUSTANCHOR -->
-  <div class="slide s-light" id="s11">
-    <div class="std-body">
-      <div class="eyebrow">The infrastructure underneath</div>
-      <div class="big-h" style="font-size:34px;">Every visa is<br>anchored by<br><em class="n">TrustAnchor.</em></div>
-      <div class="body-t">TrustAnchor registers the moment on the Bitcoin Cash blockchain. Immutable, independent of any platform, and owned by the customer — not Square, not us, not Uptown GR.</div>
-      <div class="anchor-proof">
-        <div class="ap-label">Sample visa · On-chain proof · trustanchor.io</div>
-        <div class="ap-hash">df34137da1445417c19822d1298c2e515fc1778b<br>af7174b143f987b733f338f5</div>
-        <div class="ap-ok">✓ Verified · Anchored · Immutable</div>
+      <div class="stamp-rows">
+        <div class="stamp-row"><span class="stamp-key">Location</span><span class="stamp-val">Scorpion Hearts Club</span></div>
+        <div class="stamp-row"><span class="stamp-key">Address</span><span class="stamp-val">1035 Wealthy St SE</span></div>
+        <div class="stamp-row"><span class="stamp-key">Neighborhood</span><span class="stamp-val">Eastown, Grand Rapids</span></div>
+        <div class="stamp-row"><span class="stamp-key">Issued</span><span class="stamp-val">May 20, 2026 · 9:14 AM</span></div>
+        <div class="stamp-row"><span class="stamp-key">Your rating</span><span class="stamp-val" id="stamp-rating-val">—</span></div>
+        <div class="stamp-row"><span class="stamp-key">On-chain proof</span><span class="stamp-val good">✓ Anchored · TrustAnchor</span></div>
+      </div>
+      <div class="stamp-teaser">
+        <div class="vt-label">Eastown Passport</div>
+        <div class="vt-text">1 stamp collected.<br>16 more locations to explore.</div>
+        <div class="vt-dots">
+          <div class="vt-dot filled">✓</div>
+          <div class="vt-dot">2</div><div class="vt-dot">3</div><div class="vt-dot">4</div>
+          <div class="vt-dot">5</div><div class="vt-dot">6</div><div class="vt-dot">7</div>
+          <div class="vt-dot">8</div><div class="vt-dot">9</div><div class="vt-dot">10</div>
+        </div>
+        <button class="vt-cta" onclick="go('collection')">View your stamps →</button>
+      </div>
+      <div class="stamp-actions">
+        <button class="btn-save">Save to wallet</button>
+        <button class="btn-share">Share</button>
       </div>
     </div>
   </div>
 
-  <!-- 13 ASK -->
-  <div class="slide s-dark" id="s12">
-    <div class="ask-body">
-      <div class="ask-rh"></div>
-      <div class="ask-rt"></div>
-      <div class="eyebrow-light">What we're asking</div>
-      <div class="big-h-light" style="font-size:38px;margin-bottom:20px;">Where would<br>you start?</div>
-      <div class="ask-items">
-        <div class="ask-item"><div class="ask-dot"></div><div class="ask-text"><strong>A neighborhood pilot.</strong> One Uptown GR district. Real NFC cards. Real visas on-chain. Prove the mechanic in Grand Rapids first.</div></div>
-        <div class="ask-item"><div class="ask-dot"></div><div class="ask-text"><strong>Your network.</strong> StartGarden knows every neighborhood association and small business coalition in this city. We need the right introduction more than capital right now.</div></div>
-        <div class="ask-item"><div class="ask-dot"></div><div class="ask-text"><strong>Your read.</strong> You've been building community through technology since 2005. Where does this fit in the Grand Rapids ecosystem — or not?</div></div>
+  <!-- 5. COLLECTION -->
+  <div class="screen" id="screen-collection">
+    <div class="card">
+      <div class="col-header">
+        <div class="col-top">
+          <span class="col-back" onclick="go('stamp')">← My stamp</span>
+          <span class="col-logo">Eastown Passport</span>
+        </div>
+        <div class="col-title">Your stamps</div>
+        <div class="col-sub">Eastown + East Hills · 17 locations</div>
+        <div class="col-prog-row">
+          <div class="col-prog-track"><div class="col-prog-fill" id="col-prog"></div></div>
+          <div class="col-prog-count">1 of 17 earned</div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <!-- 14 END -->
-  <div class="slide s-dark" id="s13">
-    <div class="end-body">
-      <div class="end-logo">Trust<span>Anchor</span></div>
-      <div class="end-plus">+</div>
-      <div class="end-up">Uptown GR Local Passport</div>
-      <div class="end-tag">"A receipt that has<br>delight built in."</div>
-      <div class="end-url">trustanchor.io · medialabmidwest.com</div>
+      <div class="col-filters">
+        <button class="col-filter active" onclick="colFilter('all',this)">All</button>
+        <button class="col-filter" onclick="colFilter('earned',this)">Earned ✓</button>
+        <button class="col-filter" onclick="colFilter('food',this)">Food & Drink</button>
+        <button class="col-filter" onclick="colFilter('shop',this)">Shops</button>
+        <button class="col-filter" onclick="colFilter('wellness',this)">Wellness</button>
+        <button class="col-filter" onclick="colFilter('arts',this)">Arts</button>
+      </div>
+
+      <div class="col-grid-wrap">
+
+        <div class="col-section-label" id="sl-food">Food & Drink</div>
+        <div class="col-grid" id="cg-food">
+          <div class="col-badge earned new-b" data-cat="food" onclick="openM('scorpion')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#3D1A00,#1A0A00);"></div>
+            <div class="col-new">New</div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">☕</span><span class="col-badge-name">Scorpion Hearts</span></div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('earlybird')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#2C4A6B,#1A2D40);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🌅</span><span class="col-badge-name">That Early Bird</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('harmony')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#1A3D1A,#0A200A);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🍺</span><span class="col-badge-name">Harmony Brewing</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('kombucha')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#4A2C6B,#2A1A3D);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🍵</span><span class="col-badge-name">Sacred Springs</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('epicurean')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#5C2D00,#3A1C00);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🍽️</span><span class="col-badge-name">Local Epicurean</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('buns')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#6B1A2C,#3D0F1A);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🍔</span><span class="col-badge-name">Slutty Buns</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('boba')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#1A5C4A,#0A3D30);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🧋</span><span class="col-badge-name">Street Eats & Boba</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('pickwick')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#3D3000,#261E00);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🍻</span><span class="col-badge-name">Pickwick Tavern</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="food" onclick="openM('mangiamo')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#6B2A00,#3D1800);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🍝</span><span class="col-badge-name">Mangiamo</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+        </div>
+
+        <div class="col-section-label" id="sl-shop">Shops</div>
+        <div class="col-grid" id="cg-shop">
+          <div class="col-badge locked" data-cat="shop" onclick="openM('books')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#1A2D5C,#0F1A38);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">📚</span><span class="col-badge-name">Books & Mortar</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="shop" onclick="openM('hopscotch')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#4A8B3A,#2D5C22);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🧸</span><span class="col-badge-name">Hopscotch Children's</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="shop" onclick="openM('rps')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#4A2C1A,#2E1A0F);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">👗</span><span class="col-badge-name">Rock Paper Scissors</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="shop" onclick="openM('counting')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#1A1A4A,#0F0F2E);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🛍️</span><span class="col-badge-name">The Counting House</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="shop" onclick="openM('floral')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#4A1A3D,#2E0F26);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">💐</span><span class="col-badge-name">New Design Floral</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+        </div>
+
+        <div class="col-section-label" id="sl-wellness">Wellness</div>
+        <div class="col-grid" id="cg-wellness">
+          <div class="col-badge locked" data-cat="wellness" onclick="openM('kula')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#1A4A3D,#0F2E26);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🧘</span><span class="col-badge-name">Kula Yoga</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="wellness" onclick="openM('jude')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#2A2A2A,#141414);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">✂️</span><span class="col-badge-name">Jude's Barbershop</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="wellness" onclick="openM('lorde')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#6B1A5C,#3D0F36);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">💄</span><span class="col-badge-name">Lorde Beauty</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+        </div>
+
+        <div class="col-section-label" id="sl-arts">Arts & Community</div>
+        <div class="col-grid" id="cg-arts">
+          <div class="col-badge locked" data-cat="arts" onclick="openM('cocoon')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#3D1A5C,#261040);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🎨</span><span class="col-badge-name">Cocoon Art Space</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="col-badge locked" data-cat="arts" onclick="openM('joyful')">
+            <div class="col-badge-bg" style="background:linear-gradient(135deg,#1A3D5C,#0F2638);"></div>
+            <div class="col-badge-inner"><span class="col-badge-emoji">🎵</span><span class="col-badge-name">Joyful Sounds Music</span></div>
+            <div class="col-lock">🔒</div>
+          </div>
+          <div class="sf-card locked" data-cat="arts" onclick="openM('streetfair')" style="grid-column:1/-1;">
+            <div class="sf-bg"></div>
+            <div class="sf-shimmer"></div>
+            <div class="sf-inner">
+              <span class="sf-emoji">🎪</span>
+              <div>
+                <div class="sf-name">Eastown Street Fair</div>
+                <div class="sf-desc">Special stamp · Sep 19, 2026 only</div>
+              </div>
+            </div>
+            <div class="sf-lock-icon">🔒</div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
 </div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeM(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-icon" id="m-icon"></div>
+    <div class="modal-title" id="m-title"></div>
+    <div class="modal-sub" id="m-sub"></div>
+    <div class="modal-rows">
+      <div class="modal-row"><span class="modal-key">Status</span><span class="modal-val" id="m-status"></span></div>
+      <div class="modal-row" id="m-earned-r"><span class="modal-key">Issued</span><span class="modal-val good" id="m-earned"></span></div>
+      <div class="modal-row" id="m-rating-r"><span class="modal-key">Rating</span><span class="modal-val" id="m-rating"></span></div>
+      <div class="modal-row" id="m-proof-r"><span class="modal-key">On-chain proof</span><span class="modal-val good">✓ Anchored · TrustAnchor</span></div>
+      <div class="modal-row" id="m-hint-r"><span class="modal-key">How to earn</span><span class="modal-val muted" id="m-hint"></span></div>
+      <div class="modal-row"><span class="modal-key">Neighborhood</span><span class="modal-val" id="m-hood"></span></div>
+    </div>
+    <button class="modal-close" onclick="closeM()">Close</button>
+  </div>
+</div>
+
 <script>
-const T=14;let c=0;
-function bp(){const p=document.getElementById('prog');p.innerHTML='';for(let i=0;i<T;i++){const s=document.createElement('div');s.className='prog-seg';s.innerHTML='<div class="pf"></div>';p.appendChild(s);}}
-function isLightSlide(i){const ids=['s1','s3','s5','s6','s7','s8','s9','s11'];return ids.includes('s'+i);}
-function ui(){
-  document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===c));
-  const segs=document.querySelectorAll('.prog-seg');
-  segs.forEach((s,i)=>{s.classList.remove('done','cur');if(i<c)s.classList.add('done');if(i===c)s.classList.add('cur');});
-  const light=isLightSlide(c);
-  const snum=document.getElementById('snum');
-  snum.textContent=(c+1)+' / '+T;
-  snum.style.color=light?'rgba(0,0,0,0.2)':'rgba(255,255,255,0.25)';
-  const prog=document.getElementById('prog');
-  prog.querySelectorAll('.pf').forEach(pf=>pf.style.background=light?'rgba(0,0,0,0.35)':'rgba(255,255,255,0.75)');
-  prog.querySelectorAll('.prog-seg').forEach(seg=>seg.style.background=light?'rgba(0,0,0,0.08)':'rgba(255,255,255,0.18)');
+const stampData = {
+  scorpion:  {e:'☕',bg:'linear-gradient(135deg,#3D1A00,#1A0A00)',title:'Scorpion Hearts stamp',sub:'Scorpion Hearts Club',earned:true,issuedAt:'May 20, 2026 · 9:14 AM',rating:'👍 Loved it',hood:'Eastown · Wealthy St SE',hint:'Visit Scorpion Hearts Club'},
+  earlybird: {e:'🌅',bg:'linear-gradient(135deg,#2C4A6B,#1A2D40)',title:'Early Bird stamp',sub:'That Early Bird',earned:false,hood:'Eastown · Lake Dr SE',hint:'Visit That Early Bird'},
+  harmony:   {e:'🍺',bg:'linear-gradient(135deg,#1A3D1A,#0A200A)',title:'Harmony Brewing stamp',sub:'Harmony Brewing Company',earned:false,hood:'Eastown · Lake Dr SE',hint:'Visit Harmony Brewing Company'},
+  kombucha:  {e:'🍵',bg:'linear-gradient(135deg,#4A2C6B,#2A1A3D)',title:'Sacred Springs stamp',sub:'Sacred Springs Kombucha Tap Room',earned:false,hood:'Wealthy St SE',hint:'Visit Sacred Springs Kombucha'},
+  epicurean: {e:'🍽️',bg:'linear-gradient(135deg,#5C2D00,#3A1C00)',title:'Local Epicurean stamp',sub:'The Local Epicurean',earned:false,hood:'Eastown · Wealthy St SE',hint:'Visit The Local Epicurean'},
+  buns:      {e:'🍔',bg:'linear-gradient(135deg,#6B1A2C,#3D0F1A)',title:'Slutty Buns stamp',sub:'Slutty Buns',earned:false,hood:'East Hills · Lake Dr SE',hint:'Visit Slutty Buns'},
+  boba:      {e:'🧋',bg:'linear-gradient(135deg,#1A5C4A,#0A3D30)',title:'Street Eats stamp',sub:'Street Eats & Boba',earned:false,hood:'Wealthy St SE',hint:'Visit Street Eats & Boba'},
+  pickwick:  {e:'🍻',bg:'linear-gradient(135deg,#3D3000,#261E00)',title:'Pickwick Tavern stamp',sub:'Pickwick Tavern',earned:false,hood:'East Hills · Cherry St SE',hint:'Visit Pickwick Tavern'},
+  mangiamo:  {e:'🍝',bg:'linear-gradient(135deg,#6B2A00,#3D1800)',title:'Mangiamo stamp',sub:'Mangiamo',earned:false,hood:'East Hills · Lake Dr SE',hint:'Visit Mangiamo'},
+  books:     {e:'📚',bg:'linear-gradient(135deg,#1A2D5C,#0F1A38)',title:'Books & Mortar stamp',sub:'Books & Mortar',earned:false,hood:'East Hills · Cherry St SE',hint:'Visit Books & Mortar'},
+  hopscotch: {e:'🧸',bg:'linear-gradient(135deg,#4A8B3A,#2D5C22)',title:'Hopscotch stamp',sub:"Hopscotch Children's Store",earned:false,hood:'East Hills · Cherry St SE',hint:"Visit Hopscotch Children's Store"},
+  rps:       {e:'👗',bg:'linear-gradient(135deg,#4A2C1A,#2E1A0F)',title:'Rock Paper Scissors stamp',sub:'Rock Paper Scissors Consignment',earned:false,hood:'East Hills · Diamond Ave SE',hint:'Visit Rock Paper Scissors Consignment'},
+  counting:  {e:'🛍️',bg:'linear-gradient(135deg,#1A1A4A,#0F0F2E)',title:'Counting House stamp',sub:'The Counting House',earned:false,hood:'Wealthy St SE',hint:'Visit The Counting House'},
+  floral:    {e:'💐',bg:'linear-gradient(135deg,#4A1A3D,#2E0F26)',title:'New Design Floral stamp',sub:'New Design Floral',earned:false,hood:'East Hills · Cherry St SE',hint:'Visit New Design Floral'},
+  kula:      {e:'🧘',bg:'linear-gradient(135deg,#1A4A3D,#0F2E26)',title:'Kula Yoga stamp',sub:'Kula Yoga',earned:false,hood:'Wealthy St SE',hint:'Visit Kula Yoga'},
+  jude:      {e:'✂️',bg:'linear-gradient(135deg,#2A2A2A,#141414)',title:"Jude's Barbershop stamp",sub:"Jude's Barbershop",earned:false,hood:'Eastown · Wealthy St SE',hint:"Visit Jude's Barbershop"},
+  lorde:     {e:'💄',bg:'linear-gradient(135deg,#6B1A5C,#3D0F36)',title:'Lorde Beauty stamp',sub:'Lorde Beauty and Cosmetics',earned:false,hood:'Eastown · Wealthy St SE',hint:'Visit Lorde Beauty and Cosmetics'},
+  cocoon:    {e:'🎨',bg:'linear-gradient(135deg,#3D1A5C,#261040)',title:'Cocoon Art stamp',sub:'Cocoon Art Space',earned:false,hood:'Eastown · Lake Dr SE',hint:'Visit Cocoon Art Space'},
+  joyful:    {e:'🎵',bg:'linear-gradient(135deg,#1A3D5C,#0F2638)',title:'Joyful Sounds stamp',sub:'Joyful Sounds Music Studio',earned:false,hood:'East Hills · Lake Dr SE',hint:'Visit Joyful Sounds Music Studio'},
+  streetfair:{e:'🎪',bg:'linear-gradient(135deg,#1A1A18,#4A3A08,#1A1A18)',title:'Eastown Street Fair 2026',sub:'Eastown Community Association',earned:false,hood:'Eastown',hint:'Attend the Street Fair · September 19, 2026 only'},
+};
+
+const ratings = {
+  '👍': {e:'☕', name:'Tuesday Morning', detail:'Eastown · May 20, 2026', bg:'linear-gradient(135deg,#2C5F4A,#1A3D30)', label:'👍 Loved it'},
+  '❤️': {e:'✨', name:'Golden Hour',     detail:'Eastown · May 20, 2026', bg:'linear-gradient(135deg,#B8860B,#7A5A08)', label:'❤️ Amazing'},
+  '👎': {e:'🌧️', name:'Rainy Tuesday',  detail:'Eastown · May 20, 2026', bg:'linear-gradient(135deg,#3A4A6B,#1A2540)', label:'👎 Not great'},
+};
+
+let selectedRating = '👍';
+
+function selectRating(el, emoji, label) {
+  document.querySelectorAll('.rb-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedRating = emoji;
+  document.getElementById('rb-continue').classList.add('ready');
 }
-function next(){if(c<T-1){c++;ui();}}
-function prev(){if(c>0){c--;ui();}}
-document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='ArrowDown'){e.preventDefault();next();}if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();prev();}});
-let sx=0,sy=0;
-const dk=document.getElementById('deck');
-dk.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY;},{passive:true});
-dk.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40){dx<0?next():prev();}},{passive:true});
-bp();ui();
+
+function go(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.demo-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-'+screen).classList.add('active');
+  document.getElementById('nav-'+screen).classList.add('active');
+
+  if(screen === 'gen') {
+    const r = ratings[selectedRating] || ratings['👍'];
+    document.getElementById('gen-icon').textContent = r.e;
+    setTimeout(() => go('stamp'), 2200);
+  }
+  if(screen === 'stamp') {
+    const r = ratings[selectedRating] || ratings['👍'];
+    document.getElementById('stamp-emoji').textContent = r.e;
+    document.getElementById('stamp-name').textContent = r.name;
+    document.getElementById('stamp-detail').textContent = r.detail;
+    document.getElementById('stamp-bg').style.background = r.bg;
+    document.getElementById('stamp-rating-val').textContent = r.label;
+  }
+  if(screen === 'collection') {
+    setTimeout(() => {
+      document.getElementById('col-prog').style.width = '6%';
+    }, 400);
+  }
+}
+
+function openM(key) {
+  const d = stampData[key];
+  const icon = document.getElementById('m-icon');
+  icon.textContent = d.e;
+  icon.style.background = d.bg;
+  document.getElementById('m-title').textContent = d.title;
+  document.getElementById('m-sub').textContent = d.sub;
+  document.getElementById('m-hood').textContent = d.hood;
+  const st = document.getElementById('m-status');
+  st.textContent = d.earned ? '✓ stamp earned' : '🔒 Not yet earned';
+  st.className = 'modal-val ' + (d.earned ? 'good' : 'muted');
+  document.getElementById('m-earned-r').style.display = d.earned ? 'flex' : 'none';
+  document.getElementById('m-rating-r').style.display = d.earned ? 'flex' : 'none';
+  document.getElementById('m-proof-r').style.display = d.earned ? 'flex' : 'none';
+  document.getElementById('m-hint-r').style.display = d.earned ? 'none' : 'flex';
+  if(d.earned) {
+    document.getElementById('m-earned').textContent = d.issuedAt;
+    document.getElementById('m-rating').textContent = d.rating;
+  }
+  document.getElementById('m-hint').textContent = d.hint;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeM(e) {
+  if(!e || e.target === document.getElementById('modal'))
+    document.getElementById('modal').classList.remove('open');
+}
+
+function colFilter(cat, btn) {
+  document.querySelectorAll('.col-filter').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const cats = ['food','shop','wellness','arts'];
+  if(cat === 'all') {
+    document.querySelectorAll('.col-badge,.sf-card').forEach(c => c.style.display='');
+    cats.forEach(c => {
+      document.getElementById('sl-'+c).style.display='';
+      document.getElementById('cg-'+c).style.display='grid';
+    });
+  } else if(cat === 'earned') {
+    document.querySelectorAll('.col-badge,.sf-card').forEach(c => {
+      c.style.display = c.classList.contains('earned') ? '' : 'none';
+    });
+    cats.forEach(c => {
+      document.getElementById('sl-'+c).style.display='';
+      document.getElementById('cg-'+c).style.display='grid';
+    });
+  } else {
+    document.querySelectorAll('.col-badge,.sf-card').forEach(c => {
+      c.style.display = c.dataset.cat === cat ? '' : 'none';
+    });
+    cats.forEach(c => {
+      const show = c === cat;
+      document.getElementById('sl-'+c).style.display = show ? '' : 'none';
+      document.getElementById('cg-'+c).style.display = show ? 'grid' : 'none';
+    });
+  }
+}
 </script>
 </body>
 </html>
