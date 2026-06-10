@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,39 +81,39 @@ body{background:var(--bg);font-family:var(--body);color:var(--ink);min-height:10
 .gen-headline{font-family:var(--display);font-size:30px;color:#fff;font-weight:700;line-height:1.2;}
 
 /* ══════════════════════════════
-   SCREEN 4 — VISA / RECEIPT
+   SCREEN 4 — STAMP / RECEIPT
 ══════════════════════════════ */
-.visa-top{padding:22px 22px 0;}
-.visa-eyebrow{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px;}
-.visa-card{width:100%;aspect-ratio:1;border-radius:10px;margin-bottom:16px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;animation:revealVisa 0.5s ease-out;}
-@keyframes revealVisa{from{opacity:0;transform:scale(0.94);}to{opacity:1;transform:scale(1);}}
-.visa-card-bg{position:absolute;inset:0;}
-.visa-biz-tag{position:absolute;top:14px;left:16px;font-size:10px;color:rgba(255,255,255,0.55);font-family:var(--body);letter-spacing:0.06em;text-transform:uppercase;z-index:2;}
-.visa-stamp{position:absolute;top:12px;right:14px;font-size:10px;color:rgba(255,255,255,0.4);font-family:var(--body);letter-spacing:0.06em;text-transform:uppercase;z-index:2;border:1px solid rgba(255,255,255,0.2);padding:3px 8px;border-radius:2px;}
-.visa-content{position:relative;z-index:2;text-align:center;padding:24px;}
-.visa-emoji{font-size:56px;display:block;margin-bottom:14px;filter:drop-shadow(0 4px 16px rgba(0,0,0,0.25));}
-.visa-name{font-family:var(--display);font-size:24px;font-weight:700;color:#fff;margin-bottom:6px;text-shadow:0 2px 8px rgba(0,0,0,0.3);line-height:1.2;}
-.visa-detail{font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:0.08em;text-transform:uppercase;}
-.visa-date{position:absolute;bottom:14px;right:16px;font-size:10px;color:rgba(255,255,255,0.35);font-family:var(--body);letter-spacing:0.06em;z-index:2;}
-.visa-rows{padding:0 22px;}
-.visa-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--rule);}
-.visa-row:last-child{border-bottom:none;}
-.visa-key{font-size:10px;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-3);}
-.visa-val{font-size:13px;color:var(--ink);font-weight:500;}
-.visa-val.good{color:var(--teal);}
-.visa-teaser{margin:14px 22px;background:var(--gold-light);border:1px solid #E8D49A;padding:14px;border-radius:4px;}
+.stamp-top{padding:22px 22px 0;}
+.stamp-eyebrow{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px;}
+.stamp-card{width:100%;aspect-ratio:1;border-radius:10px;margin-bottom:16px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;animation:revealstamp 0.5s ease-out;}
+@keyframes revealstamp{from{opacity:0;transform:scale(0.94);}to{opacity:1;transform:scale(1);}}
+.stamp-card-bg{position:absolute;inset:0;}
+.stamp-biz-tag{position:absolute;top:14px;left:16px;font-size:10px;color:rgba(255,255,255,0.55);font-family:var(--body);letter-spacing:0.06em;text-transform:uppercase;z-index:2;}
+.stamp-label{position:absolute;top:12px;right:14px;font-size:10px;color:rgba(255,255,255,0.4);font-family:var(--body);letter-spacing:0.06em;text-transform:uppercase;z-index:2;border:1px solid rgba(255,255,255,0.2);padding:3px 8px;border-radius:2px;}
+.stamp-content{position:relative;z-index:2;text-align:center;padding:24px;}
+.stamp-emoji{font-size:56px;display:block;margin-bottom:14px;filter:drop-shadow(0 4px 16px rgba(0,0,0,0.25));}
+.stamp-name{font-family:var(--display);font-size:24px;font-weight:700;color:#fff;margin-bottom:6px;text-shadow:0 2px 8px rgba(0,0,0,0.3);line-height:1.2;}
+.stamp-detail{font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:0.08em;text-transform:uppercase;}
+.stamp-date{position:absolute;bottom:14px;right:16px;font-size:10px;color:rgba(255,255,255,0.35);font-family:var(--body);letter-spacing:0.06em;z-index:2;}
+.stamp-rows{padding:0 22px;}
+.stamp-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--rule);}
+.stamp-row:last-child{border-bottom:none;}
+.stamp-key{font-size:10px;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-3);}
+.stamp-val{font-size:13px;color:var(--ink);font-weight:500;}
+.stamp-val.good{color:var(--teal);}
+.stamp-teaser{margin:14px 22px;background:var(--gold-light);border:1px solid #E8D49A;padding:14px;border-radius:4px;}
 .vt-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
 .vt-text{font-family:var(--display);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.4;}
 .vt-dots{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap;}
 .vt-dot{width:22px;height:22px;border-radius:50%;border:1px solid #D4C080;background:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--ink-3);}
 .vt-dot.filled{background:var(--gold);border-color:var(--gold);color:#fff;font-size:11px;}
 .vt-cta{font-size:11px;color:var(--gold);letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;font-weight:500;background:none;border:none;padding:0;font-family:var(--body);}
-.visa-actions{padding:12px 22px 24px;display:flex;gap:10px;}
+.stamp-actions{padding:12px 22px 24px;display:flex;gap:10px;}
 .btn-save{flex:1;padding:12px;background:var(--ink);color:#fff;border:none;font-family:var(--body);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border-radius:2px;}
 .btn-share{flex:1;padding:12px;background:transparent;color:var(--ink);border:1px solid var(--rule);font-family:var(--body);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;border-radius:2px;}
 
 /* ══════════════════════════════
-   SCREEN 5 — VISAS COLLECTION
+   SCREEN 5 — STAMPS COLLECTION
 ══════════════════════════════ */
 .col-header{background:var(--ink);padding:22px 20px 18px;}
 .col-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
@@ -185,8 +184,8 @@ body{background:var(--bg);font-family:var(--body);color:var(--ink);min-height:10
     <button onclick="go('welcome')" id="nav-welcome" class="active">① Welcome</button>
     <button onclick="go('rating')" id="nav-rating">② Rate</button>
     <button onclick="go('gen')" id="nav-gen">③ Generate</button>
-    <button onclick="go('visa')" id="nav-visa">④ Your Visa</button>
-    <button onclick="go('collection')" id="nav-collection">⑤ All Visas</button>
+    <button onclick="go('stamp')" id="nav-stamp">④ Your stamp</button>
+    <button onclick="go('collection')" id="nav-collection">⑤ All stamps</button>
   </div>
 
   <!-- 1. WELCOME -->
@@ -196,8 +195,8 @@ body{background:var(--bg);font-family:var(--body);color:var(--ink);min-height:10
       <div class="w-glow">🏅</div>
       <div class="w-business">Scorpion Hearts Club · Eastown · Grand Rapids</div>
       <div class="w-headline">Welcome to your<br>Local Passport.</div>
-      <div class="w-sub">Every visit earns a visa.<br>Collect them all. Unlock Eastown.</div>
-      <button class="w-btn" onclick="go('rating')">View your visa →</button>
+      <div class="w-sub">Every visit earns a stamp.<br>Collect them all. Unlock Eastown.</div>
+      <button class="w-btn" onclick="go('rating')">View your stamp →</button>
       <div class="w-footer">Eastown Passport · Powered by TrustAnchor</div>
     </div>
   </div>
@@ -211,7 +210,7 @@ body{background:var(--bg);font-family:var(--body);color:var(--ink);min-height:10
       </div>
       <div class="rating-body">
         <div class="rb-prompt">How was your visit?</div>
-        <div class="rb-sub">Takes one second. Helps the business.<br>Shapes your visa.</div>
+        <div class="rb-sub">Takes one second. Helps the business.<br>Shapes your stamp.</div>
         <div class="rb-options">
           <div class="rb-btn" onclick="selectRating(this,'👍','Loved it')">
             <span class="rb-icon">👍</span>
@@ -226,7 +225,7 @@ body{background:var(--bg);font-family:var(--body);color:var(--ink);min-height:10
             <span class="rb-label">Not great</span>
           </div>
         </div>
-        <button class="rb-continue" id="rb-continue" onclick="go('gen')">Generate my visa →</button>
+        <button class="rb-continue" id="rb-continue" onclick="go('gen')">Generate my stamp →</button>
         <span class="rb-skip" onclick="go('gen')">Skip</span>
       </div>
     </div>
@@ -241,48 +240,48 @@ body{background:var(--bg);font-family:var(--body);color:var(--ink);min-height:10
         <div class="gen-ring"></div>
         <div class="gen-center" id="gen-icon">☕</div>
       </div>
-      <div class="gen-label">Issuing your visa</div>
+      <div class="gen-label">Issuing your stamp</div>
       <div class="gen-headline" id="gen-headline">Proving you were here.<br>Creating your moment.</div>
     </div>
   </div>
 
-  <!-- 4. VISA -->
-  <div class="screen" id="screen-visa">
+  <!-- 4. STAMP -->
+  <div class="screen" id="screen-stamp">
     <div class="card">
-      <div class="visa-top">
-        <div class="visa-eyebrow">Your visa · May 20, 2026 · 9:14 AM</div>
-        <div class="visa-card" id="visa-card">
-          <div class="visa-card-bg" id="visa-bg"></div>
-          <div class="visa-biz-tag">Scorpion Hearts Club</div>
-          <div class="visa-stamp">Visa #1</div>
-          <div class="visa-content">
-            <span class="visa-emoji" id="visa-emoji">☕</span>
-            <div class="visa-name" id="visa-name">Tuesday Morning</div>
-            <div class="visa-detail" id="visa-detail">Eastown · May 20, 2026</div>
+      <div class="stamp-top">
+        <div class="stamp-eyebrow">Your stamp · May 20, 2026 · 9:14 AM</div>
+        <div class="stamp-card" id="stamp-card">
+          <div class="stamp-card-bg" id="stamp-bg"></div>
+          <div class="stamp-biz-tag">Scorpion Hearts Club</div>
+          <div class="stamp-label">Stamp #1</div>
+          <div class="stamp-content">
+            <span class="stamp-emoji" id="stamp-emoji">☕</span>
+            <div class="stamp-name" id="stamp-name">Tuesday Morning</div>
+            <div class="stamp-detail" id="stamp-detail">Eastown · May 20, 2026</div>
           </div>
-          <div class="visa-date">9:14 AM · Wealthy St SE</div>
+          <div class="stamp-date">9:14 AM · Wealthy St SE</div>
         </div>
       </div>
-      <div class="visa-rows">
-        <div class="visa-row"><span class="visa-key">Location</span><span class="visa-val">Scorpion Hearts Club</span></div>
-        <div class="visa-row"><span class="visa-key">Address</span><span class="visa-val">1035 Wealthy St SE</span></div>
-        <div class="visa-row"><span class="visa-key">Neighborhood</span><span class="visa-val">Eastown, Grand Rapids</span></div>
-        <div class="visa-row"><span class="visa-key">Issued</span><span class="visa-val">May 20, 2026 · 9:14 AM</span></div>
-        <div class="visa-row"><span class="visa-key">Your rating</span><span class="visa-val" id="visa-rating-val">—</span></div>
-        <div class="visa-row"><span class="visa-key">On-chain proof</span><span class="visa-val good">✓ Anchored · TrustAnchor</span></div>
+      <div class="stamp-rows">
+        <div class="stamp-row"><span class="stamp-key">Location</span><span class="stamp-val">Scorpion Hearts Club</span></div>
+        <div class="stamp-row"><span class="stamp-key">Address</span><span class="stamp-val">1035 Wealthy St SE</span></div>
+        <div class="stamp-row"><span class="stamp-key">Neighborhood</span><span class="stamp-val">Eastown, Grand Rapids</span></div>
+        <div class="stamp-row"><span class="stamp-key">Issued</span><span class="stamp-val">May 20, 2026 · 9:14 AM</span></div>
+        <div class="stamp-row"><span class="stamp-key">Your rating</span><span class="stamp-val" id="stamp-rating-val">—</span></div>
+        <div class="stamp-row"><span class="stamp-key">On-chain proof</span><span class="stamp-val good">✓ Anchored · TrustAnchor</span></div>
       </div>
-      <div class="visa-teaser">
+      <div class="stamp-teaser">
         <div class="vt-label">Eastown Passport</div>
-        <div class="vt-text">1 visa collected.<br>16 more locations to explore.</div>
+        <div class="vt-text">1 stamp collected.<br>16 more locations to explore.</div>
         <div class="vt-dots">
           <div class="vt-dot filled">✓</div>
           <div class="vt-dot">2</div><div class="vt-dot">3</div><div class="vt-dot">4</div>
           <div class="vt-dot">5</div><div class="vt-dot">6</div><div class="vt-dot">7</div>
           <div class="vt-dot">8</div><div class="vt-dot">9</div><div class="vt-dot">10</div>
         </div>
-        <button class="vt-cta" onclick="go('collection')">View your visas →</button>
+        <button class="vt-cta" onclick="go('collection')">View your stamps →</button>
       </div>
-      <div class="visa-actions">
+      <div class="stamp-actions">
         <button class="btn-save">Save to wallet</button>
         <button class="btn-share">Share</button>
       </div>
@@ -294,10 +293,10 @@ body{background:var(--bg);font-family:var(--body);color:var(--ink);min-height:10
     <div class="card">
       <div class="col-header">
         <div class="col-top">
-          <span class="col-back" onclick="go('visa')">← My Visa</span>
+          <span class="col-back" onclick="go('stamp')">← My stamp</span>
           <span class="col-logo">Eastown Passport</span>
         </div>
-        <div class="col-title">Your Visas</div>
+        <div class="col-title">Your stamps</div>
         <div class="col-sub">Eastown + East Hills · 17 locations</div>
         <div class="col-prog-row">
           <div class="col-prog-track"><div class="col-prog-fill" id="col-prog"></div></div>
@@ -432,7 +431,7 @@ body{background:var(--bg);font-family:var(--body);color:var(--ink);min-height:10
               <span class="sf-emoji">🎪</span>
               <div>
                 <div class="sf-name">Eastown Street Fair</div>
-                <div class="sf-desc">Special Visa · Sep 19, 2026 only</div>
+                <div class="sf-desc">Special stamp · Sep 19, 2026 only</div>
               </div>
             </div>
             <div class="sf-lock-icon">🔒</div>
@@ -465,26 +464,26 @@ body{background:var(--bg);font-family:var(--body);color:var(--ink);min-height:10
 </div>
 
 <script>
-const visaData = {
-  scorpion:  {e:'☕',bg:'linear-gradient(135deg,#3D1A00,#1A0A00)',title:'Scorpion Hearts Visa',sub:'Scorpion Hearts Club',earned:true,issuedAt:'May 20, 2026 · 9:14 AM',rating:'👍 Loved it',hood:'Eastown · Wealthy St SE',hint:'Visit Scorpion Hearts Club'},
-  earlybird: {e:'🌅',bg:'linear-gradient(135deg,#2C4A6B,#1A2D40)',title:'Early Bird Visa',sub:'That Early Bird',earned:false,hood:'Eastown · Lake Dr SE',hint:'Visit That Early Bird'},
-  harmony:   {e:'🍺',bg:'linear-gradient(135deg,#1A3D1A,#0A200A)',title:'Harmony Brewing Visa',sub:'Harmony Brewing Company',earned:false,hood:'Eastown · Lake Dr SE',hint:'Visit Harmony Brewing Company'},
-  kombucha:  {e:'🍵',bg:'linear-gradient(135deg,#4A2C6B,#2A1A3D)',title:'Sacred Springs Visa',sub:'Sacred Springs Kombucha Tap Room',earned:false,hood:'Wealthy St SE',hint:'Visit Sacred Springs Kombucha'},
-  epicurean: {e:'🍽️',bg:'linear-gradient(135deg,#5C2D00,#3A1C00)',title:'Local Epicurean Visa',sub:'The Local Epicurean',earned:false,hood:'Eastown · Wealthy St SE',hint:'Visit The Local Epicurean'},
-  buns:      {e:'🍔',bg:'linear-gradient(135deg,#6B1A2C,#3D0F1A)',title:'Slutty Buns Visa',sub:'Slutty Buns',earned:false,hood:'East Hills · Lake Dr SE',hint:'Visit Slutty Buns'},
-  boba:      {e:'🧋',bg:'linear-gradient(135deg,#1A5C4A,#0A3D30)',title:'Street Eats Visa',sub:'Street Eats & Boba',earned:false,hood:'Wealthy St SE',hint:'Visit Street Eats & Boba'},
-  pickwick:  {e:'🍻',bg:'linear-gradient(135deg,#3D3000,#261E00)',title:'Pickwick Tavern Visa',sub:'Pickwick Tavern',earned:false,hood:'East Hills · Cherry St SE',hint:'Visit Pickwick Tavern'},
-  mangiamo:  {e:'🍝',bg:'linear-gradient(135deg,#6B2A00,#3D1800)',title:'Mangiamo Visa',sub:'Mangiamo',earned:false,hood:'East Hills · Lake Dr SE',hint:'Visit Mangiamo'},
-  books:     {e:'📚',bg:'linear-gradient(135deg,#1A2D5C,#0F1A38)',title:'Books & Mortar Visa',sub:'Books & Mortar',earned:false,hood:'East Hills · Cherry St SE',hint:'Visit Books & Mortar'},
-  hopscotch: {e:'🧸',bg:'linear-gradient(135deg,#4A8B3A,#2D5C22)',title:'Hopscotch Visa',sub:"Hopscotch Children's Store",earned:false,hood:'East Hills · Cherry St SE',hint:"Visit Hopscotch Children's Store"},
-  rps:       {e:'👗',bg:'linear-gradient(135deg,#4A2C1A,#2E1A0F)',title:'Rock Paper Scissors Visa',sub:'Rock Paper Scissors Consignment',earned:false,hood:'East Hills · Diamond Ave SE',hint:'Visit Rock Paper Scissors Consignment'},
-  counting:  {e:'🛍️',bg:'linear-gradient(135deg,#1A1A4A,#0F0F2E)',title:'Counting House Visa',sub:'The Counting House',earned:false,hood:'Wealthy St SE',hint:'Visit The Counting House'},
-  floral:    {e:'💐',bg:'linear-gradient(135deg,#4A1A3D,#2E0F26)',title:'New Design Floral Visa',sub:'New Design Floral',earned:false,hood:'East Hills · Cherry St SE',hint:'Visit New Design Floral'},
-  kula:      {e:'🧘',bg:'linear-gradient(135deg,#1A4A3D,#0F2E26)',title:'Kula Yoga Visa',sub:'Kula Yoga',earned:false,hood:'Wealthy St SE',hint:'Visit Kula Yoga'},
-  jude:      {e:'✂️',bg:'linear-gradient(135deg,#2A2A2A,#141414)',title:"Jude's Barbershop Visa",sub:"Jude's Barbershop",earned:false,hood:'Eastown · Wealthy St SE',hint:"Visit Jude's Barbershop"},
-  lorde:     {e:'💄',bg:'linear-gradient(135deg,#6B1A5C,#3D0F36)',title:'Lorde Beauty Visa',sub:'Lorde Beauty and Cosmetics',earned:false,hood:'Eastown · Wealthy St SE',hint:'Visit Lorde Beauty and Cosmetics'},
-  cocoon:    {e:'🎨',bg:'linear-gradient(135deg,#3D1A5C,#261040)',title:'Cocoon Art Visa',sub:'Cocoon Art Space',earned:false,hood:'Eastown · Lake Dr SE',hint:'Visit Cocoon Art Space'},
-  joyful:    {e:'🎵',bg:'linear-gradient(135deg,#1A3D5C,#0F2638)',title:'Joyful Sounds Visa',sub:'Joyful Sounds Music Studio',earned:false,hood:'East Hills · Lake Dr SE',hint:'Visit Joyful Sounds Music Studio'},
+const stampData = {
+  scorpion:  {e:'☕',bg:'linear-gradient(135deg,#3D1A00,#1A0A00)',title:'Scorpion Hearts Stamp',sub:'Scorpion Hearts Club',earned:true,issuedAt:'May 20, 2026 · 9:14 AM',rating:'👍 Loved it',hood:'Eastown · Wealthy St SE',hint:'Visit Scorpion Hearts Club'},
+  earlybird: {e:'🌅',bg:'linear-gradient(135deg,#2C4A6B,#1A2D40)',title:'Early Bird Stamp',sub:'That Early Bird',earned:false,hood:'Eastown · Lake Dr SE',hint:'Visit That Early Bird'},
+  harmony:   {e:'🍺',bg:'linear-gradient(135deg,#1A3D1A,#0A200A)',title:'Harmony Brewing Stamp',sub:'Harmony Brewing Company',earned:false,hood:'Eastown · Lake Dr SE',hint:'Visit Harmony Brewing Company'},
+  kombucha:  {e:'🍵',bg:'linear-gradient(135deg,#4A2C6B,#2A1A3D)',title:'Sacred Springs Stamp',sub:'Sacred Springs Kombucha Tap Room',earned:false,hood:'Wealthy St SE',hint:'Visit Sacred Springs Kombucha'},
+  epicurean: {e:'🍽️',bg:'linear-gradient(135deg,#5C2D00,#3A1C00)',title:'Local Epicurean Stamp',sub:'The Local Epicurean',earned:false,hood:'Eastown · Wealthy St SE',hint:'Visit The Local Epicurean'},
+  buns:      {e:'🍔',bg:'linear-gradient(135deg,#6B1A2C,#3D0F1A)',title:'Slutty Buns Stamp',sub:'Slutty Buns',earned:false,hood:'East Hills · Lake Dr SE',hint:'Visit Slutty Buns'},
+  boba:      {e:'🧋',bg:'linear-gradient(135deg,#1A5C4A,#0A3D30)',title:'Street Eats Stamp',sub:'Street Eats & Boba',earned:false,hood:'Wealthy St SE',hint:'Visit Street Eats & Boba'},
+  pickwick:  {e:'🍻',bg:'linear-gradient(135deg,#3D3000,#261E00)',title:'Pickwick Tavern Stamp',sub:'Pickwick Tavern',earned:false,hood:'East Hills · Cherry St SE',hint:'Visit Pickwick Tavern'},
+  mangiamo:  {e:'🍝',bg:'linear-gradient(135deg,#6B2A00,#3D1800)',title:'Mangiamo Stamp',sub:'Mangiamo',earned:false,hood:'East Hills · Lake Dr SE',hint:'Visit Mangiamo'},
+  books:     {e:'📚',bg:'linear-gradient(135deg,#1A2D5C,#0F1A38)',title:'Books & Mortar Stamp',sub:'Books & Mortar',earned:false,hood:'East Hills · Cherry St SE',hint:'Visit Books & Mortar'},
+  hopscotch: {e:'🧸',bg:'linear-gradient(135deg,#4A8B3A,#2D5C22)',title:'Hopscotch Stamp',sub:"Hopscotch Children's Store",earned:false,hood:'East Hills · Cherry St SE',hint:"Visit Hopscotch Children's Store"},
+  rps:       {e:'👗',bg:'linear-gradient(135deg,#4A2C1A,#2E1A0F)',title:'Rock Paper Scissors Stamp',sub:'Rock Paper Scissors Consignment',earned:false,hood:'East Hills · Diamond Ave SE',hint:'Visit Rock Paper Scissors Consignment'},
+  counting:  {e:'🛍️',bg:'linear-gradient(135deg,#1A1A4A,#0F0F2E)',title:'Counting House Stamp',sub:'The Counting House',earned:false,hood:'Wealthy St SE',hint:'Visit The Counting House'},
+  floral:    {e:'💐',bg:'linear-gradient(135deg,#4A1A3D,#2E0F26)',title:'New Design Floral Stamp',sub:'New Design Floral',earned:false,hood:'East Hills · Cherry St SE',hint:'Visit New Design Floral'},
+  kula:      {e:'🧘',bg:'linear-gradient(135deg,#1A4A3D,#0F2E26)',title:'Kula Yoga Stamp',sub:'Kula Yoga',earned:false,hood:'Wealthy St SE',hint:'Visit Kula Yoga'},
+  jude:      {e:'✂️',bg:'linear-gradient(135deg,#2A2A2A,#141414)',title:"Jude's Barbershop Stamp",sub:"Jude's Barbershop",earned:false,hood:'Eastown · Wealthy St SE',hint:"Visit Jude's Barbershop"},
+  lorde:     {e:'💄',bg:'linear-gradient(135deg,#6B1A5C,#3D0F36)',title:'Lorde Beauty Stamp',sub:'Lorde Beauty and Cosmetics',earned:false,hood:'Eastown · Wealthy St SE',hint:'Visit Lorde Beauty and Cosmetics'},
+  cocoon:    {e:'🎨',bg:'linear-gradient(135deg,#3D1A5C,#261040)',title:'Cocoon Art Stamp',sub:'Cocoon Art Space',earned:false,hood:'Eastown · Lake Dr SE',hint:'Visit Cocoon Art Space'},
+  joyful:    {e:'🎵',bg:'linear-gradient(135deg,#1A3D5C,#0F2638)',title:'Joyful Sounds Stamp',sub:'Joyful Sounds Music Studio',earned:false,hood:'East Hills · Lake Dr SE',hint:'Visit Joyful Sounds Music Studio'},
   streetfair:{e:'🎪',bg:'linear-gradient(135deg,#1A1A18,#4A3A08,#1A1A18)',title:'Eastown Street Fair 2026',sub:'Eastown Community Association',earned:false,hood:'Eastown',hint:'Attend the Street Fair · September 19, 2026 only'},
 };
 
@@ -512,15 +511,15 @@ function go(screen) {
   if(screen === 'gen') {
     const r = ratings[selectedRating] || ratings['👍'];
     document.getElementById('gen-icon').textContent = r.e;
-    setTimeout(() => go('visa'), 2200);
+    setTimeout(() => go('stamp'), 2200);
   }
-  if(screen === 'visa') {
+  if(screen === 'stamp') {
     const r = ratings[selectedRating] || ratings['👍'];
-    document.getElementById('visa-emoji').textContent = r.e;
-    document.getElementById('visa-name').textContent = r.name;
-    document.getElementById('visa-detail').textContent = r.detail;
-    document.getElementById('visa-bg').style.background = r.bg;
-    document.getElementById('visa-rating-val').textContent = r.label;
+    document.getElementById('stamp-emoji').textContent = r.e;
+    document.getElementById('stamp-name').textContent = r.name;
+    document.getElementById('stamp-detail').textContent = r.detail;
+    document.getElementById('stamp-bg').style.background = r.bg;
+    document.getElementById('stamp-rating-val').textContent = r.label;
   }
   if(screen === 'collection') {
     setTimeout(() => {
@@ -530,7 +529,7 @@ function go(screen) {
 }
 
 function openM(key) {
-  const d = visaData[key];
+  const d = stampData[key];
   const icon = document.getElementById('m-icon');
   icon.textContent = d.e;
   icon.style.background = d.bg;
@@ -538,7 +537,7 @@ function openM(key) {
   document.getElementById('m-sub').textContent = d.sub;
   document.getElementById('m-hood').textContent = d.hood;
   const st = document.getElementById('m-status');
-  st.textContent = d.earned ? '✓ Visa earned' : '🔒 Not yet earned';
+  st.textContent = d.earned ? '✓ Stamp earned' : '🔒 Not yet earned';
   st.className = 'modal-val ' + (d.earned ? 'good' : 'muted');
   document.getElementById('m-earned-r').style.display = d.earned ? 'flex' : 'none';
   document.getElementById('m-rating-r').style.display = d.earned ? 'flex' : 'none';
