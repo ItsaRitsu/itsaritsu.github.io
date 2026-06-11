@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artisanal Institute</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e0d0b;
+  --surface: #161410;
+  --border: rgba(220,210,190,0.1);
+  --border-mid: rgba(220,210,190,0.18);
+  --text: #e8e0d0;
+  --muted: #8a8070;
+  --faint: #4a4540;
+  --observe: #5a8a7a;
+  --wonder:  #7a6aaa;
+  --hold:    #5a7a9a;
+  --create:  #c4622d;
+  --share:   #aa8a3a;
+  --suit-c:  #8a8070;
+  --r: 2px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'EB Garamond',serif;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2rem 1.25rem;
+}
+/* grain overlay */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
+  opacity:0.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px;
+}
+
+/* ── LAYOUT ── */
+.wrap{width:100%;max-width:460px;display:flex;flex-direction:column;gap:0;}
+.screen{display:none;flex-direction:column;align-items:stretch;}
+.screen.on{display:flex;}
+@keyframes up{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.anim{animation:up 0.5s cubic-bezier(0.23,1,0.32,1) both;}
+.anim-2{animation:up 0.5s cubic-bezier(0.23,1,0.32,1) 0.12s both;}
+.anim-3{animation:up 0.5s cubic-bezier(0.23,1,0.32,1) 0.22s both;}
+
+/* ── TYPOGRAPHY ── */
+.mono{font-family:'DM Mono',monospace;}
+.label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);}
+.wordmark{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.24em;text-transform:uppercase;color:var(--faint);text-align:center;margin-bottom:2.5rem;}
+
+/* ── SHARED CARD ── */
+.card{
+  background:var(--surface);
+  border:0.5px solid var(--border);
+  border-left:2.5px solid var(--suit-c);
+  border-radius:0 var(--r) var(--r) 0;
+  padding:1.75rem 1.5rem 1.5rem;
+}
+.card+.card-foot{
+  border:0.5px solid var(--border);
+  border-top:none;
+  border-radius:0 0 var(--r) var(--r);
+  background:rgba(255,255,255,0.015);
+  padding:1.25rem 1.5rem 1.5rem;
+}
+.suit-row{display:flex;align-items:center;gap:7px;margin-bottom:1rem;}
+.suit-dot{width:5px;height:5px;border-radius:50%;background:var(--suit-c);flex-shrink:0;}
+.suit-lbl{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--suit-c);}
+.suit-tag{font-family:'DM Mono',monospace;font-size:10px;color:var(--faint);margin-left:2px;}
+.divider{width:18px;height:0.5px;background:var(--suit-c);opacity:0.5;margin:1rem 0;}
+
+/* ── SETUP SCREEN ── */
+#s-setup{gap:0;}
+.setup-card{padding:2rem 1.75rem;}
+.setup-title{font-size:1.5rem;font-weight:400;line-height:1.3;margin-bottom:0.75rem;color:var(--text);}
+.setup-body{font-size:1rem;font-style:italic;color:var(--muted);line-height:1.75;margin-bottom:1.75rem;}
+.setup-steps{display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.75rem;}
+.setup-step{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);line-height:1.6;padding-left:1rem;position:relative;}
+.setup-step::before{content:'→';position:absolute;left:0;color:var(--faint);}
+.setup-step a{color:var(--muted);text-decoration:underline;text-underline-offset:3px;}
+
+/* ── INPUT SHARED ── */
+.field-wrap{display:flex;flex-direction:column;gap:6px;margin-bottom:1.25rem;}
+.field-input{
+  width:100%;background:transparent;border:none;
+  border-bottom:0.5px solid var(--border-mid);
+  color:var(--text);font-family:'EB Garamond',serif;
+  font-size:1.05rem;font-style:italic;
+  padding:4px 0 8px;outline:none;
+  transition:border-color 0.2s;
+  caret-color:var(--suit-c);
+}
+.field-input:focus{border-bottom-color:var(--suit-c);}
+.field-input::placeholder{color:var(--faint);}
+.field-input.mono-input{font-family:'DM Mono',monospace;font-size:0.85rem;font-style:normal;letter-spacing:0.04em;}
+
+.btn{
+  font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.16em;
+  text-transform:uppercase;padding:9px 20px;
+  background:transparent;border:0.5px solid var(--border-mid);
+  border-radius:var(--r);color:var(--text);
+  cursor:pointer;transition:all 0.15s;display:inline-block;
+}
+.btn:hover:not(:disabled){background:rgba(220,210,190,0.05);border-color:var(--border-mid);}
+.btn:disabled{opacity:0.28;cursor:default;}
+.btn-ghost{border-color:var(--border);color:var(--muted);}
+.btn-ghost:hover:not(:disabled){color:var(--text);border-color:var(--border-mid);}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;padding-top:0.25rem;}
+
+/* ── HOME SCREEN ── */
+#s-home{gap:0;}
+.quote-card{padding:2rem 1.75rem 1.75rem;}
+.quote-eyebrow{margin-bottom:1.25rem;}
+.quote-text{
+  font-size:1.2rem;font-style:italic;font-weight:400;
+  line-height:1.8;color:var(--text);margin-bottom:1.25rem;
+}
+.quote-author{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;color:var(--faint);}
+.home-foot{padding:1.5rem 1.75rem;}
+.home-foot .label{margin-bottom:1rem;display:block;}
+
+/* deck */
+.deck-wrap{display:flex;align-items:center;gap:1rem;}
+.deck{position:relative;width:52px;height:76px;cursor:pointer;flex-shrink:0;}
+.deck-ghost{position:absolute;inset:0;border:0.5px solid var(--border);background:var(--surface);border-radius:var(--r);}
+.deck-ghost:nth-child(1){transform:translate(4px,4px) rotate(2deg);}
+.deck-ghost:nth-child(2){transform:translate(2px,2px) rotate(0.7deg);}
+.deck-face{
+  position:absolute;inset:0;
+  border:0.5px solid var(--border-mid);background:var(--surface);
+  border-radius:var(--r);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--faint);
+  transition:transform 0.18s,border-color 0.18s;
+}
+.deck:hover .deck-face{transform:translateY(-3px);border-color:rgba(220,210,190,0.28);}
+.deck-cta{display:flex;flex-direction:column;gap:4px;}
+.deck-cta-main{font-size:1rem;font-style:italic;color:var(--muted);}
+.deck-cta-sub{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.12em;color:var(--faint);}
+.home-nav{display:flex;gap:1rem;margin-top:1.25rem;padding-top:1rem;border-top:0.5px solid var(--border);}
+.nav-btn{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);background:none;border:none;cursor:pointer;padding:0;transition:color 0.15s;}
+.nav-btn:hover{color:var(--muted);}
+
+/* ── CARD SCREEN ── */
+#s-card{gap:0;}
+.rc-name{font-size:1.65rem;font-weight:400;line-height:1.2;color:var(--text);margin-bottom:1rem;}
+.rc-prompt{font-size:1rem;font-style:italic;color:var(--muted);line-height:1.8;}
+.first-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+.char-hint{font-family:'DM Mono',monospace;font-size:9px;color:var(--faint);}
+
+/* ── RESPONSE SCREEN ── */
+#s-response{gap:0;}
+.resp-text{font-size:1.1rem;line-height:1.85;color:var(--text);font-weight:400;min-height:60px;}
+.resp-text.loading{color:var(--muted);font-style:italic;font-size:0.95rem;}
+@keyframes blink{0%,100%{opacity:0}50%{opacity:1}}
+.cursor{display:inline-block;width:2px;height:0.9em;background:var(--suit-c);margin-left:2px;vertical-align:text-bottom;animation:blink 0.9s infinite;}
+.journal-note{margin-top:1.25rem;padding-top:1rem;border-top:0.5px solid var(--border);}
+.journal-note .label{display:block;margin-bottom:6px;}
+.journal-textarea{
+  width:100%;background:transparent;border:none;
+  border-bottom:0.5px solid var(--border);
+  color:var(--text);font-family:'EB Garamond',serif;
+  font-size:0.95rem;resize:none;outline:none;
+  padding:4px 0 8px;line-height:1.65;
+  transition:border-color 0.2s;min-height:60px;
+  caret-color:var(--suit-c);
+}
+.journal-textarea:focus{border-bottom-color:var(--suit-c);}
+.journal-textarea::placeholder{color:var(--faint);font-style:italic;}
+.save-row{display:flex;justify-content:space-between;align-items:center;margin-top:0.75rem;}
+.save-confirm{font-family:'DM Mono',monospace;font-size:10px;color:var(--observe);opacity:0;transition:opacity 0.3s;}
+.save-confirm.show{opacity:1;}
+
+/* ── JOURNAL SCREEN ── */
+#s-journal{gap:0;}
+.jnl-head{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:0.75rem;margin-bottom:1rem;border-bottom:0.5px solid var(--border);}
+.jnl-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);}
+.jnl-empty{font-size:1rem;font-style:italic;color:var(--faint);text-align:center;padding:3rem 0;line-height:1.7;}
+.jnl-list{display:flex;flex-direction:column;gap:2px;width:100%;}
+.jnl-entry{
+  padding:1rem 1.1rem;
+  background:var(--surface);
+  border:0.5px solid var(--border);
+  border-left:2.5px solid var(--ec,var(--faint));
+  border-radius:0 var(--r) var(--r) 0;
+  cursor:pointer;transition:background 0.12s;
+}
+.jnl-entry:hover{background:#1c1a16;}
+.je-meta{display:flex;gap:8px;align-items:center;margin-bottom:5px;flex-wrap:wrap;}
+.je-date{font-family:'DM Mono',monospace;font-size:9px;color:var(--faint);}
+.je-card{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;}
+.je-input{font-size:0.9rem;font-style:italic;color:var(--muted);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.je-response{display:none;font-size:0.85rem;color:var(--muted);line-height:1.6;margin-top:8px;padding-top:8px;border-top:0.5px solid var(--border);}
+.je-journal-note{display:none;font-size:0.85rem;color:var(--faint);font-style:italic;line-height:1.6;margin-top:6px;padding-top:6px;border-top:0.5px solid var(--border);}
+.jnl-entry.exp .je-input{white-space:normal;overflow:visible;}
+.jnl-entry.exp .je-response{display:block;}
+.jnl-entry.exp .je-journal-note{display:block;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- SETUP -->
+  <div id="s-setup" class="screen on">
+    <div class="card setup-card anim">
+      <p class="wordmark" style="text-align:left;margin-bottom:1.5rem;">Artisanal Institute</p>
+      <h1 class="setup-title">A mirror for what your conscience already knows.</h1>
+      <p class="setup-body">Rooted in Viktor Frankl's logotherapy. Draw a card, write the first thing that comes to mind, receive one action.</p>
+      <div class="setup-steps">
+        <p class="setup-step">Go to <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></p>
+        <p class="setup-step">Create an account and add a payment method</p>
+        <p class="setup-step">Navigate to API Keys and create a new key</p>
+        <p class="setup-step">Paste it below — it stays on your device only</p>
+      </div>
+      <div class="field-wrap">
+        <label class="label" for="api-input">Your Anthropic API key</label>
+        <input class="field-input mono-input" id="api-input" type="password" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false" />
+      </div>
+      <button class="btn" id="setup-btn" disabled>Begin →</button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div id="s-home" class="screen">
+    <div class="card quote-card anim">
+      <div class="suit-row quote-eyebrow">
+        <div class="suit-dot"></div>
+        <span class="label" id="q-author"></span>
+      </div>
+      <blockquote class="quote-text" id="q-text"></blockquote>
+      <p class="quote-author" id="q-source"></p>
+    </div>
+    <div class="card-foot anim-2">
+      <span class="label" style="display:block;margin-bottom:1rem;">When you're ready</span>
+      <div class="deck-wrap">
+        <div class="deck" id="draw-trigger" role="button" tabindex="0" aria-label="Draw a card">
+          <div class="deck-ghost"></div>
+          <div class="deck-ghost"></div>
+          <div class="deck-face">✦</div>
+        </div>
+        <div class="deck-cta">
+          <span class="deck-cta-main">Draw a card</span>
+          <span class="deck-cta-sub">No agenda required</span>
+        </div>
+      </div>
+      <div class="home-nav">
+        <button class="nav-btn" id="jnl-nav">Journal →</button>
+        <button class="nav-btn" id="key-nav">Change key</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD -->
+  <div id="s-card" class="screen">
+    <div class="card anim">
+      <div class="suit-row">
+        <div class="suit-dot" id="rc-dot"></div>
+        <span class="suit-lbl" id="rc-suit"></span>
+        <span class="suit-tag" id="rc-tag"></span>
+      </div>
+      <h2 class="rc-name" id="rc-name"></h2>
+      <div class="divider"></div>
+      <p class="rc-prompt" id="rc-prompt"></p>
+    </div>
+    <div class="card-foot anim-2">
+      <div class="field-wrap">
+        <div class="first-label">
+          <label class="label" for="first-input">First thing that comes to mind</label>
+          <span class="char-hint">don't edit it</span>
+        </div>
+        <input class="field-input" id="first-input" type="text" placeholder="type it before you think about it" autocomplete="off" />
+      </div>
+      <button class="btn" id="go-btn" disabled>What now →</button>
+    </div>
+  </div>
+
+  <!-- RESPONSE -->
+  <div id="s-response" class="screen">
+    <div class="card anim">
+      <div class="suit-row">
+        <div class="suit-dot" id="resp-dot"></div>
+        <span class="suit-lbl" id="resp-suit" style="color:var(--suit-c)"></span>
+        <span class="suit-tag" id="resp-card-name"></span>
+      </div>
+      <div class="resp-text loading" id="resp-text"><span class="cursor"></span></div>
+      <div class="journal-note" id="journal-note" style="display:none;">
+        <label class="label" for="journal-input">Add a note to your journal</label>
+        <textarea class="journal-textarea" id="journal-input" placeholder="optional — what comes up after the action?" rows="3"></textarea>
+        <div class="save-row">
+          <button class="btn btn-ghost" id="save-note-btn">Save note</button>
+          <span class="save-confirm" id="save-confirm">Saved</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-foot anim-2">
+      <div class="btn-row">
+        <button class="btn" id="draw-again">Draw another</button>
+        <button class="btn btn-ghost" id="same-card">Different take</button>
+        <button class="btn btn-ghost" id="resp-jnl">Journal →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JOURNAL -->
+  <div id="s-journal" class="screen">
+    <div class="jnl-head anim">
+      <span class="jnl-title">Journal</span>
+      <button class="nav-btn" id="jnl-back">← Back</button>
+    </div>
+    <div class="jnl-list" id="jnl-list"></div>
+  </div>
+
+</div>
+<script>
+// ── DATA ──
+const SUITS = {
+  observe: { label:'OBSERVE', color:'#5a8a7a', tag:'— what do you notice?' },
+  wonder:  { label:'WONDER',  color:'#7a6aaa', tag:'— what stirs in you?' },
+  hold:    { label:'HOLD',    color:'#5a7a9a', tag:'— what cannot be changed?' },
+  create:  { label:'CREATE',  color:'#c4622d', tag:'— what will you make?' },
+  share:   { label:'SHARE',   color:'#aa8a3a', tag:'— what will you give?' },
+};
+
+const CARDS = [
+  {suit:'observe',name:'The Ordinary Moment',prompt:'Describe one unremarkable moment from this week. What was in it that you almost missed?'},
+  {suit:'observe',name:'The Body Knows',prompt:'When did you last feel completely present in your body — not performing, not planning? What were you doing?'},
+  {suit:'observe',name:'The Honest Inventory',prompt:'Without judgment: what are you feeling right now? Not what you should feel — what you actually feel.'},
+  {suit:'observe',name:'The Pause',prompt:'What is true about this exact moment — not yesterday, not tomorrow — right now, in your body, in this room?'},
+  {suit:'observe',name:'The Still Small Voice',prompt:'What have you been telling yourself lately that you\'ve been too busy to fully hear?'},
+  {suit:'observe',name:'The Animal Fact',prompt:'You are an animal that will die. You are conscious of this. Right now, what do you want to do with that fact?'},
+  {suit:'wonder',name:'The Question Beneath',prompt:'What question have you been living with lately — one that hasn\'t found its answer yet? Can you simply hold it?'},
+  {suit:'wonder',name:'The Threshold',prompt:'Do you sense that something in your life is ending or beginning — even if you can\'t name it yet? What does that feel like?'},
+  {suit:'wonder',name:'The Old Love',prompt:'What did you love as a child — before ambition arrived — that you\'ve quietly let go of?'},
+  {suit:'wonder',name:'The Calling',prompt:'What does this period of your life seem to be asking of you? Not what you want it to ask — what it actually seems to be asking?'},
+  {suit:'wonder',name:'The Future Self',prompt:'Imagine yourself at the end of a life well-lived. What does that person know that you don\'t yet trust?'},
+  {suit:'wonder',name:'The Becoming',prompt:'What version of yourself are you in the process of becoming right now, whether you chose it or not?'},
+  {suit:'hold',name:'The Unchangeable',prompt:'What is something in your life right now that you cannot change? What stance are you currently taking toward it?'},
+  {suit:'hold',name:'The Unavoidable',prompt:'What suffering are you carrying that is genuinely unavoidable? What would it mean to carry it with dignity?'},
+  {suit:'hold',name:'The Last Freedom',prompt:'If everything external were stripped away — work, status, comfort, approval — what would remain of who you are?'},
+  {suit:'hold',name:'The Hard Stop',prompt:'Is there something in your life you keep moving past without stopping to feel? What happens if you stop right now?'},
+  {suit:'hold',name:'The Reframe',prompt:'What hardship, in retrospect, gave you something you couldn\'t have gotten another way?'},
+  {suit:'hold',name:'The Choice in Small Things',prompt:'In the last 24 hours, where did you choose your response rather than just react? Where didn\'t you?'},
+  {suit:'create',name:'The Unfinished Work',prompt:'What have you been putting off making — not because you can\'t, but because it matters too much to start?'},
+  {suit:'create',name:'The Hidden Gift',prompt:'What do you do so naturally that you forget it\'s rare? Who needs that thing from you right now?'},
+  {suit:'create',name:'The Letter Unwritten',prompt:'If you were to write something honest to someone in your life, something you\'ve never said — what would it be?'},
+  {suit:'create',name:'The Small Act',prompt:'What is one thing you could do today — modest, ordinary — that would make something or someone slightly better?'},
+  {suit:'create',name:'The Offering',prompt:'What would you create if no one would ever see it, and you\'d never be recognized for it?'},
+  {suit:'create',name:'The Repair',prompt:'What is broken in your world that you have the ability — even partial ability — to mend?'},
+  {suit:'share',name:'The Unreceived Gift',prompt:'What beauty, kindness, or grace is currently present in your life that you haven\'t fully expressed to the person who gave it?'},
+  {suit:'share',name:'The Teacher',prompt:'Who has shaped you most — not by being easy, but by being true? Have you ever told them?'},
+  {suit:'share',name:'The Witness',prompt:'Think of someone who truly saw you at some point in your life. What did they see — and have you ever reflected that back to them?'},
+  {suit:'share',name:'The Value You\'d Die For',prompt:'What single value do you want to embody no matter what happens? Who in your life needs to know that about you?'},
+  {suit:'share',name:'The Legacy',prompt:'What do you want to have changed — in a person, a community, an idea — by having been here?'},
+  {suit:'share',name:'The Responsibility',prompt:'To whom or what do you feel most responsible right now? Does your life reflect that — and do they know?'},
+];
+
+const QUOTES = [
+  {suit:'create',text:'For success, like happiness, cannot be pursued; it must ensue as the unintended side-effect of one\'s dedication to a cause greater than oneself.',author:'Viktor Frankl'},
+  {suit:'create',text:'Each man is questioned by life; and he can only answer to life by answering for his own life; to life he can only respond by being responsible.',author:'Viktor Frankl'},
+  {suit:'create',text:'Love is the only way to grasp another human being in the innermost core of his personality.',author:'Viktor Frankl'},
+  {suit:'create',text:'We have art in order not to die from the truth.',author:'Friedrich Nietzsche'},
+  {suit:'create',text:'A human being is not one in pursuit of happiness but rather in search of a reason to become happy.',author:'Viktor Frankl'},
+  {suit:'observe',text:'Everything can be taken from a man but one thing: the last of the human freedoms — to choose one\'s attitude in any given set of circumstances.',author:'Viktor Frankl'},
+  {suit:'observe',text:'The more one forgets himself — by giving himself to a cause to serve or another person to love — the more human he is.',author:'Viktor Frankl'},
+  {suit:'observe',text:'There are no facts, only interpretations.',author:'Friedrich Nietzsche'},
+  {suit:'observe',text:'You have power over your mind, not outside events. Realize this, and you will find strength.',author:'Marcus Aurelius'},
+  {suit:'observe',text:'Very little is needed to make a happy life; it is all within yourself, in your way of thinking.',author:'Marcus Aurelius'},
+  {suit:'observe',text:'Life can only be understood backwards; but it must be lived forwards.',author:'Søren Kierkegaard'},
+  {suit:'hold',text:'When we are no longer able to change a situation, we are challenged to change ourselves.',author:'Viktor Frankl'},
+  {suit:'hold',text:'In some ways suffering ceases to be suffering at the moment it finds a meaning.',author:'Viktor Frankl'},
+  {suit:'hold',text:'Between stimulus and response there is a space. In that space is our power to choose our response.',author:'Viktor Frankl'},
+  {suit:'hold',text:'Mental health is based on a certain degree of tension — the gap between what one is and what one should become.',author:'Viktor Frankl'},
+  {suit:'hold',text:'The impediment to action advances action. What stands in the way becomes the way.',author:'Marcus Aurelius'},
+  {suit:'hold',text:'Accept the things to which fate binds you, and love the people with whom fate brings you together.',author:'Marcus Aurelius'},
+  {suit:'hold',text:'If it is not right, do not do it; if it is not true, do not say it.',author:'Marcus Aurelius'},
+  {suit:'hold',text:'That which does not kill us makes us stronger.',author:'Friedrich Nietzsche'},
+  {suit:'wonder',text:'Live as if you were living for the second time and had acted as wrongly the first time as you are about to act now.',author:'Viktor Frankl'},
+  {suit:'wonder',text:'Self-actualization is possible only as a side-effect of self-transcendence.',author:'Viktor Frankl'},
+  {suit:'wonder',text:'The meaning of life always changes, but it never ceases to be.',author:'Viktor Frankl'},
+  {suit:'wonder',text:'You must have chaos within you to give birth to a dancing star.',author:'Friedrich Nietzsche'},
+  {suit:'wonder',text:'Become who you are.',author:'Friedrich Nietzsche'},
+  {suit:'wonder',text:'The most common form of despair is not being who you are.',author:'Søren Kierkegaard'},
+  {suit:'wonder',text:'The self is only that which it is in the process of becoming.',author:'Søren Kierkegaard'},
+  {suit:'wonder',text:'Waste no more time arguing about what a good man should be. Be one.',author:'Marcus Aurelius'},
+  {suit:'share',text:'Happiness cannot be pursued; it must ensue. One must have a reason to be happy.',author:'Viktor Frankl'},
+  {suit:'share',text:'Ultimately, man should not ask what the meaning of his life is, but rather must recognize that it is he who is asked.',author:'Viktor Frankl'},
+  {suit:'share',text:'To dare is to lose one\'s footing momentarily. Not to dare is to lose oneself.',author:'Søren Kierkegaard'},
+  {suit:'share',text:'The door to happiness opens outward.',author:'Søren Kierkegaard'},
+  {suit:'share',text:'All truly great thoughts are conceived while walking.',author:'Friedrich Nietzsche'},
+];
+
+// ── STATE ──
+const KEY_STORAGE = 'ai-key';
+const JNL_STORAGE = 'ai-journal-v2';
+let currentCard = null, currentInput = '', currentEntry = null, apiKey = '';
+
+// ── STORAGE ──
+function loadEntries(){try{return JSON.parse(localStorage.getItem(JNL_STORAGE)||'[]');}catch{return[];}}
+function saveEntries(e){localStorage.setItem(JNL_STORAGE,JSON.stringify(e));}
+
+// ── NAV ──
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  window.scrollTo(0,0);
+}
+function setSuit(color){document.documentElement.style.setProperty('--suit-c',color);}
+
+// ── QUOTE ──
+function showDailyQuote(){
+  const day = Math.floor(Date.now()/86400000);
+  const q = QUOTES[day % QUOTES.length];
+  const s = SUITS[q.suit];
+  setSuit(s.color);
+  document.getElementById('q-author').textContent = q.author;
+  document.getElementById('q-text').textContent = q.text;
+  document.querySelector('.quote-card .suit-dot').style.background = s.color;
+}
+
+function fmtDate(iso){
+  const d=new Date(iso);
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' · '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+}
+
+// ── SETUP ──
+const apiInput = document.getElementById('api-input');
+const setupBtn = document.getElementById('setup-btn');
+apiInput.addEventListener('input',()=>{
+  setupBtn.disabled = apiInput.value.trim().length < 20;
+});
+setupBtn.addEventListener('click',()=>{
+  apiKey = apiInput.value.trim();
+  localStorage.setItem(KEY_STORAGE, apiKey);
+  showDailyQuote();
+  show('s-home');
+});
+
+// check for saved key
+const savedKey = localStorage.getItem(KEY_STORAGE);
+if(savedKey){apiKey=savedKey;showDailyQuote();show('s-home');}
+
+// ── HOME ──
+document.getElementById('draw-trigger').addEventListener('click', drawCard);
+document.getElementById('draw-trigger').addEventListener('keydown', e=>{if(e.key==='Enter'||e.key===' ')drawCard();});
+document.getElementById('jnl-nav').addEventListener('click', renderJournal);
+document.getElementById('key-nav').addEventListener('click',()=>{
+  localStorage.removeItem(KEY_STORAGE);
+  apiKey='';
+  apiInput.value='';
+  setupBtn.disabled=true;
+  show('s-setup');
+});
+
+// ── DRAW ──
+function drawCard(){
+  currentCard = CARDS[Math.floor(Math.random()*CARDS.length)];
+  const s = SUITS[currentCard.suit];
+  setSuit(s.color);
+  document.getElementById('rc-dot').style.background = s.color;
+  document.getElementById('rc-suit').textContent = s.label;
+  document.getElementById('rc-suit').style.color = s.color;
+  document.getElementById('rc-tag').textContent = s.tag;
+  document.getElementById('rc-name').textContent = currentCard.name;
+  document.getElementById('rc-prompt').textContent = currentCard.prompt;
+  document.getElementById('first-input').value='';
+  document.getElementById('go-btn').disabled=true;
+  show('s-card');
+  setTimeout(()=>document.getElementById('first-input').focus(),350);
+}
+
+document.getElementById('first-input').addEventListener('input',function(){
+  document.getElementById('go-btn').disabled = this.value.trim().length < 2;
+});
+document.getElementById('first-input').addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&document.getElementById('first-input').value.trim().length>=2) callAI();
+});
+document.getElementById('go-btn').addEventListener('click', callAI);
+
+// ── AI ──
+async function callAI(){
+  const raw = document.getElementById('first-input').value.trim();
+  if(!raw) return;
+  currentInput = raw;
+  const s = SUITS[currentCard.suit];
+  document.getElementById('resp-dot').style.background = s.color;
+  document.getElementById('resp-suit').textContent = s.label;
+  document.getElementById('resp-suit').style.color = s.color;
+  document.getElementById('resp-card-name').textContent = '— ' + currentCard.name;
+  setSuit(s.color);
+  const respEl = document.getElementById('resp-text');
+  respEl.className='resp-text loading';
+  respEl.innerHTML='<span class="cursor"></span>';
+  document.getElementById('journal-note').style.display='none';
+  document.getElementById('journal-input').value='';
+  document.getElementById('save-confirm').classList.remove('show');
+  currentEntry = null;
+  show('s-response');
+
+  const sys = `You are a creative ignition assistant for a logotherapy-based journaling tool. Someone drew a card called "${currentCard.name}" (${s.label} suit). Card prompt: "${currentCard.prompt}". Give them one concrete action to take right now. Rules: one action only, no preamble, no affirmation, doable in under 15 minutes, read their emotional register — if moving toward something accelerate it, if stuck or moving away give a physical or creative release. The action can be anything: write, call someone, move, make, delete, cook, go outside. Never ask a follow-up. Never say "consider" or "reflect" or "think about." Start directly with the action. Short. Active. Specific. Maximum 3 sentences. Do not mention the card name or logotherapy.`;
+
+  try{
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:200,
+        system: sys,
+        messages:[{role:'user',content:`What I wrote: ${raw}`}]
+      })
+    });
+    if(!r.ok) throw new Error(await r.text());
+    const d = await r.json();
+    const text = d.content?.find(b=>b.type==='text')?.text||'';
+    respEl.className='resp-text';
+    respEl.textContent=text;
+
+    // save entry
+    const entry = {
+      id: Date.now(),
+      ts: new Date().toISOString(),
+      suit: currentCard.suit,
+      cardName: currentCard.name,
+      cardPrompt: currentCard.prompt,
+      userInput: raw,
+      aiResponse: text,
+      journalNote: ''
+    };
+    currentEntry = entry;
+    const entries = loadEntries();
+    entries.unshift(entry);
+    saveEntries(entries);
+
+    // show journal note field
+    document.getElementById('journal-note').style.display='block';
+
+  }catch(err){
+    respEl.className='resp-text';
+    respEl.style.color='#c04040';
+    respEl.textContent='Something went wrong. Check your API key and try again.';
+    console.error(err);
+  }
+}
+
+// journal note save
+document.getElementById('save-note-btn').addEventListener('click',()=>{
+  if(!currentEntry) return;
+  const note = document.getElementById('journal-input').value.trim();
+  const entries = loadEntries();
+  const idx = entries.findIndex(e=>e.id===currentEntry.id);
+  if(idx>-1){entries[idx].journalNote=note;saveEntries(entries);}
+  document.getElementById('save-confirm').classList.add('show');
+  setTimeout(()=>document.getElementById('save-confirm').classList.remove('show'),2000);
+});
+
+// response nav
+document.getElementById('draw-again').addEventListener('click', drawCard);
+document.getElementById('same-card').addEventListener('click',()=>{
+  show('s-card');
+  const inp=document.getElementById('first-input');
+  inp.value=currentInput;
+  document.getElementById('go-btn').disabled=false;
+  setTimeout(()=>inp.focus(),200);
+});
+document.getElementById('resp-jnl').addEventListener('click', renderJournal);
+
+// ── JOURNAL ──
+function renderJournal(){
+  show('s-journal');
+  const entries = loadEntries();
+  const list = document.getElementById('jnl-list');
+  list.innerHTML='';
+  if(!entries.length){
+    list.innerHTML='<p class="jnl-empty">Nothing here yet.<br>Draw a card to begin.</p>';
+    return;
+  }
+  entries.forEach(e=>{
+    const s=SUITS[e.suit]||{color:'#666',label:e.suit};
+    const el=document.createElement('div');
+    el.className='jnl-entry';
+    el.style.setProperty('--ec',s.color);
+    let html=`<div class="je-meta"><span class="je-date">${fmtDate(e.ts)}</span><span class="je-card" style="color:${s.color}">${e.cardName}</span></div><div class="je-input">"${e.userInput}"</div><div class="je-response">${e.aiResponse}</div>`;
+    if(e.journalNote) html+=`<div class="je-journal-note">${e.journalNote}</div>`;
+    el.innerHTML=html;
+    el.addEventListener('click',()=>el.classList.toggle('exp'));
+    list.appendChild(el);
+  });
+}
+document.getElementById('jnl-back').addEventListener('click',()=>show('s-home'));
+</script>
+</body>
+</html>
