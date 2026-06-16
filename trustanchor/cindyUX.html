@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustAnchor — Sabo PR</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink:       #1a1a18;
+  --surface:   #f5f4f0;
+  --mid:       #4a4a46;
+  --muted:     #8a8a84;
+  --rule:      #e0dfd8;
+  --white:     #ffffff;
+  --verified:  #185fa5;
+  --ver-bg:    rgba(24,95,165,0.07);
+  --ver-border:rgba(24,95,165,0.22);
+  --pending:   #ba7517;
+  --pend-bg:   rgba(186,117,23,0.07);
+  --contested: #b84040;
+  --cont-bg:   rgba(184,64,64,0.06);
+  --added:     #2e6b4f;
+  --added-bg:  rgba(46,107,79,0.07);
+  --serif:     'Cormorant Garamond', serif;
+  --mono:      'DM Mono', monospace;
+  --sans:      'DM Sans', sans-serif;
+}
+
+body { font-family: var(--sans); background: var(--white); color: var(--ink); font-size: 14px; line-height: 1.6; height: 100vh; overflow: hidden; }
+
+/* ── CHROME ── */
+.chrome { display: flex; height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 224px; flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column;
+}
+.sidebar-logo {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--rule);
+}
+.logo-row { display: flex; align-items: center; gap: 9px; margin-bottom: 3px; }
+.logo-seal {
+  width: 24px; height: 24px;
+  border: 1px solid rgba(26,26,24,0.25);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.logo-seal svg { width: 11px; height: 11px; }
+.logo-name { font-family: var(--serif); font-size: 15px; color: var(--ink); letter-spacing: 0.02em; }
+.logo-sub { font-family: var(--mono); font-size: 8px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; padding-left: 33px; }
+.org-pill {
+  display: inline-block; margin: 10px 18px 0;
+  font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--verified); padding: 3px 8px;
+  border: 1px solid var(--ver-border); background: var(--ver-bg);
+}
+.sidebar-nav { flex: 1; padding: 16px 0; overflow-y: auto; }
+.nav-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); padding: 0 18px 6px; margin-top: 6px; }
+.nav-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 18px; cursor: pointer; font-size: 13px; color: var(--mid);
+  border-left: 2px solid transparent; transition: all 0.15s;
+}
+.nav-item:hover { background: rgba(26,26,24,0.04); color: var(--ink); }
+.nav-item.active { background: var(--ver-bg); color: var(--verified); border-left-color: var(--verified); }
+.nav-item svg { width: 13px; height: 13px; flex-shrink: 0; }
+.nav-count { margin-left: auto; font-family: var(--mono); font-size: 9px; background: var(--rule); padding: 1px 6px; color: var(--muted); border-radius: 9px; }
+.sidebar-footer { padding: 14px 18px; border-top: 1px solid var(--rule); }
+.user-row { display: flex; align-items: center; gap: 9px; }
+.user-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--ink); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 12px; color: var(--white); flex-shrink: 0; }
+.user-name { font-size: 12px; color: var(--mid); }
+.user-role { font-family: var(--mono); font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* ── MAIN ── */
+.main { flex: 1; overflow-y: auto; background: var(--white); }
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── TOPBAR ── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 32px; border-bottom: 1px solid var(--rule);
+  position: sticky; top: 0; background: var(--white); z-index: 10;
+}
+.topbar-left { display: flex; align-items: center; gap: 14px; }
+.topbar-title { font-family: var(--serif); font-size: 20px; color: var(--ink); font-weight: 600; }
+.breadcrumb { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.06em; }
+.breadcrumb a { color: var(--verified); cursor: pointer; text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.topbar-actions { display: flex; gap: 8px; align-items: center; }
+.btn { font-family: var(--sans); font-size: 12px; font-weight: 500; padding: 7px 16px; cursor: pointer; border: none; transition: all 0.15s; letter-spacing: 0.02em; }
+.btn-primary { background: var(--ink); color: var(--white); }
+.btn-primary:hover { background: #333330; }
+.btn-ghost { background: transparent; color: var(--mid); border: 1px solid var(--rule); }
+.btn-ghost:hover { border-color: var(--mid); color: var(--ink); }
+.btn-blue { background: var(--verified); color: white; }
+.btn-blue:hover { background: #1a6ec0; }
+
+/* ── CONTENT ── */
+.content { padding: 28px 32px; }
+
+/* ── STATUS PILLS ── */
+.sp {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid;
+}
+.sp::before { content: ''; width: 5px; height: 5px; border-radius: 50%; }
+.sp-v { color: var(--verified); border-color: var(--ver-border); background: var(--ver-bg); }
+.sp-v::before { background: var(--verified); }
+.sp-p { color: var(--pending); border-color: rgba(186,117,23,0.3); background: var(--pend-bg); }
+.sp-p::before { background: var(--pending); }
+.sp-c { color: var(--contested); border-color: rgba(184,64,64,0.3); background: var(--cont-bg); }
+.sp-c::before { background: var(--contested); }
+.sp-a { color: var(--added); border-color: rgba(46,107,79,0.3); background: var(--added-bg); }
+.sp-a::before { background: var(--added); }
+
+/* ── DASHBOARD ── */
+.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 28px; }
+.stat-card { background: var(--surface); border: 1px solid var(--rule); padding: 18px 20px; }
+.stat-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.stat-value { font-family: var(--serif); font-size: 34px; line-height: 1; margin-bottom: 5px; }
+.stat-detail { font-size: 11px; color: var(--muted); }
+
+.section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.section-title { font-family: var(--serif); font-size: 17px; color: var(--ink); font-weight: 600; }
+.section-action { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--verified); cursor: pointer; background: none; border: none; }
+.section-action:hover { text-decoration: underline; }
+
+/* ── DOCUMENT TABLE ── */
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 28px; }
+.doc-table th { font-family: var(--mono); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); padding: 9px 14px; text-align: left; border-bottom: 1px solid var(--rule); font-weight: 400; }
+.doc-table td { padding: 13px 14px; border-bottom: 1px solid var(--rule); font-size: 13px; color: var(--mid); vertical-align: middle; }
+.doc-table tr:hover td { background: var(--surface); cursor: pointer; }
+.doc-name { color: var(--ink); font-weight: 500; margin-bottom: 2px; }
+.doc-meta { font-family: var(--mono); font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
+.anchor-id { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.commit-count { display: flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 10px; color: var(--mid); }
+.commit-count svg { width: 11px; height: 11px; color: var(--muted); }
+
+/* ── DOCUMENT DETAIL / HISTORY ── */
+.doc-header {
+  padding: 0 0 20px 0;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 24px;
+}
+.doc-header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+.doc-title-block { }
+.doc-title { font-family: var(--serif); font-size: 26px; color: var(--ink); font-weight: 600; margin-bottom: 6px; }
+.doc-pills { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.doc-client-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; }
+.doc-header-meta { display: flex; gap: 28px; flex-wrap: wrap; }
+.dh-item { }
+.dh-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.dh-value { font-size: 13px; color: var(--mid); }
+.dh-value.mono { font-family: var(--mono); font-size: 10px; }
+
+/* ── HISTORY TIMELINE ── */
+.history-layout { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
+.history-col { }
+.history-group { margin-bottom: 28px; }
+.history-date-label {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 12px;
+}
+.history-date-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+/* THE COMMIT CHAIN — the signature element */
+.commit-chain { position: relative; }
+.commit-chain::before {
+  content: '';
+  position: absolute;
+  left: 15px; top: 0; bottom: 0;
+  width: 1px;
+  background: var(--rule);
+}
+.commit-item {
+  display: flex; gap: 0; position: relative; margin-bottom: 2px;
+}
+.commit-node {
+  flex-shrink: 0; width: 32px; display: flex;
+  flex-direction: column; align-items: center;
+  padding-top: 14px; position: relative; z-index: 1;
+}
+.commit-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid var(--white);
+  flex-shrink: 0;
+}
+.commit-dot-v { background: var(--verified); box-shadow: 0 0 0 2px var(--ver-border); }
+.commit-dot-p { background: var(--pending); box-shadow: 0 0 0 2px rgba(186,117,23,0.3); }
+.commit-dot-a { background: var(--added); box-shadow: 0 0 0 2px rgba(46,107,79,0.3); }
+.commit-dot-c { background: var(--contested); box-shadow: 0 0 0 2px rgba(184,64,64,0.3); }
+.commit-dot-n { background: var(--muted); box-shadow: 0 0 0 2px var(--rule); }
+
+.commit-body {
+  flex: 1;
+  background: var(--white);
+  border: 1px solid var(--rule);
+  padding: 12px 16px;
+  margin-left: 8px;
+  margin-bottom: 6px;
+  transition: border-color 0.15s;
+  cursor: pointer;
+}
+.commit-body:hover { border-color: var(--ink); }
+.commit-body.expanded { border-color: var(--ink); }
+.commit-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.commit-msg { font-size: 13px; color: var(--ink); font-weight: 500; margin-bottom: 4px; line-height: 1.4; }
+.commit-sub { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.commit-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; }
+.commit-hash { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.04em; }
+.commit-time { font-family: var(--mono); font-size: 9px; color: var(--muted); white-space: nowrap; }
+.commit-author { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+.author-dot { width: 16px; height: 16px; border-radius: 50%; background: var(--surface); border: 1px solid var(--rule); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 9px; color: var(--mid); }
+.author-name { font-size: 11px; color: var(--muted); }
+
+/* EXPANDED COMMIT DETAIL */
+.commit-detail {
+  display: none;
+  border-top: 1px solid var(--rule);
+  margin-top: 10px;
+  padding-top: 12px;
+}
+.commit-detail.open { display: block; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.detail-field { }
+.df-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.df-value { font-size: 12px; color: var(--mid); }
+.df-value.mono { font-family: var(--mono); font-size: 9px; word-break: break-all; }
+.diff-box { margin-top: 8px; background: var(--surface); border: 1px solid var(--rule); font-family: var(--mono); font-size: 10px; line-height: 1.8; overflow: hidden; }
+.diff-header { padding: 6px 12px; background: var(--rule); color: var(--muted); font-size: 9px; letter-spacing: 0.08em; }
+.diff-line { padding: 2px 12px; }
+.diff-add { background: rgba(46,107,79,0.08); color: var(--added); }
+.diff-add::before { content: '+ '; }
+.diff-remove { background: rgba(184,64,64,0.06); color: var(--contested); }
+.diff-remove::before { content: '− '; }
+.diff-ctx { color: var(--muted); }
+.diff-ctx::before { content: '  '; }
+.commit-actions { display: flex; gap: 8px; margin-top: 10px; }
+.mini-btn { font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; cursor: pointer; background: transparent; color: var(--mid); border: 1px solid var(--rule); transition: all 0.12s; }
+.mini-btn:hover { border-color: var(--mid); color: var(--ink); }
+.mini-btn.blue { color: var(--verified); border-color: var(--ver-border); background: var(--ver-bg); }
+
+/* RIGHT PANEL */
+.side-panel { display: flex; flex-direction: column; gap: 16px; }
+.side-card { background: var(--surface); border: 1px solid var(--rule); padding: 16px 18px; }
+.side-card-title { font-family: var(--serif); font-size: 14px; color: var(--ink); margin-bottom: 12px; font-weight: 600; }
+.side-stat-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--rule); font-size: 12px; }
+.side-stat-row:last-child { border-bottom: none; }
+.side-key { color: var(--muted); font-family: var(--mono); font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; }
+.side-val { color: var(--ink); font-family: var(--mono); font-size: 10px; }
+.chain-integrity { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--ver-bg); border: 1px solid var(--ver-border); margin-top: 8px; }
+.chain-integrity svg { width: 14px; height: 14px; color: var(--verified); flex-shrink: 0; }
+.chain-integrity-text { font-size: 12px; color: var(--verified); }
+.contributor-list { display: flex; flex-direction: column; gap: 8px; }
+.contributor-row { display: flex; align-items: center; gap: 9px; }
+.contrib-avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--ink); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 10px; color: var(--white); flex-shrink: 0; }
+.contrib-name { font-size: 12px; color: var(--mid); flex: 1; }
+.contrib-count { font-family: var(--mono); font-size: 9px; color: var(--muted); }
+
+/* ── ANCHOR FLOW ── */
+.flow-bar { display: flex; align-items: center; margin-bottom: 32px; max-width: 600px; }
+.flow-step-item { display: flex; align-items: center; gap: 8px; }
+.step-circle { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--rule); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 9px; color: var(--muted); flex-shrink: 0; background: var(--white); }
+.step-circle.done { background: var(--ink); border-color: var(--ink); color: var(--white); }
+.step-circle.active { border-color: var(--verified); color: var(--verified); background: var(--ver-bg); }
+.step-lbl { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.step-lbl.active { color: var(--ink); font-weight: 500; }
+.step-conn { flex: 1; height: 1px; background: var(--rule); margin: 0 8px; min-width: 16px; }
+.step-conn.done { background: var(--ink); }
+
+.upload-zone { border: 1px dashed var(--rule); padding: 40px 28px; text-align: center; cursor: pointer; transition: all 0.2s; max-width: 520px; margin-bottom: 20px; }
+.upload-zone:hover { border-color: var(--verified); background: var(--ver-bg); }
+.upload-title { font-family: var(--serif); font-size: 20px; color: var(--ink); margin-bottom: 8px; }
+.upload-sub { font-size: 12px; color: var(--muted); line-height: 1.65; margin-bottom: 14px; }
+.type-tags { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+.type-tag { font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border: 1px solid var(--rule); color: var(--muted); }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 600px; }
+.form-field { margin-bottom: 16px; max-width: 600px; }
+.field-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; display: block; }
+.field-input, .field-select, .field-textarea { width: 100%; background: var(--white); border: 1px solid var(--rule); color: var(--ink); font-family: var(--sans); font-size: 13px; padding: 9px 12px; outline: none; transition: border-color 0.15s; }
+.field-input:focus, .field-select:focus, .field-textarea:focus { border-color: var(--verified); }
+.field-textarea { resize: vertical; min-height: 72px; }
+.field-hint { font-size: 11px; color: var(--muted); margin-top: 5px; font-family: var(--mono); }
+
+.file-preview { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--pending); margin-bottom: 20px; max-width: 520px; }
+.fp-name { font-size: 13px; color: var(--ink); margin-bottom: 2px; }
+.fp-meta { font-family: var(--mono); font-size: 9px; color: var(--muted); }
+
+/* ANCHORING ANIM */
+.anchoring-box { max-width: 460px; padding: 28px 24px; background: var(--surface); border: 1px solid var(--rule); text-align: center; margin-bottom: 20px; }
+.anchor-spinner { width: 40px; height: 40px; border: 2px solid var(--rule); border-top-color: var(--verified); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.anchoring-title { font-family: var(--serif); font-size: 18px; color: var(--ink); margin-bottom: 10px; }
+.anchoring-steps { font-family: var(--mono); font-size: 10px; color: var(--muted); line-height: 2.2; text-align: left; display: inline-block; }
+.step-done { color: var(--added); }
+
+/* CERT */
+.cert { max-width: 540px; border: 1px solid var(--rule); background: var(--white); }
+.cert-head { background: var(--ink); padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; }
+.cert-doc-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(211,209,199,0.5); margin-bottom: 5px; }
+.cert-doc-name { font-family: var(--serif); font-size: 19px; color: #f1efe8; }
+.cert-seal-circle { width: 52px; height: 52px; border: 1.5px solid var(--verified); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; }
+.cert-seal-txt { font-family: var(--mono); font-size: 6px; color: var(--verified); letter-spacing: 0.08em; text-transform: uppercase; }
+.cert-seal-check { font-size: 15px; color: var(--verified); }
+.cert-body { padding: 20px 24px; }
+.cert-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: var(--rule); margin-bottom: 16px; border: 1px solid var(--rule); }
+.cert-cell { background: var(--white); padding: 10px 12px; }
+.cert-cell-label { font-family: var(--mono); font-size: 7px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.cert-cell-val { font-size: 11px; color: var(--ink); line-height: 1.4; }
+.cert-hash { padding: 10px 12px; background: var(--surface); border: 1px solid var(--rule); margin-bottom: 16px; }
+.cert-hash-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+.cert-hash-val { font-family: var(--mono); font-size: 9px; color: var(--verified); word-break: break-all; line-height: 1.6; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 24px; right: 24px; background: var(--ink); border-left: 3px solid var(--verified); padding: 12px 18px; font-size: 13px; color: #f1efe8; z-index: 1000; opacity: 0; transform: translateY(8px); transition: all 0.3s; max-width: 280px; }
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast-title { font-family: var(--serif); font-size: 15px; margin-bottom: 2px; }
+.toast-sub { font-family: var(--mono); font-size: 9px; color: rgba(211,209,199,0.5); }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--rule); }
+</style>
+</head>
+<body>
+<div class="chrome">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-row">
+      <div class="logo-seal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1a1a18" stroke-width="1.5">
+          <circle cx="12" cy="5" r="2"/><line x1="12" y1="7" x2="12" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/><path d="M7 19 Q12 22 17 19"/>
+        </svg>
+      </div>
+      <span class="logo-name">TrustAnchor</span>
+    </div>
+    <span class="logo-sub">Enterprise</span>
+    <div class="org-pill">Sabo PR</div>
+  </div>
+  <nav class="sidebar-nav">
+    <p class="nav-label">Workspace</p>
+    <div class="nav-item active" onclick="showScreen('dashboard')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard <span class="nav-count">12</span>
+    </div>
+    <div class="nav-item" onclick="showScreen('anchor-new')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      Anchor Document
+    </div>
+    <div class="nav-item" onclick="showScreen('vault')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6l9-3 9 3v12l-9 3-9-3V6z"/></svg>
+      Document Vault <span class="nav-count">12</span>
+    </div>
+    <p class="nav-label" style="margin-top:10px;">Clients</p>
+    <div class="nav-item" onclick="showScreen('vault')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+      Warner Norcross + Judd
+    </div>
+    <div class="nav-item" onclick="showScreen('vault')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+      Nat'l Heritage Academies
+    </div>
+    <div class="nav-item" onclick="showScreen('vault')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="1"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+      Gerald R. Ford Airport
+    </div>
+    <p class="nav-label" style="margin-top:10px;">Reports</p>
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z"/></svg>
+      Audit Log
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-row">
+      <div class="user-avatar">CD</div>
+      <div><div class="user-name">Cindy Droog</div><div class="user-role">Admin</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- DASHBOARD -->
+<div class="screen active" id="screen-dashboard">
+  <div class="topbar">
+    <div class="topbar-left"><h1 class="topbar-title">Dashboard</h1></div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost">Export Report</button>
+      <button class="btn btn-primary" onclick="showScreen('anchor-new')">+ Anchor Document</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="stats-row">
+      <div class="stat-card"><p class="stat-label">Documents Anchored</p><p class="stat-value" style="color:var(--ink)">12</p><p class="stat-detail">Across 3 clients</p></div>
+      <div class="stat-card"><p class="stat-label">Total Anchor Events</p><p class="stat-value" style="color:var(--verified)">34</p><p class="stat-detail">Versions, edits &amp; notes</p></div>
+      <div class="stat-card"><p class="stat-label">Contested Records</p><p class="stat-value" style="color:var(--contested)">1</p><p class="stat-detail">Requires review</p></div>
+      <div class="stat-card"><p class="stat-label">Chain Integrity</p><p class="stat-value" style="color:var(--added)">100%</p><p class="stat-detail">All hashes verified</p></div>
+    </div>
+    <div class="section-head">
+      <h2 class="section-title">Recent Documents</h2>
+      <button class="section-action" onclick="showScreen('vault')">View All →</button>
+    </div>
+    <table class="doc-table">
+      <thead><tr>
+        <th>Document</th><th>Client</th><th>Type</th><th>Last Anchor</th><th>Events</th><th>Status</th>
+      </tr></thead>
+      <tbody>
+        <tr onclick="showScreen('detail')">
+          <td><div class="doc-name">CEO Statement — Q2 Acquisition</div><div class="doc-meta">PDF · 142 KB · TA-2026-00891</div></td>
+          <td>Warner Norcross + Judd</td><td>Executive Comms</td><td>Jun 12, 2026</td>
+          <td><div class="commit-count"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="21"/></svg>5 events</div></td>
+          <td><span class="sp sp-v">Verified</span></td>
+        </tr>
+        <tr onclick="showScreen('detail')">
+          <td><div class="doc-name">Board Resolution — Budget Approval</div><div class="doc-meta">DOCX · 88 KB · TA-2026-00879</div></td>
+          <td>Nat'l Heritage Academies</td><td>Board Minutes</td><td>Jun 9, 2026</td>
+          <td><div class="commit-count"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="21"/></svg>2 events</div></td>
+          <td><span class="sp sp-v">Verified</span></td>
+        </tr>
+        <tr onclick="showScreen('detail')">
+          <td><div class="doc-name">Crisis Response Draft — Terminal Closure</div><div class="doc-meta">DOCX · 56 KB · TA-2026-00872</div></td>
+          <td>Gerald R. Ford Airport</td><td>Crisis Response</td><td>Jun 9, 2026</td>
+          <td><div class="commit-count"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="21"/></svg>3 events</div></td>
+          <td><span class="sp sp-p">Pending</span></td>
+        </tr>
+        <tr onclick="showScreen('detail')">
+          <td><div class="doc-name">Employee Memo — RIF Policy Update</div><div class="doc-meta">PDF · 203 KB · TA-2026-00841</div></td>
+          <td>Nat'l Heritage Academies</td><td>Internal Comms</td><td>Jun 7, 2026</td>
+          <td><div class="commit-count"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><line x1="12" y1="3" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="21"/></svg>4 events</div></td>
+          <td><span class="sp sp-c">Contested</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- VAULT -->
+<div class="screen" id="screen-vault">
+  <div class="topbar">
+    <div class="topbar-left"><h1 class="topbar-title">Document Vault</h1></div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost">Filter</button>
+      <button class="btn btn-primary" onclick="showScreen('anchor-new')">+ Anchor Document</button>
+    </div>
+  </div>
+  <div class="content">
+    <table class="doc-table">
+      <thead><tr><th>Document</th><th>Client</th><th>Type</th><th>Last Anchor</th><th>Events</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr onclick="showScreen('detail')"><td><div class="doc-name">CEO Statement — Q2 Acquisition</div><div class="doc-meta">PDF · TA-2026-00891</div></td><td>Warner Norcross</td><td>Executive Comms</td><td>Jun 12, 2026</td><td>5 events</td><td><span class="sp sp-v">Verified</span></td></tr>
+        <tr onclick="showScreen('detail')"><td><div class="doc-name">Board Resolution — Budget Approval</div><div class="doc-meta">DOCX · TA-2026-00879</div></td><td>Nat'l Heritage</td><td>Board Minutes</td><td>Jun 9, 2026</td><td>2 events</td><td><span class="sp sp-v">Verified</span></td></tr>
+        <tr onclick="showScreen('detail')"><td><div class="doc-name">Crisis Response Draft — Terminal Closure</div><div class="doc-meta">DOCX · TA-2026-00872</div></td><td>Ford Airport</td><td>Crisis Response</td><td>Jun 9, 2026</td><td>3 events</td><td><span class="sp sp-p">Pending</span></td></tr>
+        <tr onclick="showScreen('detail')"><td><div class="doc-name">Employee Memo — RIF Policy Update</div><div class="doc-meta">PDF · TA-2026-00841</div></td><td>Nat'l Heritage</td><td>Internal Comms</td><td>Jun 7, 2026</td><td>4 events</td><td><span class="sp sp-c">Contested</span></td></tr>
+        <tr onclick="showScreen('detail')"><td><div class="doc-name">NDA — Merger Negotiations</div><div class="doc-meta">PDF · TA-2026-00808</div></td><td>Warner Norcross</td><td>Legal Agreement</td><td>Jun 5, 2026</td><td>1 event</td><td><span class="sp sp-v">Verified</span></td></tr>
+        <tr onclick="showScreen('detail')"><td><div class="doc-name">Video Statement — CEO on Safety Record</div><div class="doc-meta">MP4 · TA-2026-00754</div></td><td>Ford Airport</td><td>Video Statement</td><td>May 30, 2026</td><td>2 events</td><td><span class="sp sp-v">Verified</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- DOCUMENT DETAIL + HISTORY -->
+<div class="screen" id="screen-detail">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div>
+        <div class="breadcrumb"><a onclick="showScreen('vault')">Document Vault</a> / CEO Statement — Q2 Acquisition</div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost">Download Certificate</button>
+      <button class="btn btn-ghost">Verify on Chain</button>
+      <button class="btn btn-blue" onclick="showScreen('anchor-new')">+ New Anchor Event</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="doc-header">
+      <div class="doc-header-top">
+        <div class="doc-title-block">
+          <p class="doc-title">CEO Statement — Q2 Acquisition</p>
+          <div class="doc-pills">
+            <span class="sp sp-v">Verified</span>
+            <span class="doc-client-tag">Warner Norcross + Judd · Executive Statement · TA-2026-00891</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;flex-shrink:0;">
+          <button class="btn btn-ghost" style="font-size:11px;">Share</button>
+          <button class="btn btn-ghost" style="font-size:11px;">Export</button>
+        </div>
+      </div>
+      <div class="doc-header-meta">
+        <div class="dh-item"><p class="dh-label">First Anchored</p><p class="dh-value">Jun 10, 2026 · 09:14 EDT</p></div>
+        <div class="dh-item"><p class="dh-label">Last Event</p><p class="dh-value">Jun 12, 2026 · 14:22 EDT</p></div>
+        <div class="dh-item"><p class="dh-label">Total Events</p><p class="dh-value">5 anchor events</p></div>
+        <div class="dh-item"><p class="dh-label">Current Hash</p><p class="dh-value mono">a3f8e2d1…c4e7f0</p></div>
+        <div class="dh-item"><p class="dh-label">Chain Integrity</p><p class="dh-value" style="color:var(--added);">✓ All verified</p></div>
+      </div>
+    </div>
+
+    <div class="history-layout">
+      <!-- COMMIT CHAIN -->
+      <div class="history-col">
+
+        <div class="history-group">
+          <p class="history-date-label">Jun 12, 2026 — 2 anchor events</p>
+          <div class="commit-chain">
+
+            <!-- COMMIT 5: LEGAL NOTE -->
+            <div class="commit-item">
+              <div class="commit-node"><div class="commit-dot commit-dot-a"></div></div>
+              <div class="commit-body" onclick="toggleCommit(this)">
+                <div class="commit-top">
+                  <div>
+                    <p class="commit-msg">Legal annotation added — counsel note re: press embargo</p>
+                    <p class="commit-sub">Annotation anchored by outside counsel. Original document unchanged. Note sealed independently.</p>
+                  </div>
+                  <div class="commit-right">
+                    <span class="sp sp-a">Annotation</span>
+                    <span class="commit-hash">f2c9a41e</span>
+                    <span class="commit-time">14:22 EDT</span>
+                  </div>
+                </div>
+                <div class="commit-author">
+                  <div class="author-dot">JW</div>
+                  <span class="author-name">James Wu, Warner Norcross + Judd</span>
+                </div>
+                <div class="commit-detail">
+                  <div class="detail-grid">
+                    <div class="detail-field"><p class="df-label">Event Type</p><p class="df-value">Legal Annotation</p></div>
+                    <div class="detail-field"><p class="df-label">Anchor ID</p><p class="df-value mono">TA-2026-00891-05</p></div>
+                    <div class="detail-field"><p class="df-label">BCH Transaction</p><p class="df-value mono">00000000…9f2a5b</p></div>
+                    <div class="detail-field"><p class="df-label">Block</p><p class="df-value mono">#906,112</p></div>
+                  </div>
+                  <div class="diff-box">
+                    <div class="diff-header">Annotation content (sealed, not editable)</div>
+                    <div class="diff-line diff-add">COUNSEL NOTE: Press embargo confirmed until Jun 15, 09:00 EDT per client directive dated Jun 10.</div>
+                    <div class="diff-line diff-add">Document reviewed and approved by R. Chen (General Counsel) prior to original issuance.</div>
+                  </div>
+                  <div class="commit-actions">
+                    <button class="mini-btn blue">Verify on Chain</button>
+                    <button class="mini-btn">Download This Event</button>
+                    <button class="mini-btn">Copy Hash</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- COMMIT 4: REVISED VERSION -->
+            <div class="commit-item">
+              <div class="commit-node"><div class="commit-dot commit-dot-v"></div></div>
+              <div class="commit-body" onclick="toggleCommit(this)">
+                <div class="commit-top">
+                  <div>
+                    <p class="commit-msg">v2 anchored — paragraph 3 revised per legal review</p>
+                    <p class="commit-sub">Second version of document anchored. Previous version TA-2026-00891-02 remains on chain and unaltered.</p>
+                  </div>
+                  <div class="commit-right">
+                    <span class="sp sp-v">Revision</span>
+                    <span class="commit-hash">9d1e7f3a</span>
+                    <span class="commit-time">11:05 EDT</span>
+                  </div>
+                </div>
+                <div class="commit-author">
+                  <div class="author-dot">MD</div>
+                  <span class="author-name">Mary Droog, Sabo PR</span>
+                </div>
+                <div class="commit-detail">
+                  <div class="detail-grid">
+                    <div class="detail-field"><p class="df-label">Event Type</p><p class="df-value">Document Revision</p></div>
+                    <div class="detail-field"><p class="df-label">Anchor ID</p><p class="df-value mono">TA-2026-00891-04</p></div>
+                    <div class="detail-field"><p class="df-label">New Hash</p><p class="df-value mono">9d1e7f3a…b2c8d4</p></div>
+                    <div class="detail-field"><p class="df-label">Prior Hash</p><p class="df-value mono">a3f8e2d1…c4e7f0</p></div>
+                  </div>
+                  <div class="diff-box">
+                    <div class="diff-header">Changes from v1 — paragraph 3</div>
+                    <div class="diff-line diff-remove">The transaction is expected to close in Q3 of this fiscal year.</div>
+                    <div class="diff-line diff-add">The transaction is expected to close subject to regulatory approval and standard closing conditions.</div>
+                    <div class="diff-line diff-ctx">All other terms remain as originally stated.</div>
+                  </div>
+                  <div class="commit-actions">
+                    <button class="mini-btn blue">Verify on Chain</button>
+                    <button class="mini-btn">Compare Versions</button>
+                    <button class="mini-btn">Download This Version</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="history-group">
+          <p class="history-date-label">Jun 11, 2026 — 1 anchor event</p>
+          <div class="commit-chain">
+
+            <!-- COMMIT 3: RETRACTION NOTE -->
+            <div class="commit-item">
+              <div class="commit-node"><div class="commit-dot commit-dot-n"></div></div>
+              <div class="commit-body" onclick="toggleCommit(this)">
+                <div class="commit-top">
+                  <div>
+                    <p class="commit-msg">Comment anchored — client requested paragraph 3 revision</p>
+                    <p class="commit-sub">Internal note from client. No document change at this event — revision pending legal sign-off.</p>
+                  </div>
+                  <div class="commit-right">
+                    <span class="sp" style="color:var(--muted);border-color:var(--rule)">Comment</span>
+                    <span class="commit-hash">c4b8e2f1</span>
+                    <span class="commit-time">16:44 EDT</span>
+                  </div>
+                </div>
+                <div class="commit-author">
+                  <div class="author-dot">RC</div>
+                  <span class="author-name">R. Chen, Warner Norcross + Judd (via Sabo PR)</span>
+                </div>
+                <div class="commit-detail">
+                  <div class="diff-box">
+                    <div class="diff-header">Comment (sealed)</div>
+                    <div class="diff-line diff-add">Please revise para. 3 — "expected to close in Q3" is premature per regulatory counsel. Language should reflect conditionality.</div>
+                  </div>
+                  <div class="commit-actions">
+                    <button class="mini-btn blue">Verify on Chain</button>
+                    <button class="mini-btn">Copy Hash</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="history-group">
+          <p class="history-date-label">Jun 10, 2026 — 2 anchor events</p>
+          <div class="commit-chain">
+
+            <!-- COMMIT 2: DISTRIBUTION NOTE -->
+            <div class="commit-item">
+              <div class="commit-node"><div class="commit-dot commit-dot-v"></div></div>
+              <div class="commit-body" onclick="toggleCommit(this)">
+                <div class="commit-top">
+                  <div>
+                    <p class="commit-msg">Distribution record anchored — statement issued to press at 09:30</p>
+                    <p class="commit-sub">Confirms document was issued unchanged from anchored version. Distribution list sealed.</p>
+                  </div>
+                  <div class="commit-right">
+                    <span class="sp sp-v">Distribution</span>
+                    <span class="commit-hash">b7e3c9d2</span>
+                    <span class="commit-time">09:32 EDT</span>
+                  </div>
+                </div>
+                <div class="commit-author">
+                  <div class="author-dot">MD</div>
+                  <span class="author-name">Mary Droog, Sabo PR</span>
+                </div>
+                <div class="commit-detail">
+                  <div class="diff-box">
+                    <div class="diff-header">Distribution record</div>
+                    <div class="diff-line diff-add">Issued to: AP Wire, Detroit Free Press, Crain's Detroit Business, WSJ Michigan Desk</div>
+                    <div class="diff-line diff-add">Method: Email + PR Newswire. Time: 09:30:14 EDT.</div>
+                    <div class="diff-line diff-ctx">Document hash at distribution matches original anchor: a3f8e2d1…c4e7f0 ✓</div>
+                  </div>
+                  <div class="commit-actions">
+                    <button class="mini-btn blue">Verify on Chain</button>
+                    <button class="mini-btn">Download This Event</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- COMMIT 1: ORIGINAL ANCHOR -->
+            <div class="commit-item">
+              <div class="commit-node"><div class="commit-dot commit-dot-v"></div></div>
+              <div class="commit-body" onclick="toggleCommit(this)">
+                <div class="commit-top">
+                  <div>
+                    <p class="commit-msg">Original document anchored — v1, approved for release</p>
+                    <p class="commit-sub">First anchor event. Document hash recorded on Bitcoin Cash blockchain. This is the provenance record.</p>
+                  </div>
+                  <div class="commit-right">
+                    <span class="sp sp-v">Origin</span>
+                    <span class="commit-hash">a3f8e2d1</span>
+                    <span class="commit-time">09:14 EDT</span>
+                  </div>
+                </div>
+                <div class="commit-author">
+                  <div class="author-dot">MD</div>
+                  <span class="author-name">Mary Droog, Sabo PR</span>
+                </div>
+                <div class="commit-detail">
+                  <div class="detail-grid">
+                    <div class="detail-field"><p class="df-label">Event Type</p><p class="df-value">Original Anchor</p></div>
+                    <div class="detail-field"><p class="df-label">Anchor ID</p><p class="df-value mono">TA-2026-00891-01</p></div>
+                    <div class="detail-field"><p class="df-label">SHA-256 Hash</p><p class="df-value mono">a3f8e2d1b9c7045e6f2a8d3c1b4e7f0a2d5c8e1f4b7a0d3c6e9f2a5b8d1c4e7f0</p></div>
+                    <div class="detail-field"><p class="df-label">BCH Block</p><p class="df-value mono">#905,441</p></div>
+                  </div>
+                  <div class="diff-box">
+                    <div class="diff-header">Context note (sealed with document)</div>
+                    <div class="diff-line diff-add">Official statement issued at 09:00am prior to press briefing. Approved by CEO and legal counsel. This is the authoritative version.</div>
+                  </div>
+                  <div class="commit-actions">
+                    <button class="mini-btn blue">Verify on Chain</button>
+                    <button class="mini-btn">Download Certificate</button>
+                    <button class="mini-btn">Copy Hash</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL -->
+      <div class="side-panel">
+        <div class="side-card">
+          <p class="side-card-title">Document Summary</p>
+          <div class="side-stat-row"><span class="side-key">Document ID</span><span class="side-val">TA-2026-00891</span></div>
+          <div class="side-stat-row"><span class="side-key">Client</span><span class="side-val">Warner Norcross</span></div>
+          <div class="side-stat-row"><span class="side-key">Type</span><span class="side-val">Executive Statement</span></div>
+          <div class="side-stat-row"><span class="side-key">Versions</span><span class="side-val">2 (v1, v2)</span></div>
+          <div class="side-stat-row"><span class="side-key">Annotations</span><span class="side-val">1</span></div>
+          <div class="side-stat-row"><span class="side-key">Comments</span><span class="side-val">1</span></div>
+          <div class="side-stat-row"><span class="side-key">BCH Network</span><span class="side-val">5 transactions</span></div>
+          <div class="chain-integrity">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span class="chain-integrity-text">Chain integrity verified — all 5 hashes confirmed</span>
+          </div>
+        </div>
+        <div class="side-card">
+          <p class="side-card-title">Contributors</p>
+          <div class="contributor-list">
+            <div class="contributor-row"><div class="contrib-avatar">MD</div><span class="contrib-name">Mary Droog, Sabo PR</span><span class="contrib-count">3 events</span></div>
+            <div class="contributor-row"><div class="contrib-avatar">JW</div><span class="contrib-name">James Wu, Warner Norcross</span><span class="contrib-count">1 event</span></div>
+            <div class="contributor-row"><div class="contrib-avatar">RC</div><span class="contrib-name">R. Chen, Client (via Sabo PR)</span><span class="contrib-count">1 event</span></div>
+          </div>
+        </div>
+        <div class="side-card">
+          <p class="side-card-title">Actions</p>
+          <div style="display:flex;flex-direction:column;gap:7px;">
+            <button class="btn btn-blue" style="width:100%;text-align:left;" onclick="showScreen('anchor-new')">+ Add Anchor Event</button>
+            <button class="btn btn-ghost" style="width:100%;text-align:left;">Download Full Chain Report</button>
+            <button class="btn btn-ghost" style="width:100%;text-align:left;">Compare All Versions</button>
+            <button class="btn btn-ghost" style="width:100%;text-align:left;">Share Verification Link</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ANCHOR NEW: STEP 1 -->
+<div class="screen" id="screen-anchor-new">
+  <div class="topbar">
+    <div class="topbar-left"><h1 class="topbar-title">New Anchor Event</h1></div>
+  </div>
+  <div class="content">
+    <div class="flow-bar">
+      <div class="flow-step-item"><div class="step-circle active">1</div><span class="step-lbl active">Choose type</span></div>
+      <div class="step-conn"></div>
+      <div class="flow-step-item"><div class="step-circle">2</div><span class="step-lbl">Upload &amp; classify</span></div>
+      <div class="step-conn"></div>
+      <div class="flow-step-item"><div class="step-circle">3</div><span class="step-lbl">Confirm</span></div>
+      <div class="step-conn"></div>
+      <div class="flow-step-item"><div class="step-circle">4</div><span class="step-lbl">Anchored</span></div>
+    </div>
+
+    <p style="font-family:var(--serif);font-size:20px;color:var(--ink);margin-bottom:6px;font-weight:600;">What type of anchor event is this?</p>
+    <p style="font-size:13px;color:var(--muted);max-width:540px;margin-bottom:24px;line-height:1.7;">Every event — new document, revision, annotation, or comment — becomes a permanent, independently verifiable node in the document's provenance chain.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:580px;margin-bottom:28px;">
+      <div class="side-card" style="cursor:pointer;border:2px solid var(--verified);background:var(--ver-bg);" onclick="showScreen('anchor-classify')">
+        <p style="font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--verified);margin-bottom:6px;">New Document</p>
+        <p style="font-family:var(--serif);font-size:15px;color:var(--ink);margin-bottom:4px;font-weight:600;">Original Anchor</p>
+        <p style="font-size:12px;color:var(--muted);line-height:1.6;">First time anchoring this document. Creates the provenance origin record.</p>
+      </div>
+      <div class="side-card" style="cursor:pointer;" onclick="showScreen('anchor-classify')">
+        <p style="font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Update Existing</p>
+        <p style="font-family:var(--serif);font-size:15px;color:var(--ink);margin-bottom:4px;font-weight:600;">Revision</p>
+        <p style="font-size:12px;color:var(--muted);line-height:1.6;">New version of an existing anchored document. Previous version stays on chain.</p>
+      </div>
+      <div class="side-card" style="cursor:pointer;" onclick="showScreen('anchor-classify')">
+        <p style="font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Attach to Existing</p>
+        <p style="font-family:var(--serif);font-size:15px;color:var(--ink);margin-bottom:4px;font-weight:600;">Annotation</p>
+        <p style="font-size:12px;color:var(--muted);line-height:1.6;">Legal note, counsel review, or third-party attestation. Sealed separately.</p>
+      </div>
+      <div class="side-card" style="cursor:pointer;" onclick="showScreen('anchor-classify')">
+        <p style="font-family:var(--mono);font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Record</p>
+        <p style="font-family:var(--serif);font-size:15px;color:var(--ink);margin-bottom:4px;font-weight:600;">Distribution / Comment</p>
+        <p style="font-size:12px;color:var(--muted);line-height:1.6;">Record when and how a document was distributed, or seal a client comment.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ANCHOR CLASSIFY: STEP 2 -->
+<div class="screen" id="screen-anchor-classify">
+  <div class="topbar">
+    <div class="topbar-left"><h1 class="topbar-title">Upload &amp; Classify</h1></div>
+  </div>
+  <div class="content">
+    <div class="flow-bar">
+      <div class="flow-step-item"><div class="step-circle done">✓</div><span class="step-lbl">Choose type</span></div>
+      <div class="step-conn done"></div>
+      <div class="flow-step-item"><div class="step-circle active">2</div><span class="step-lbl active">Upload &amp; classify</span></div>
+      <div class="step-conn"></div>
+      <div class="flow-step-item"><div class="step-circle">3</div><span class="step-lbl">Confirm</span></div>
+      <div class="step-conn"></div>
+      <div class="flow-step-item"><div class="step-circle">4</div><span class="step-lbl">Anchored</span></div>
+    </div>
+    <div class="upload-zone" onclick="showScreen('anchor-confirm')">
+      <p class="upload-title">Drop document to anchor</p>
+      <p class="upload-sub">The file is hashed locally — its contents never leave your device.<br>Only the cryptographic fingerprint is registered on-chain.</p>
+      <div class="type-tags"><span class="type-tag">PDF</span><span class="type-tag">DOCX</span><span class="type-tag">MP4</span><span class="type-tag">MP3</span><span class="type-tag">Any file type</span></div>
+    </div>
+    <div class="file-preview">
+      <div style="font-size:20px;opacity:0.5;">📄</div>
+      <div><div class="fp-name">CEO_Statement_Q2_v2.pdf</div><div class="fp-meta">PDF · 142 KB · Hash generated locally</div></div>
+      <div style="margin-left:auto;color:var(--pending);font-size:16px;">◉</div>
+    </div>
+    <div class="form-row">
+      <div class="form-field"><label class="field-label">Document Title</label><input class="field-input" value="CEO Statement — Q2 Acquisition"></div>
+      <div class="form-field"><label class="field-label">Client</label><select class="field-select"><option>Warner Norcross + Judd</option><option>National Heritage Academies</option><option>Gerald R. Ford Airport</option></select></div>
+      <div class="form-field"><label class="field-label">Event Type</label><select class="field-select"><option>Revision</option><option>Original Anchor</option><option>Annotation</option><option>Distribution Record</option><option>Comment</option></select></div>
+      <div class="form-field"><label class="field-label">Anchored By</label><input class="field-input" value="Mary Droog, Sabo PR"></div>
+    </div>
+    <div class="form-field"><label class="field-label">Context Note <span style="font-family:var(--sans);font-size:10px;text-transform:none;letter-spacing:0;color:var(--muted);font-style:italic;">(sealed with this event — cannot be edited after anchoring)</span></label><textarea class="field-textarea" placeholder="e.g. v2 — paragraph 3 revised per legal review. Approved by R. Chen, General Counsel."></textarea><p class="field-hint">This note becomes part of the immutable record.</p></div>
+    <div style="display:flex;gap:8px;margin-top:4px;">
+      <button class="btn btn-ghost" onclick="showScreen('anchor-new')">← Back</button>
+      <button class="btn btn-primary" onclick="showScreen('anchor-confirm')">Review &amp; Confirm →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ANCHOR CONFIRM: STEP 3 -->
+<div class="screen" id="screen-anchor-confirm">
+  <div class="topbar"><div class="topbar-left"><h1 class="topbar-title">Confirm Anchor Event</h1></div></div>
+  <div class="content">
+    <div class="flow-bar">
+      <div class="flow-step-item"><div class="step-circle done">✓</div><span class="step-lbl">Choose type</span></div>
+      <div class="step-conn done"></div>
+      <div class="flow-step-item"><div class="step-circle done">✓</div><span class="step-lbl">Upload &amp; classify</span></div>
+      <div class="step-conn done"></div>
+      <div class="flow-step-item"><div class="step-circle active">3</div><span class="step-lbl active">Confirm</span></div>
+      <div class="step-conn"></div>
+      <div class="flow-step-item"><div class="step-circle">4</div><span class="step-lbl">Anchored</span></div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);max-width:520px;margin-bottom:20px;line-height:1.7;">Once anchored, this event is permanent and cannot be altered or deleted. That permanence is the point.</p>
+    <div class="cert" style="margin-bottom:20px;">
+      <div class="cert-head">
+        <div><p class="cert-doc-label">Anchor event — Revision</p><p class="cert-doc-name">CEO Statement — Q2 Acquisition · v2</p></div>
+        <div class="cert-seal-circle" style="border-color:var(--pending);"><span class="cert-seal-txt" style="color:var(--pending);">Pending</span><span style="font-size:16px;color:var(--pending);">⏳</span></div>
+      </div>
+      <div class="cert-body">
+        <div class="cert-strip">
+          <div class="cert-cell"><p class="cert-cell-label">Client</p><p class="cert-cell-val">Warner Norcross + Judd</p></div>
+          <div class="cert-cell"><p class="cert-cell-label">Event Type</p><p class="cert-cell-val">Revision</p></div>
+          <div class="cert-cell"><p class="cert-cell-label">Anchored By</p><p class="cert-cell-val">Mary Droog</p></div>
+          <div class="cert-cell"><p class="cert-cell-label">Timestamp</p><p class="cert-cell-val">Jun 12, 2026 · 11:05 EDT</p></div>
+        </div>
+        <div class="cert-hash"><p class="cert-hash-label">SHA-256 Hash (v2)</p><p class="cert-hash-val">9d1e7f3ab2c8d4f6e0a1b3c5d7e9f1a3b5c7d9e1f3a5b7c9d1e3f5a7b9c1d3e5f7</p></div>
+        <div class="cert-hash"><p class="cert-hash-label">Prior Version Hash (v1 — remains on chain)</p><p class="cert-hash-val">a3f8e2d1b9c7045e6f2a8d3c1b4e7f0a2d5c8e1f4b7a0d3c6e9f2a5b8d1c4e7f0</p></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-ghost" onclick="showScreen('anchor-classify')">← Back</button>
+      <button class="btn btn-primary" onclick="startAnchoring()">Anchor This Event →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ANCHORING -->
+<div class="screen" id="screen-anchoring">
+  <div class="topbar"><div class="topbar-left"><h1 class="topbar-title">Writing to blockchain…</h1></div></div>
+  <div class="content">
+    <div class="flow-bar">
+      <div class="flow-step-item"><div class="step-circle done">✓</div><span class="step-lbl">Choose type</span></div>
+      <div class="step-conn done"></div>
+      <div class="flow-step-item"><div class="step-circle done">✓</div><span class="step-lbl">Upload &amp; classify</span></div>
+      <div class="step-conn done"></div>
+      <div class="flow-step-item"><div class="step-circle done">✓</div><span class="step-lbl">Confirm</span></div>
+      <div class="step-conn done"></div>
+      <div class="flow-step-item"><div class="step-circle active">4</div><span class="step-lbl active">Anchoring</span></div>
+    </div>
+    <div class="anchoring-box">
+      <div class="anchor-spinner" id="anim-spinner"></div>
+      <p class="anchoring-title">Adding event to document chain…</p>
+      <div class="anchoring-steps">
+        <div class="step-done">✓ SHA-256 hash generated</div>
+        <div class="step-done">✓ Linked to prior anchor TA-2026-00891-01</div>
+        <div id="as3" style="color:var(--muted)">◌ Broadcasting to BCH network…</div>
+        <div id="as4" style="color:var(--muted)">◌ Awaiting block confirmation…</div>
+        <div id="as5" style="color:var(--muted)">◌ Event sealed — chain updated…</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);max-width:400px;line-height:1.7;">This event will appear in the document's history chain as anchor event #5. The previous 4 events remain unchanged on the blockchain.</p>
+  </div>
+</div>
+
+<!-- COMPLETE -->
+<div class="screen" id="screen-complete">
+  <div class="topbar">
+    <div class="topbar-left"><h1 class="topbar-title">Event Anchored</h1></div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost" onclick="showScreen('anchor-new')">Anchor Another Event</button>
+      <button class="btn btn-primary" onclick="showScreen('detail')">View Document History</button>
+    </div>
+  </div>
+  <div class="content">
+    <div style="max-width:520px;margin-bottom:20px;padding:14px 18px;background:var(--ver-bg);border:1px solid var(--ver-border);border-left:3px solid var(--verified);display:flex;align-items:center;gap:12px;">
+      <span style="font-size:20px;color:var(--verified)">✓</span>
+      <div>
+        <p style="font-family:var(--serif);font-size:16px;color:var(--ink);margin-bottom:2px;">Revision anchored. Added to document chain as event #5.</p>
+        <p style="font-family:var(--mono);font-size:9px;color:var(--muted);">TA-2026-00891-05 · BCH Block #906,112 · Chain integrity: 5/5 verified</p>
+      </div>
+    </div>
+    <div class="cert">
+      <div class="cert-head">
+        <div><p class="cert-doc-label">TrustAnchor Event Certificate — Revision</p><p class="cert-doc-name">CEO Statement — Q2 Acquisition · v2</p></div>
+        <div class="cert-seal-circle"><span class="cert-seal-txt">Verified</span><span class="cert-seal-check">✓</span></div>
+      </div>
+      <div class="cert-body">
+        <div class="cert-strip">
+          <div class="cert-cell"><p class="cert-cell-label">Client</p><p class="cert-cell-val">Warner Norcross + Judd</p></div>
+          <div class="cert-cell"><p class="cert-cell-label">Event</p><p class="cert-cell-val">Revision (#5 of 5)</p></div>
+          <div class="cert-cell"><p class="cert-cell-label">Anchored By</p><p class="cert-cell-val">Mary Droog<br>Sabo PR</p></div>
+          <div class="cert-cell"><p class="cert-cell-label">Timestamp UTC</p><p class="cert-cell-val">Jun 12, 2026<br>15:05:32 UTC</p></div>
+        </div>
+        <div class="cert-hash"><p class="cert-hash-label">This Event — SHA-256 Hash</p><p class="cert-hash-val">9d1e7f3ab2c8d4f6e0a1b3c5d7e9f1a3b5c7d9e1f3a5b7c9d1e3f5a7b9c1d3e5f7</p></div>
+        <div class="cert-hash"><p class="cert-hash-label">BCH Transaction ID</p><p class="cert-hash-val">0000000000000000000a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4</p></div>
+      </div>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-ghost">Download Certificate</button>
+      <button class="btn btn-ghost">Copy Verification Link</button>
+      <button class="btn btn-ghost" onclick="showScreen('detail')">← Back to Document</button>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<div class="toast" id="toast">
+  <p class="toast-title">Event Anchored</p>
+  <p class="toast-sub">TA-2026-00891-05 · BCH Block #906,112</p>
+</div>
+
+<script>
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('screen-' + id);
+  if (el) { el.classList.add('active'); document.querySelector('.main').scrollTop = 0; }
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const map = { dashboard:'dashboard', vault:'vault', detail:'vault', 'anchor-new':'anchor-new', 'anchor-classify':'anchor-new', 'anchor-confirm':'anchor-new', anchoring:'anchor-new', complete:'anchor-new' };
+  document.querySelectorAll('.nav-item').forEach(n => {
+    const oc = n.getAttribute('onclick') || '';
+    if (map[id] && oc.includes(map[id])) n.classList.add('active');
+  });
+}
+
+function toggleCommit(el) {
+  const detail = el.querySelector('.commit-detail');
+  if (!detail) return;
+  const isOpen = detail.classList.contains('open');
+  el.closest('.commit-chain').querySelectorAll('.commit-detail').forEach(d => d.classList.remove('open'));
+  el.closest('.commit-chain').querySelectorAll('.commit-body').forEach(b => b.classList.remove('expanded'));
+  if (!isOpen) { detail.classList.add('open'); el.classList.add('expanded'); }
+}
+
+function startAnchoring() {
+  showScreen('anchoring');
+  setTimeout(() => { const e = document.getElementById('as3'); if(e){e.style.color='var(--added)';e.textContent='✓ Broadcast to BCH network';} }, 1200);
+  setTimeout(() => { const e = document.getElementById('as4'); if(e){e.style.color='var(--added)';e.textContent='✓ Block #906,112 confirmed';} }, 2600);
+  setTimeout(() => { const e = document.getElementById('as5'); if(e){e.style.color='var(--added)';e.textContent='✓ Event #5 sealed in chain';} const sp = document.getElementById('anim-spinner'); if(sp){sp.style.borderTopColor='var(--added)';sp.style.animation='none';} }, 3800);
+  setTimeout(() => { showScreen('complete'); const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),4000); }, 4600);
+}
+</script>
+</body>
+</html>
