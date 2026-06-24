@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be A Global Citizen — Full Phone Flow</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #111; font-family: 'Inter', sans-serif; padding: 24px 16px 48px; }
+
+h1 { color: #F0B429; font-family: 'Playfair Display', serif; font-size: 22px; text-align: center; margin-bottom: 6px; }
+.subtitle { color: rgba(255,255,255,0.35); font-size: 11px; text-align: center; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 24px; }
+
+.flow-nav {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  justify-content: center; margin-bottom: 24px;
+}
+.step-btn {
+  padding: 6px 12px; font-size: 11px;
+  border: 0.5px solid rgba(240,180,41,0.3);
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(255,255,255,0.4);
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  transition: all 0.15s;
+}
+.step-btn.active {
+  background: #0d1f4a; color: #F0B429;
+  border-color: #F0B429; font-weight: 600;
+}
+
+.phone-wrap { display: flex; justify-content: center; }
+.phone {
+  width: 320px;
+  background: #000;
+  border-radius: 40px;
+  border: 1.5px solid #1a2744;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  min-height: 600px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.8);
+}
+.notch {
+  width: 76px; height: 8px;
+  background: #1a1a1a; border-radius: 4px;
+  margin: 16px auto 0; flex-shrink: 0;
+}
+
+.screen { display: none; flex-direction: column; padding: 22px 20px 28px; flex: 1; min-height: 560px; }
+.screen.active { display: flex !important; }
+
+.eyebrow {
+  font-size: 9px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: #F0B429;
+  font-weight: 700; margin-bottom: 10px;
+}
+.pf-head {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; font-weight: 700;
+  color: #F0B429; line-height: 1.15; margin-bottom: 8px;
+}
+.body { font-size: 12px; line-height: 1.75; color: rgba(255,255,255,0.55); margin-bottom: 14px; }
+.divider { height: 0.5px; background: rgba(240,180,41,0.18); margin: 14px 0; }
+
+.field-label { font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 5px; }
+.field-input {
+  width: 100%; padding: 11px 13px; font-size: 13px;
+  background: rgba(255,255,255,0.05);
+  border: 0.5px solid rgba(240,180,41,0.25);
+  border-radius: 9px; color: #fff;
+  font-family: 'Inter', sans-serif; margin-bottom: 13px;
+}
+.field-input:focus { outline: none; border-color: #F0B429; }
+.field-input::placeholder { color: rgba(255,255,255,0.18); }
+
+.gold-btn {
+  width: 100%; padding: 15px;
+  background: #F0B429; color: #0a0f1e;
+  border: none; border-radius: 10px;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  margin-top: auto;
+}
+.ghost-btn {
+  width: 100%; padding: 12px;
+  background: transparent; color: rgba(255,255,255,0.3);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 10px; font-size: 12px;
+  cursor: pointer; font-family: 'Inter', sans-serif; margin-top: 8px;
+}
+
+.navy-card { background: #0d1f4a; border-radius: 13px; padding: 16px; margin-bottom: 12px; }
+.card-label {
+  font-size: 9px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #F0B429;
+  font-weight: 700; margin-bottom: 10px;
+}
+
+.pid-label { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(240,180,41,0.5); margin-bottom: 2px; }
+.pid-value { font-size: 14px; color: #fff; margin-bottom: 8px; }
+.pid-number { font-size: 20px; font-weight: 700; color: #F0B429; letter-spacing: 0.04em; margin-bottom: 10px; }
+
+.stamp-row { display: flex; gap: 6px; margin-top: 12px; }
+.stamp-dot {
+  flex: 1; aspect-ratio: 1; border-radius: 50%;
+  border: 1px dashed rgba(240,180,41,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; color: rgba(240,180,41,0.3);
+  font-weight: 700; transition: all 0.3s;
+}
+.stamp-dot.earned { border-style: solid; border-color: #F0B429; color: #F0B429; background: rgba(240,180,41,0.1); }
+
+.portrait-circle {
+  width: 54px; height: 54px; border-radius: 50%;
+  background: rgba(240,180,41,0.08);
+  border: 1.5px solid #F0B429;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 22px;
+}
+
+.qr-box { background: #fff; border-radius: 10px; padding: 13px; margin: 14px 0; display: flex; align-items: center; justify-content: center; }
+.qr-grid { width: 140px; height: 140px; display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+.qr-cell { border-radius: 1px; }
+
+.country-banner { margin: -22px -20px 14px; padding: 24px 20px 16px; text-align: center; }
+.country-code-lg { font-size: 46px; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 4px; letter-spacing: -0.02em; }
+.country-name-sm { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+
+.progress-track { height: 3px; background: rgba(255,255,255,0.07); border-radius: 2px; margin-bottom: 5px; }
+.progress-fill { height: 100%; background: #F0B429; border-radius: 2px; transition: width 0.5s ease; }
+
+.stamp-earned-card {
+  background: rgba(240,180,41,0.07);
+  border: 0.5px solid rgba(240,180,41,0.3);
+  border-radius: 10px; padding: 10px 13px;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+}
+.shield { width: 34px; height: 38px; border-radius: 4px 4px 17px 17px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.shield-code { font-size: 10px; font-weight: 700; color: #fff; letter-spacing: 0.03em; }
+
+.confetti-zone { position: relative; overflow: hidden; height: 170px; margin-bottom: 14px; }
+.cf-piece { position: absolute; opacity: 0; animation: cffall 2.8s ease-in forwards; }
+@keyframes cffall {
+  0% { opacity: 1; transform: translateY(-10px) rotate(0deg); }
+  60% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(180px) rotate(720deg); }
+}
+
+.reveal-card {
+  background: #0d1f4a;
+  border: 0.5px solid rgba(240,180,41,0.2);
+  border-radius: 13px; padding: 18px; margin-bottom: 16px;
+}
+.reveal-text {
+  font-size: 14px; font-weight: 700;
+  color: #fff; line-height: 1.7;
+  font-family: 'Inter', sans-serif;
+}
+.reveal-text .gold { color: #F0B429; }
+
+.store-btn {
+  width: 100%; padding: 13px;
+  background: #0d1f4a; border: 0.5px solid #F0B429;
+  border-radius: 10px; color: #fff;
+  font-size: 12px; font-weight: 500;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 8px; text-decoration: none;
+}
+.store-btn.dim { opacity: 0.3; cursor: default; }
+
+.style-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 14px; }
+.style-opt {
+  padding: 11px 8px; text-align: center;
+  background: rgba(255,255,255,0.03);
+  border: 0.5px solid rgba(240,180,41,0.2);
+  border-radius: 9px; color: rgba(255,255,255,0.5);
+  font-size: 12px; cursor: pointer;
+  font-family: 'Inter', sans-serif; transition: all 0.15s;
+}
+.style-opt.selected { border-color: #F0B429; color: #F0B429; background: rgba(240,180,41,0.1); }
+
+.buy-local-wrap {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 4px 0;
+}
+.buy-local-wrap img { width: 150px; height: 150px; object-fit: contain; }
+.buy-local-caption {
+  font-size: 10px; color: rgba(255,255,255,0.22);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  margin-top: 12px; text-align: center;
+}
+</style>
+</head>
+<body>
+
+<h1>Be A Global Citizen</h1>
+<div class="subtitle">ArtPrize 2026 · KCAD Grand Rapids · Full phone flow</div>
+
+<div class="flow-nav">
+  <button class="step-btn active" onclick="go(0)">1 · Register</button>
+  <button class="step-btn" onclick="go(1)">2 · QR code</button>
+  <button class="step-btn" onclick="go(2)">3 · Staff</button>
+  <button class="step-btn" onclick="go(3)">4 · Passport</button>
+  <button class="step-btn" onclick="go(4)">5–8 · Stamps</button>
+  <button class="step-btn" onclick="go(5)">9 · Congrats</button>
+  <button class="step-btn" onclick="go(6)">9b · Email</button>
+  <button class="step-btn" onclick="go(7)">10 · Local Citizen</button>
+</div>
+
+<div class="phone-wrap"><div class="phone">
+<div class="notch"></div>
+
+<!-- SCREEN 1: Register -->
+<div class="screen active" id="s0">
+  <div class="eyebrow">ArtPrize 2026 · KCAD Grand Rapids</div>
+  <div class="pf-head">Be A Global<br>Citizen</div>
+  <div class="body">Register to receive your digital passport. Your passport control officer will issue your portrait.</div>
+  <div class="divider"></div>
+  <div class="field-label">First name *</div>
+  <input class="field-input" placeholder="First name" id="fname" />
+  <div class="field-label">Last name</div>
+  <input class="field-input" placeholder="Last name" id="lname" />
+  <div class="field-label">Email *</div>
+  <input class="field-input" placeholder="your@email.com" type="email" id="email" />
+  <button class="gold-btn" onclick="go(1)">Get my passport</button>
+</div>
+
+<!-- SCREEN 2: QR Code -->
+<div class="screen" id="s1">
+  <div class="eyebrow">Passport control</div>
+  <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:4px;">Your passport is being prepared.</div>
+  <div class="body">Show this to your passport control officer.</div>
+  <div class="qr-box"><div class="qr-grid" id="qr-grid"></div></div>
+  <div style="text-align:center;font-size:17px;font-weight:700;color:#F0B429;letter-spacing:0.04em;margin-bottom:4px;" id="qr-name">Visitor</div>
+  <div style="text-align:center;font-size:11px;color:rgba(255,255,255,0.35);">Stand by — your portrait is being issued.</div>
+  <div style="flex:1"></div>
+  <div style="font-size:10px;color:rgba(255,255,255,0.15);text-align:center;">This screen updates automatically when your passport is ready.</div>
+</div>
+
+<!-- SCREEN 3: Staff -->
+<div class="screen" id="s2">
+  <div class="eyebrow">Staff · passport control</div>
+  <div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:14px;">Issue portrait</div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+    <div class="portrait-circle">👤</div>
+    <div>
+      <div style="font-size:14px;font-weight:600;color:#fff;">Visitor</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.35);">visitor@email.com</div>
+    </div>
+  </div>
+  <div class="field-label">Take photo</div>
+  <div style="background:rgba(255,255,255,0.03);border:0.5px dashed rgba(240,180,41,0.25);border-radius:10px;height:76px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;cursor:pointer;">
+    <div style="text-align:center;">
+      <div style="font-size:20px;margin-bottom:4px;">📷</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.3);">Tap to photograph</div>
+    </div>
+  </div>
+  <div class="field-label">How should this portrait look?</div>
+  <div class="style-grid">
+    <div class="style-opt" onclick="selectStyle(this)">Feminine</div>
+    <div class="style-opt" onclick="selectStyle(this)">Masculine</div>
+    <div class="style-opt" onclick="selectStyle(this)">Androgynous</div>
+    <div class="style-opt" onclick="selectStyle(this)">Surprise me</div>
+  </div>
+  <button class="gold-btn" onclick="go(3)">Issue passport</button>
+</div>
+
+<!-- SCREEN 4: Passport -->
+<div class="screen" id="s3">
+  <div class="eyebrow">Your passport</div>
+  <div class="navy-card">
+    <div style="display:flex;gap:12px;align-items:flex-start;">
+      <div class="portrait-circle">👤</div>
+      <div style="flex:1;">
+        <div class="pid-label">Given name</div>
+        <div class="pid-value">Visitor</div>
+        <div class="pid-label">Passport no.</div>
+        <div class="pid-number">GC-2026-00487</div>
+        <div style="display:flex;gap:16px;">
+          <div><div class="pid-label">Issued</div><div style="font-size:11px;color:rgba(255,255,255,0.65);">Sep 17, 2026</div></div>
+          <div><div class="pid-label">Stamps</div><div style="font-size:11px;color:rgba(255,255,255,0.65);">0 of 5</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="stamp-row">
+      <div class="stamp-dot">BR</div>
+      <div class="stamp-dot">JP</div>
+      <div class="stamp-dot">IN</div>
+      <div class="stamp-dot">FR</div>
+      <div class="stamp-dot">KE</div>
+    </div>
+  </div>
+  <div class="body">Your passport has been issued. Find the five country stations and tap in to collect your stamps.</div>
+  <button class="gold-btn" onclick="go(4)">Begin your journey</button>
+</div>
+
+<!-- SCREEN 5: Stamps -->
+<div class="screen" id="s4">
+  <div class="country-banner" id="cbanner" style="background:#1a0a0f;">
+    <div class="country-code-lg" id="ccode">JAPAN</div>
+    <div class="country-name-sm" id="cname">Asia · stamp 1 of 5</div>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="cprog" style="width:20%"></div></div>
+  <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:12px;" id="cprog-label">1 of 5 stamps</div>
+  <div style="background:#0d1f4a;border-radius:10px;height:82px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
+    <div style="text-align:center;font-size:11px;color:rgba(255,255,255,0.3);">
+      <div style="font-size:22px;margin-bottom:4px;">🧑‍🎨</div>
+      PrismaLive portrait rendering
+    </div>
+  </div>
+  <div class="stamp-earned-card">
+    <div class="shield" id="cshield" style="background:#CC0022;"><div class="shield-code" id="scode">JP</div></div>
+    <div>
+      <div style="font-size:12px;color:#F0B429;font-weight:600;" id="stitle">Japan stamp earned</div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.35);" id="sremain">4 stamps remaining</div>
+    </div>
+  </div>
+  <div class="body" id="ccopy">31 million tourists visit Japan each year. Yours took one tap.</div>
+  <button class="gold-btn" id="cnext" onclick="nextCountry()">Find the next station</button>
+</div>
+
+<!-- SCREEN 6: Congrats -->
+<div class="screen" id="s5">
+  <div class="confetti-zone" id="cf-zone">
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;">
+      <div style="border:2px solid #F0B429;border-radius:13px;background:#0d1f4a;padding:18px 22px;text-align:center;">
+        <div style="font-size:9px;letter-spacing:0.14em;color:rgba(240,180,41,0.55);font-weight:600;margin-bottom:7px;">PASSPORT COMPLETE</div>
+        <div style="font-size:13px;font-weight:700;color:#F0B429;letter-spacing:0.06em;margin-bottom:4px;">BR · JP · IN · FR · KE</div>
+        <div style="font-size:19px;font-weight:700;color:#fff;letter-spacing:0.04em;">GC-2026-00487</div>
+      </div>
+    </div>
+  </div>
+  <div class="pf-head" style="text-align:center;font-size:24px;margin-bottom:4px;">Congratulations.</div>
+  <div style="font-size:13px;color:#F0B429;text-align:center;font-weight:600;margin-bottom:10px;">You are now a Global Citizen.</div>
+  <div class="body" style="text-align:center;">Five stamps. Four continents. One tap each. You just traveled the world from a gallery in Grand Rapids.</div>
+  <div style="flex:1"></div>
+  <button class="gold-btn" onclick="go(6)">Extend your adventure</button>
+</div>
+
+<!-- SCREEN 7: Email permalink -->
+<div class="screen" id="s6">
+  <div class="eyebrow">Keep your passport</div>
+  <div class="pf-head" style="font-size:22px;margin-bottom:6px;">Get a permalink.</div>
+  <div class="body">Enter your email and we'll send a link to your passport — stamps, portrait, and citizen ID.</div>
+  <div class="field-label">Email</div>
+  <input class="field-input" placeholder="your@email.com" type="email" id="pl-email" />
+  <div id="pl-confirm" style="display:none;font-size:11px;color:#F0B429;margin-bottom:10px;">✓ Your passport is on its way.</div>
+  <button class="gold-btn" onclick="submitPL()" id="pl-btn">Send my passport</button>
+  <button class="ghost-btn" onclick="go(7)">Skip</button>
+</div>
+
+<!-- SCREEN 8: Local Citizen -->
+<div class="screen" id="s7">
+  <div class="eyebrow">Your journey continues</div>
+  <div class="reveal-card">
+    <div class="reveal-text">
+      Congratulations. You've just visited five countries, as seen through corporations selling you things you don't need.<br><br>
+      <span class="gold">Your neighbors are two miles away.</span><br>
+      Become a Local Citizen.
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div style="font-size:9px;color:#F0B429;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;">Download WanderStamp</div>
+  <a href="https://apps.apple.com/us/app/wanderstamp-digital-passport/id6770178383" class="store-btn">
+    🍎 Download on the App Store
+  </a>
+  <div class="store-btn dim">▶ Google Play — coming soon</div>
+  <div class="divider"></div>
+  <div class="buy-local-wrap">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH0AAAB9CAYAAACPgGwlAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAfaADAAQAAAABAAAAfQAAAAA0rDYSAAAVM0lEQVR4Ae1dzXIcN5IuNJsTe5ponTdigzrOZbcVYW3sad067W1N6rr6IV/AFl/ACvkFJPkFSEveq9meF2DPnCZGilB7T3tzzxzm6o49DsnCfgmgqlCoRHV1N1BdRbMiyAYSWUACCSATiQQqSe6euxa4a4G7FrhrgbsWuGuB29AC4jZUIqvD+PBs9JtkOJFCPkhk8ttEiHEi5VwOBn+5Tq/O59OTZYb7a/69FUx/ePjuGAx+DkZO6pkpv/lw8exlPc7tT+0t02lU74u90yQRX4JNo+asumP8XvPG6g7mZ4+/f7GXDC7A8P8AVf+wHmXi83/83dHgb/97MVvvvduD3buR/vDx92eQ08cBWDCXMjn9OH06C5BXr7LoFdMDMjxnkhTJdJhen/5perLIgbc80Bumf3b4fiJEctmQH/Mkkb+XUlziHVLcJqveI+YnafL21zDy+8P0x+8vhEwOa5knxPleevXKHrVa4RtSZxnXvlskziA+vvswfXZegG5XqDdMf3j0nhg34Zp/1RRNjB8OhmcrO0058yWYf54ke+gA/4WZ4/Y8vWH6Z/6RvryS1/ebGF5I6xdS0nQ/Wo+FYpHIdHpbOsBgvcrvDluk8kdP6aP9wf5rT1oJ/PGHJ2/25PUDGHLOSwkrI/IA77xIRPrp4dH3P8MY9PrfDs8OVr7WUYTejHRqv7opHsy8b8vyVe1tFMNGSp43L3Seq/TqtMks481jBwm9GemqbeQAFjj+uRnsEwMbP6Slf7h4+iiRgw1GvikG9oJ9McTI/++mSmJj+mIi9mqk69EpzrAcO+AaBbL93qajjqbrG7F3kiSDZ778uTINbEliY52Zpiav6Em9YHpT7Rva+dGfp0+hcG33/Ovh+0M5EF+safnTM8d2Rbfydi+md0yhq9foaC61pRqg2ajjfPjhyQnNHGD8iVH8liuynvRFuRuuqMjOkx8evXsFIia7IMSIinOUTX8nNAOkg+S5b71/nQwPgLfAX6efTo90PXLE141bUO5h5y3eQzPAxx+eHq2/5ItH0yY5d5rpa2nkWD61YTkjZXJNWb8JX6K+01lFztjMf/HUXptIyR1KiAUZbkIocJ6ycrCmaf+TR7tfYgl4L0fucKCzMn0/2Tv0tZsU4tXHi6dvfOmx4MPB/jFG+QGXP9HEwbsIa53pJKevB/uHQqb3pBj8Mkyvpuz6djD4HA3MtJlYkDmVSYgOgt3+OVsIRMuuaGLpWQFsVaaTJn4DCxYaD7Zy8TX9Ulw5NrqEekaU3vhwkVuLj6sliQUt76rw7kJaYzotd4jRbFMIcabTrVTIaitWBEXyf0WkvZBS4Nji0ncsuMPA1pgOmYfR7X8q6TL9qx+7SyniP7tETRNaWmG6HiW8AlQQKQ9sixa5OhVpdkj8ux1rK1zjRjWmffq26AhRTitMFwN1EGElvXrDYyXaLhHmXOHGMYNL6iQsOtNpbdvcmCG+tEd751pMyrcemkasMupB3jU4OtPr1ttM5UfQ5i9UR2ESdw0yzpIzjg61K8cldBAWnekbNMaYHBOaioS22xT75uzyDJswk7Zp2bS86EyvaYxZDdF+keBbytVkFjLJGJI42T4KWU7MvKIy3axt2cbAXvVGu1Ww0f0Us0Ga5S1/z+H51/Ic9u5gUZkuhHzkqdqM9qrJqRDp3KjxvJYkZLb1Jt4lNGqBqEyHBY5dU8MQ8yNRpxgvr6ljNGX8jLXTN6pqfKRhcr2IX8r2JcRm+gFLYipzJhPjsSX5ANuV37C4BZCcD1klqkBpJ4RO+89cSV3ukDa9kZnOW+E46xbdEEG+61jTvwGBeadAeEmeKnSKpQuNSu7OHncpm2a7jTsXjra1qn3BU67C3sYxTCU538mHDEc3IuXNw1LOOkk0Q1S0kS6TdMSUR6ClB955MAxHZyCSrddecvO28xUwBEZjuvAcSOhLw7h0muXYxIWrOMRPF0QPSxsDjMJ0ZUb1bKVK0c+RXmMhnJulJ9O83QRFYTrs7S9RXXYaxDLuD91sihVU8WZWOib9yPjHr8igO8nBma52yehYL/uIBV3ixyZ1GKg3gJiViBDTvjGcmjk4042yw7JQ4ohQHxtpmAzHXIW6YRLmKKuHBWV6nbIDWT7l1uf15O0+Va3LfU4glpFp95Q2pyDoOt3c5MSWTtd2sQkdBVIH1vVJcaKFJ7KPnZhqEozpynDhPWgov+nLkobkd7NLiTzeuqZ/UD7qWhQpDwHKlNo5TLjf7fpy4mDTe825M2i4N7WesKaddv6jGCWGlx4za4k+iCuvMYZEwr7A8Sd9s2XGcHofJlz5mpxEdulMGYzpqCD1aOaR3/ZFeQMzLlGBMVOJMqjmRItevZCpltH2i1xGxHx1A2YBay0UhOnmoILdo/MK7MmbszzS4YA5B1/LcFJGMQsc+U600ExBPn6oJtsWlepjJsDlSZ8q8MiAIDJ9kFzPr+Ww4jAhksGyL7IcRiO6Qpx7lhi135KIml/UfySAdAEofbUdhylgTCPe15EY/K1BYuscbkEGRlOnqd195k0tbnS3HLaAX7gZNI1DwTtt6xBkkOm9acU6izcQ7Oikq8Gb6CPK572O4dABoPOQAwhmDf6hAxMkHvjUsNCtp3e1by5Sv3buuTTAjIyisfGtFfiV52t505DP7erSvW/mqs8vbDjugju1b6HQ8rnsqkWOmD4G0rFpTO+lLJtGlEFKJHV6i9qQobLRVnPcOkm4Rb2LgrKbL6lzRH22Zjrtm6O5Jl4qMVygAJHCMis1PN0iYb8HS0jpEcn9UrpJFKmYJYKOOtvPDXWOeQGpfOJDOWIW6eUQnZPHSCsDETM7a7NKggGYDn/hS0cOiyt5lW/IUMfEO7itSjlijCrvQbHDaG80u1TeXQPQ5vQ+Mbtva5BXRTUj2mIwcISYZJiKEa72jKu8s3T212dOJe3acxukYfgl8qsyTxeCK1JEZXZR9EuZz2guPWueCHJfbxRvk+nEnONGVK1Cqp4pG6v1sXpPjXo7h+Wqu9uNOXVpv5SHMSrNnkIOUktU32g1WFjandgiJ38ZAU0Pb9Hb4ESQnXWj8NbTO1cKZK+aq41cJhmWPb5RkaU3+r1Kbqb7iXJdyvHpShNE3tijXiWqO9tztJqA/Ba98msGYQTJc0niCUu3P2LO/yfsFh4zeAUIStufp8+mBaAaIoseOoYjpkABv29fzWALSNSRXtejt6BZ+cuDueflPOTnZrSPbXhT3zVjKl7a7zrhieoUqxgOulbNLJSv0k2cAkwUJ2DjXjAclel6CSJHfN22g8q0LKcxQg5vkr2Jk2vjwxFKs6+RtU6+fJQY3vD+GTP1ezpZRUTx5W0IjcJ0koEk9+hOV9BVML0yOjekGq9pOezIRdcvb5UC5xSvRqj2u3dSGkTXYHieGzxv8rAdEINDOxo6HIXpJAMhs4jhE4vg4A6EJBet/ClYdDAYQppMs877pGSdGkOKm1QTx1cdG45wOxP/1yrkQcwpPgrT7YrlYSHmeThQoNbfrrECVyWGOgudtkGn4kdi/opYYHn/aNPvt5pbLpd5dnZgIL+yoyHD7TEdCpDZugxGv5LDHpHRVIHzEUMbRXT5r2a+ODWK4wz4MxWGhv7h4sn9rb1nfFM8tqpjmWWjLtmMydReloxpGbfJtOtjDil0ECfHTnpjBc55rxI1u4RvKgmhAKl4i3XaMZPdyBhqzpm0rUBRR7raNXJGYmjjAz/SsJ7uycNaGDPahYgyxUdluqLduQQQS6tRVifnd1yK00fvfy1P1cKY1RwzY/g1e1Sma5lEH8LhnspohFHi3TFhqveqJts5l8ttgJGFEfVYsnWJoNBFYTp9P43+yAGw6iummS2k+FSpJO6IxXuf9HvOjNCjo8CVeq0AGIWUGF99oAAX+wrV5E0gUZgOQibmb+QSlfnM6eWKY1zRyGP8VN/r0VFgt85N4vRhYB9e6Js0YzGdpx/LHNtnjo458YgutD9+8y7lTeOmXWY8vvgy5PKtDaar60PoS4fuUo00bzJuYPthwVc2WZLv2KbGD0+enQWjLXyjHQcw9o9DES5CZbRtPto5sbiCjGT+35PrWo+Xbcvs4vv0Ad+qHkSU4mMCMAaFoLkzTA9RmduQB+ODUFSLrIAwEReAzUJRmU5ap6uEkCJny3WXbPUOfSxXORPkp0RmmOZ/XHUGjOQeTYPwd/sC+U5M3nBGFHOy3PGGHPpas/rgX4kUmmm4L0C5MxK9FFr8YAXzC7KtKLOhRnsUM2zWevRFQvSqkjcKYORXtshw7F/q5TdYtmGXywZTeAJGTnA+7CsYK444NyRlxCBPUylJ+7efMcHIVIv832CklPzTtPEjLdFIL2OzZY6fqZ0RhfUtmBUPm5cu3nZxnxeP3n3j6r9OeW0oco3oqZ3W8hww8uGb5lqptDFHeZi6DM/fVAH4prv+bnIgJ2WkPDYOqTHnuTYI1Hnx1Nza1SBnjdIJpivjg+sAAZs9TLZHGKUnIHVm1WgExr+24knFWcNOLIdn1Slefl5GKWK/SYaTItZeSBlrSi7dYcuOOr03JRVuTl8Bd5Tjk8Jy8fQ8j+MDt+qEZ+GfNqHRTtOcmZ4nFq4OwgNGJuJHXG32BebkFwDSpUBHLh5kN2aHijhRaPDYpw4xdd/ZZZzOB25bfieYDqag4fVDjgsfL6oaKl3bhRF9CKyRwhQ3xMB5kpA/WVkfVefCii80ziA6fkIHWJgRpAvCf6U0lo8ULwHW+ROWRRdFW34KOqyCt5XnlFUnpnerTthalv9jx7Owd8qr+pPN3YOAtMypTuvoLhVHSlKgSs+kFGs3Mo5VXDdGul27+i1VpvfnyzqTC38Bv11EHnY+7UmfBYOWT99ZyxucFD+uw+R5bBggsSQH6UvoLRNkgXrBKinTKXn81C1pNyyu9FonRjqm9GVOFbZUOa3ZaN05MyCGf3Y1ccqDGJfntSrgHCy4xjl70LKwX6v5UIGNtlZYr1TST2D4IV4Ew+mhlYl4gUsNfq65oWKucbf73wmmO16hI8juS6XRm7oRczECL+yqmj1oG7RWWOdvzxJa5lfFS/n061qFMMiNlqaFwurmsHQBm8Q7wXTGiWCsejzs0GSdAsNp9JoRgTEBZc9VytatvCvPpdAfHmBmism6efvw1UqDjE+bPjjOvemr9nudYLpiIOsVqkZizuyM8EGafEdhbvmCClXws/dKvyTPrScb4TTFW2AV5MSIi9Mors+mN0LlkORg8BcOvi6sE0wnouucCMqVEovMJs4tXzBiH5TxPTFHntPBRLLB74u9kpmW3g4h19W0bimIHqpqwTXn32rfcxM7w/R6JwKLbJm+smIUdEamzyeveEsrirY8R5qSo2RTr9jVIU74b7YUOTYIicFLDxbda3PPWB49KATG1iqMUTUIjZM6w3RFMa4RqaecKu4Ybiq+c/LAvZiPRpn9ffZ1zatmWVVPWk2qHuVOJ8vw5UBdkqzq5biLZyj6N9x32ltfp0Mpew3lbFmqkLkzRplVH39/rkddCUNFIHcrnYLWtTfJ8IWNDTy6mO9fsO79K03blJ+EGRaKlBot2rwq7FdWheGpq82+HCLqc+nC6X6cHCY8X5UGkz9cFKPXWB3HeI/+iofwfnjqmykKvIah1pkOusoVAsDeOaqYW01FSGNHQ07depFYAIOrHUVP1zRtZ6/QRs0ZpvZHENKTDKh+VaM+OclgZolYYqTZjZtnOM7vxInnUW3qTdh097i1WZE80Mu65L7KBPYIZx8iz3vTwC6YXksrVRxT8QmYbK/Ll9fpdc4UNwPdUfYn4PCBm+bEx+aoUKnjoVv8ZOORBQ6j1wYhrDZf3jjAlVG6IQMzD4MnFh+nT2ZMQlIRYRzSFrDOyHRSrsgSRetymQwWGKF5A6PNjkirJv8xV15T3amj7OEWJwrWtgV270Qili6ORyue2XibynUw/LmdTxZGp36bhdv+jTrS6TOUMIJ8s6pSItlbqgMOUhKzT6+Sv9OOGJj8nrxe4Ob0bIZpcnEjoMNK8ZLktXse3Gj/amqk83Jmy3SEsufIY57ZtNXU7XztkdOK0dFeYan2R5d2bZ/nRq6LCTmmLwMcV1N2+81YNOPun0yG0rHgVZsNWt6JM8i5TtBe13oZrQzOHPQ/YOCtgKKO9KY1ICsYbota3oh9uEK9e4VRWTlqrE2YtIeOiwFrlzZNS20Bz9nFy0usLDPzlFYC0UcLTXH2h29oyudGM+GpywXV/rhXIaOp+m1sRSdUy5N+grxIxJQeiI5HMbZrS4XURKIzHRVnBWDd9EzLHPKktemm2cAsaWxwZ8N6Zko/cQTW1Z3DDw2LOr2bNSpHc0WDtpHMTLCwYX0L07oeGj/3zDhgm7CoS7Y0GbKaKyo4b7OSuynL52VbXRG0TV9Upnt3vALtC7fdWOuU51vXM/v162QbBDcq06Fpk78Z95QsYBxCn2FKnjMKHNVplwpc1qbRmE7yHIV4pve9Wz2915yamWUNv8vfaEw3tzIzdQu3L8xk3hFQd+U5NVA0pkOmfcVyQJSOKLEofQd2WZ5T20ZhujI/ena83O3EvjPYpb/r8jwa0+G48NJtDB2n7cSnMz7tdkC7Ls+plYOPdL31yZtRd7md2F6X6rY8D8500tixf+wZ5QkcIa7O22v83ZQEeX7IldyF9XlGV9CRXv+d0f58aDdrnHV/6/zjuyTWgjEdyttrNJJnXU7fJ+vH57TXZbSNX+MfP7Pxdh0OsuGierhIXvgqgyl/7Q/MkRZsO0zmeeMTmfqLiTlEB7TX64EDRVQc4B9813EkKE3exh1xvnNvu7e3UxtkTxCmq9senIsBsgLwiwsA5YPPHr9/Dnk3suBZkGYHBp7yOSonQ2ZHWMGzLO1fvdWFsg+Q4SFmpCDXctklWOGJFc6DXZLnRBTTejmtjQPYM78E8qTxC7tFpGtI7ofem89cvriq7Xr/3KUpyEgnx8OKL7lbUnfi6ig0OuoyLEniAEKEy3LGAXcJC8J0faGPX6bvsoKeskmkBH5YhqOMbslzqnQQ7V0pR31xVgzM6lXZdU2eE71BZHpWcbVs09d3ZaBVv3MgVKZZWO6W0PjZC4d8jcj50ClnS/WhAU5RXEVakPQl5Pm9IDkFzCQo0zO6XCNF3GVSVir/qzZ/trn9gc+2GTTQBb7NCmuOFYXpzYtvB5OOKeOMOYxH/J5AeCrEgmwT2eUJ4fPfLsdfBdOzJnJ98DN4yF9OzITM/y6vuxbYqAX+H9oWVAvXLW2LAAAAAElFTkSuQmCC" alt="Buy Local Michigan — placeholder" />
+    <div class="buy-local-caption">See the bulletin board to find your neighborhood</div>
+  </div>
+</div>
+
+</div></div>
+
+<script>
+const screens = ['s0','s1','s2','s3','s4','s5','s6','s7'];
+const countries = [
+  { code:'JAPAN', name:'Asia · stamp 1 of 5', bg:'#1a0a0f', shield:'#CC0022', sc:'JP', copy:'31 million tourists visit Japan each year. Yours took one tap.', remain:'4 stamps remaining', prog:'20%', count:'1 of 5' },
+  { code:'BRAZIL', name:'Americas · stamp 2 of 5', bg:'#061a06', shield:'#007A3D', sc:'BR', copy:'Brazil receives 6.6 million visitors a year. You crossed from a gallery floor in Michigan.', remain:'3 stamps remaining', prog:'40%', count:'2 of 5' },
+  { code:'INDIA', name:'Asia · stamp 3 of 5', bg:'#1a0d00', shield:'#D05C00', sc:'IN', copy:'9.2 million tourists arrive in India annually. One NFC tap. You\'re in.', remain:'2 stamps remaining', prog:'60%', count:'3 of 5' },
+  { code:'FRANCE', name:'Europe · stamp 4 of 5', bg:'#00000f', shield:'#0033A0', sc:'FR', copy:'France is the most visited country on earth — 90 million tourists a year. One tap.', remain:'1 stamp remaining', prog:'80%', count:'4 of 5' },
+  { code:'KENYA', name:'Africa · stamp 5 of 5', bg:'#001a00', shield:'#006600', sc:'KE', copy:'2 million visitors travel to East Africa each year. You just did it from Grand Rapids.', remain:'All stamps collected', prog:'100%', count:'5 of 5' }
+];
+let cidx = 0;
+
+function go(i) {
+  screens.forEach(id => document.getElementById(id).classList.remove('active'));
+  document.getElementById(screens[i]).classList.add('active');
+  document.querySelectorAll('.step-btn').forEach((b,j) => b.classList.toggle('active', i===j));
+  if (i === 5) launchConfetti();
+  if (i === 4) renderCountry(0);
+}
+
+function renderCountry(i) {
+  cidx = i; const c = countries[i];
+  document.getElementById('cbanner').style.background = c.bg;
+  document.getElementById('ccode').textContent = c.code;
+  document.getElementById('cname').textContent = c.name;
+  document.getElementById('cshield').style.background = c.shield;
+  document.getElementById('scode').textContent = c.sc;
+  document.getElementById('stitle').textContent = c.code.charAt(0) + c.code.slice(1).toLowerCase() + ' stamp earned';
+  document.getElementById('sremain').textContent = c.remain;
+  document.getElementById('cprog').style.width = c.prog;
+  document.getElementById('cprog-label').textContent = c.count + ' stamps';
+  document.getElementById('ccopy').textContent = c.copy;
+  document.getElementById('cnext').textContent = i < 4 ? 'Find the next station' : 'All stamps collected — continue';
+}
+
+function nextCountry() {
+  if (cidx < 4) renderCountry(cidx + 1); else go(5);
+}
+
+function selectStyle(el) {
+  document.querySelectorAll('.style-opt').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function launchConfetti() {
+  const z = document.getElementById('cf-zone');
+  z.querySelectorAll('.cf-piece').forEach(e => e.remove());
+  const cols = ['#FF3B3B','#FF9500','#FFCC00','#34C759','#007AFF','#AF52DE','#FF2D55','#5AC8FA','#FF6B35','#A8FF3E','#FF007F','#00E5FF','#FFD700','#FF4500','#7FFF00','#FF69B4'];
+  for (let i = 0; i < 50; i++) {
+    const p = document.createElement('div');
+    p.className = 'cf-piece';
+    const sz = 5 + Math.random() * 8;
+    const circ = Math.random() > 0.4;
+    p.style.left = (Math.random()*100) + '%';
+    p.style.top = (-5 - Math.random()*15) + 'px';
+    p.style.width = (circ ? sz : sz*1.8) + 'px';
+    p.style.height = sz + 'px';
+    p.style.background = cols[Math.floor(Math.random()*cols.length)];
+    p.style.borderRadius = circ ? '50%' : '2px';
+    p.style.animationDelay = (Math.random()*1.3) + 's';
+    p.style.animationDuration = (1.8 + Math.random()*1.5) + 's';
+    z.appendChild(p);
+  }
+}
+
+(function buildQR() {
+  const g = document.getElementById('qr-grid');
+  const p = [1,1,1,1,1,1,1,1,0,1,0,1,0,1,1,0,1,1,1,0,1,1,0,1,1,1,0,1,1,0,1,1,1,0,1,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,0,1,0,1,0,0,1,0,1,1,0,1,0,0,1,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1,0,0,1,0,1,1,1,1,1,1,1,1,0,1,1,0,1,1,0,0,1,0,1,0,0,1,0,1,0,1,1,0,1,1,0,0,1,0,1,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1];
+  p.forEach(v => { const c = document.createElement('div'); c.className='qr-cell'; c.style.background=v?'#000':'#fff'; g.appendChild(c); });
+})();
+
+function submitPL() {
+  const v = document.getElementById('pl-email').value;
+  if (v && v.includes('@')) {
+    document.getElementById('pl-confirm').style.display = 'block';
+    document.getElementById('pl-btn').textContent = 'Sent';
+    document.getElementById('pl-btn').style.opacity = '0.5';
+    setTimeout(() => go(7), 1400);
+  }
+}
+</script>
+</body>
+</html>
