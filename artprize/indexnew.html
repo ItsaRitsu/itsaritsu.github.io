@@ -52,8 +52,8 @@ p.lead{ font-size:15px; color:#c4c9d6; max-width:560px; margin-bottom:20px; }
 h3.h3{ font-family:var(--serif); font-size:24px; color:#fff; font-weight:700; margin-bottom:10px; }
 .step-body p{ font-size:14px; color:#c4c9d6; margin-bottom:10px; max-width:520px; }
 .step-image{ width:100%; max-width:480px; border-radius:10px; border:1px solid var(--line); margin:14px 0; display:block; }
-.gallery-rotate{ position:relative; width:100%; aspect-ratio:16/9; border-radius:12px; overflow:hidden; border:1px solid var(--line); margin:24px 0; background:var(--navy); }
-.gallery-rotate img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1s ease; }
+.gallery-rotate{ position:relative; width:100%; aspect-ratio:1/1; border-radius:12px; overflow:hidden; border:1px solid var(--line); margin:24px 0; background:var(--navy); }
+.gallery-rotate img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity 1s ease; }
 .gallery-rotate img.on{ opacity:1; }
 .tag-row{ display:flex; gap:14px; margin-top:8px; }
 .tag-row span{ font-family:var(--mono); font-size:10px; color:var(--muted); }
