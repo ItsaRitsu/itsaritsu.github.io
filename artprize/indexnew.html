@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be A Global Citizen — Media Lab Midwest</title>
+<meta property="og:title" content="Be A Global Citizen — Media Lab Midwest">
+<meta property="og:description" content="A participatory AI installation about authenticity, tourism, and the real world around you. ArtPrize 2026, Grand Rapids MI.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0a0a0c; --navy:#141b2e; --navy2:#1b2440;
+  --gold:#f0b429; --gold-dim:rgba(240,180,41,0.14);
+  --muted:#8b93a6; --line:rgba(255,255,255,0.09);
+  --serif:'Playfair Display',serif; --sans:'Inter',sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+body{ background:var(--bg); color:#eceef2; font-family:var(--sans); line-height:1.6; }
+.wrap{ max-width:920px; margin:0 auto; padding:0 24px; }
+a{ color:inherit; }
+
+/* NAV */
+nav{ border-bottom:1px solid var(--line); position:sticky; top:0; background:rgba(10,10,12,0.92); backdrop-filter:blur(8px); z-index:10; }
+.nav-inner{ display:flex; justify-content:space-between; align-items:center; padding:16px 24px; max-width:920px; margin:0 auto; }
+.nav-logo{ font-family:var(--serif); font-weight:700; font-size:15px; }
+.nav-links{ display:flex; gap:26px; font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); }
+.nav-links a:hover{ color:var(--gold); }
+
+/* HERO */
+.hero{ padding:64px 0 40px; text-align:center; }
+.eyebrow{ font-family:var(--mono); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); margin-bottom:18px; }
+h1.h1{ font-family:var(--serif); font-size:56px; line-height:1.05; color:#fff; font-weight:700; margin-bottom:6px; }
+.h1-sub{ font-family:var(--serif); font-style:italic; font-size:22px; color:var(--muted); margin-bottom:26px; }
+.hero-body{ max-width:520px; margin:0 auto 32px; font-size:16px; color:#c4c9d6; }
+.hero-image{ width:100%; max-height:420px; object-fit:cover; border-radius:14px; border:1px solid var(--line); margin-bottom:40px; }
+.stats-row{ display:flex; flex-wrap:wrap; justify-content:center; gap:0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.stat{ padding:18px 22px; text-align:left; border-right:1px solid var(--line); }
+.stat:last-child{ border-right:none; }
+.stat-label{ font-family:var(--mono); font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:5px; }
+.stat-value{ font-family:var(--sans); font-weight:600; font-size:13.5px; color:#fff; }
+
+/* SECTION SHELL */
+section{ padding:72px 0; border-bottom:1px solid var(--line); }
+.sec-eyebrow{ font-family:var(--mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+h2.h2{ font-family:var(--serif); font-size:36px; line-height:1.15; color:#fff; font-weight:700; margin-bottom:16px; max-width:640px; }
+p.lead{ font-size:15px; color:#c4c9d6; max-width:560px; margin-bottom:20px; }
+
+/* STEP BLOCKS */
+.step{ display:grid; grid-template-columns:120px 1fr; gap:24px; margin-bottom:44px; }
+.step-num{ font-family:var(--mono); font-size:11px; color:var(--gold); letter-spacing:0.06em; }
+.step-tag{ font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase; margin-top:4px; }
+h3.h3{ font-family:var(--serif); font-size:24px; color:#fff; font-weight:700; margin-bottom:10px; }
+.step-body p{ font-size:14px; color:#c4c9d6; margin-bottom:10px; max-width:520px; }
+.step-image{ width:100%; max-width:480px; border-radius:10px; border:1px solid var(--line); margin:14px 0; display:block; }
+.gallery-rotate{ position:relative; width:100%; aspect-ratio:16/9; border-radius:12px; overflow:hidden; border:1px solid var(--line); margin:24px 0; background:var(--navy); }
+.gallery-rotate img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 1s ease; }
+.gallery-rotate img.on{ opacity:1; }
+.tag-row{ display:flex; gap:14px; margin-top:8px; }
+.tag-row span{ font-family:var(--mono); font-size:10px; color:var(--muted); }
+
+/* ROSTER (pool of 9 countries) */
+.roster-box{ background:var(--navy); border:1px solid var(--line); border-radius:10px; padding:22px 24px; margin-top:18px; }
+.roster-label{ font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+.roster-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px 18px; }
+.roster-item{ font-size:13px; color:#eceef2; display:flex; justify-content:space-between; border-bottom:1px solid var(--line); padding-bottom:8px; }
+.roster-item .flag{ font-size:15px; margin-right:8px; }
+.roster-item .brand{ font-family:var(--mono); font-size:10px; color:var(--muted); }
+
+/* GALLERY / CONGRATS */
+.gallery-box{ aspect-ratio:16/7; background:linear-gradient(135deg,#1b2440,#0d1220); border-radius:12px; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:52px; margin:24px 0; }
+.congrats{ text-align:center; padding:60px 0; }
+.congrats .globe{ font-size:44px; margin-bottom:18px; }
+.congrats h2.h2{ margin:0 auto 18px; }
+.congrats p.lead{ margin:0 auto 16px; }
+.congrats .cta{ display:inline-block; margin-top:10px; font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); border-bottom:1px solid var(--gold); padding-bottom:3px; }
+.congrats-images{ display:flex; gap:16px; justify-content:center; margin:28px 0; flex-wrap:wrap; }
+.congrats-images img{ width:280px; max-width:44%; border-radius:10px; border:1px solid var(--line); }
+
+/* BUSINESS GRID */
+.biz-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:26px 0; }
+.biz-card{ background:var(--navy); border:1px solid var(--line); border-radius:8px; padding:18px; }
+.biz-icon{ font-size:20px; margin-bottom:8px; }
+.biz-name{ font-family:var(--serif); font-weight:700; font-size:16px; color:#fff; margin-bottom:4px; }
+.biz-owner{ font-family:var(--mono); font-size:10.5px; color:var(--gold); margin-bottom:8px; }
+.biz-addr{ font-size:11.5px; color:var(--muted); }
+.wanderstamp-note{ background:var(--gold-dim); border:1px solid rgba(240,180,41,0.3); border-radius:8px; padding:16px 20px; font-size:13.5px; color:#eceef2; margin-bottom:24px; }
+.wanderstamp-note b{ color:var(--gold); }
+.closing-line{ font-size:15px; color:#c4c9d6; max-width:560px; margin-top:20px; }
+
+/* ABOUT */
+.about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:24px; }
+.person-role{ font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); margin-bottom:6px; }
+.person-name{ font-family:var(--serif); font-size:20px; font-weight:700; color:#fff; margin-bottom:8px; }
+.person-bio{ font-size:13px; color:#c4c9d6; }
+
+/* CONTACT / FOOTER */
+.contact-row{ display:flex; gap:40px; margin-top:20px; flex-wrap:wrap; }
+.contact-item .stat-label{ margin-bottom:4px; }
+footer{ padding:32px 0; text-align:center; font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:0.04em; }
+
+@media (max-width:640px){
+  h1.h1{ font-size:38px; }
+  .step{ grid-template-columns:1fr; }
+  .biz-grid{ grid-template-columns:1fr 1fr; }
+  .roster-grid{ grid-template-columns:1fr; }
+  .about-grid{ grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  const gallery = document.getElementById('galleryRotate');
+  if(!gallery) return;
+  const imgs = gallery.querySelectorAll('img');
+  let idx = 0;
+  setInterval(() => {
+    imgs[idx].classList.remove('on');
+    idx = (idx + 1) % imgs.length;
+    imgs[idx].classList.add('on');
+  }, 3200);
+});
+</script>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Be A Global Citizen</div>
+    <div class="nav-links">
+      <a href="#journey">Journey</a>
+      <a href="#stations">Stations</a>
+      <a href="#local">Local Passport</a>
+      <a href="#about">About</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow">ArtPrize 2026 · Grand Rapids MI</div>
+    <h1 class="h1">Be A&nbsp;&nbsp;Global&nbsp;&nbsp;Citizen</h1>
+    <div class="h1-sub">Or just look like one.</div>
+    <p class="hero-body">Tap into three mystery stations. Watch the commercials. Collect your AI passport stamps. Then find out what's actually real — starting with our neighbors.</p>
+    <img class="hero-image" src="img/11.jpg" alt="Be A Global Citizen — installation concept">
+  </div>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-label">Event</div><div class="stat-value">ArtPrize 2026 — Sep 17–Oct 3</div></div>
+    <div class="stat"><div class="stat-label">Location</div><div class="stat-value">Grand Rapids, Michigan</div></div>
+    <div class="stat"><div class="stat-label">Venue</div><div class="stat-value">Kendall College of Art and Design<br>Woodbridge N. Ferris Building<br>17 Pearl St NW</div></div>
+    <div class="stat"><div class="stat-label">By</div><div class="stat-value">Media Lab Midwest</div></div>
+    <div class="stat"><div class="stat-label">Entry</div><div class="stat-value">Free & open to the public</div></div>
+  </div>
+
+  <!-- VISITOR JOURNEY -->
+  <section id="journey">
+    <div class="sec-eyebrow">Visitor Journey</div>
+    <h2 class="h2">Start here. End somewhere real.</h2>
+    <p class="lead">A participatory installation using generative AI, NFC passports, and a live gallery screen. No app download. Bring your phone.</p>
+
+    <!-- STEP 01 -->
+    <div class="step" style="margin-top:40px;">
+      <div><div class="step-num">Step 01</div><div class="step-tag">Start Here</div></div>
+      <div class="step-body">
+        <h3 class="h3">Passport Control</h3>
+        <!-- Open item: staff-photo vs. selfie-upload is still pending with Aaron. Copy below assumes staff-photo, matching current build. Revise if that changes. -->
+        <p>A Media Lab Midwest photographer-actor greets you at the entry station — passport control reimagined as a party. They take your portrait, just like a real passport photo.</p>
+        <p>Tap the NFC tag. Your photo loads into a secure digital passport on your own phone. Your journey begins.</p>
+        <img class="step-image" src="img/10.jpg" alt="Original photo transformed into an AI-rendered passport scene">
+        <div class="tag-row"><span>No app</span><span>· No login</span><span>· Bring your phone</span></div>
+      </div>
+    </div>
+
+    <!-- STEPS 02-03 -->
+    <div class="step" id="stations">
+      <div><div class="step-num">Steps 02–03</div><div class="step-tag">The Tour</div></div>
+      <div class="step-body">
+        <h3 class="h3">Three mystery stations.</h3>
+        <p>At each station, tap the card — you won't know which country it is until it happens. A real corporate commercial plays while PrismaLive composites you into the scene. When it ends, your stamp arrives.</p>
+        <p>No flags to choose from. The system decides which of nine countries you land in — the same way an algorithm once decided what "the world" looked like on your screen, without ever asking you.</p>
+        <p>Every stamp is yours to keep — a beautiful AI-generated souvenir of the world tour you were sold.</p>
+
+        <div class="roster-box">
+          <div class="roster-label">The full roster — what you might get</div>
+          <div class="roster-grid">
+            <div class="roster-item"><span><span class="flag">🇯🇵</span>Japan</span><span class="brand">Toyota</span></div>
+            <div class="roster-item"><span><span class="flag">🇮🇳</span>India</span><span class="brand">Hindustan Unilever</span></div>
+            <div class="roster-item"><span><span class="flag">🇨🇴</span>Colombia</span><span class="brand">Postobón</span></div>
+            <div class="roster-item"><span><span class="flag">🇫🇷</span>France</span><span class="brand">L'Oréal</span></div>
+            <div class="roster-item"><span><span class="flag">🇰🇪</span>Kenya</span><span class="brand">Safaricom</span></div>
+            <div class="roster-item"><span><span class="flag">🇸🇦</span>Saudi Arabia</span><span class="brand">Saudi Telecom</span></div>
+            <div class="roster-item"><span><span class="flag">🇨🇳</span>China</span><span class="brand">Alibaba</span></div>
+            <div class="roster-item"><span><span class="flag">🇺🇸</span>United States</span><span class="brand">Budweiser</span></div>
+            <div class="roster-item"><span><span class="flag">🇧🇷</span>Brazil</span><span class="brand">Sponsor tbd</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 04 -->
+    <div class="step">
+      <div><div class="step-num">Step 04</div><div class="step-tag">View Results</div></div>
+      <div class="step-body">
+        <h3 class="h3">The live gallery screen.</h3>
+        <p>Every AI transformation displays in real time on a large central screen — a constantly updating gallery of Grand Rapids residents placed inside the world.</p>
+        <p>Visible from beyond the installation walls, the screen draws in new visitors through the spectacle of others being transformed. The piece recruits itself.</p>
+        <div class="gallery-rotate" id="galleryRotate">
+          <img src="img/4.jpg" class="on" alt="Live gallery screen example — visitor composited into Japan scene">
+          <img src="img/5.jpg" alt="Live gallery screen example — visitor composited into Saudi Arabia scene">
+          <img src="img/6.jpg" alt="Live gallery screen example — visitor composited into France scene">
+          <img src="img/7.jpg" alt="Live gallery screen example — visitor composited into India scene">
+          <img src="img/8.jpg" alt="Live gallery screen example — visitor composited into Kenya scene">
+          <img src="img/9.jpg" alt="Live gallery screen example — visitor composited into Colombia scene">
+        </div>
+        <p style="font-family:var(--mono); font-size:10px; color:var(--muted);">Powered by PrismaLive · Aaron Sundman</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONGRATS -->
+  <!-- Assumption: keeping the reveal purely celebratory here, per current draft — critique moved to the Local Citizen section below. Flag if that wasn't intentional. -->
+  <section class="congrats">
+    <div class="globe">🌍</div>
+    <h2 class="h2">Congratulations,<br>Global Citizen.</h2>
+    <div class="congrats-images">
+      <img src="img/12.jpg" alt="Aaron's real ArtPrize Global Citizen passport — Japan stamp">
+      <img src="img/13.jpg" alt="Ritsu's real ArtPrize Global Citizen passport — Colombia stamp">
+    </div>
+    <p class="lead">You just toured the globe — inside a cherry blossom festival, a Bollywood dance, at the Eiffel Tower at night. Without ever leaving an art gallery in Grand Rapids!</p>
+    <p class="lead">Now we invite you to be a <strong style="color:#fff;">LOCAL CITIZEN.</strong></p>
+    <a href="#local" class="cta">See the Local Passport ↓</a>
+  </section>
+
+  <!-- LOCAL PASSPORT -->
+  <section id="local">
+    <div class="sec-eyebrow">The Local Passport</div>
+    <h2 class="h2">Grand Rapids is the real trip.</h2>
+    <p class="lead">See the nine businesses below — all owned and operated by real Grand Rapidians, all within walking distance of KCAD.</p>
+
+    <div class="wanderstamp-note">
+      <b>WanderStamp</b> is the app that holds your local passport. Tap the NFC card at any business below to collect a stamp — no purchase required.
+      <!-- Open item: completion mechanic for this 9-business roster hasn't been decided. Old 20-business version had a "collect 10, win a prize" reward — that logic doesn't map cleanly to 9. Left unstated below rather than invented. -->
+    </div>
+
+    <div class="biz-grid">
+      <div class="biz-card"><div class="biz-icon">☕</div><div class="biz-name">Lantern Coffee Bar and Lounge</div><div class="biz-owner">Jon Bailey &amp; Steve Wiltjer</div><div class="biz-addr">100 Commerce Ave SW</div></div>
+      <div class="biz-card"><div class="biz-icon">☕</div><div class="biz-name">Morning Ritual Coffee Bar</div><div class="biz-owner">Alyx &amp; Adam Voss</div><div class="biz-addr">150 Ottawa Ave NW</div></div>
+      <div class="biz-card"><div class="biz-icon">☕</div><div class="biz-name">Sugar Bar</div><div class="biz-owner">Melissa VandenBerg</div><div class="biz-addr">132 Monroe Center St NW</div></div>
+      <div class="biz-card"><div class="biz-icon">🍽️</div><div class="biz-name">Littlebird</div><div class="biz-owner">Sarah Wepman</div><div class="biz-addr">95 Monroe Center St NW</div></div>
+      <div class="biz-card"><div class="biz-icon">🍽️</div><div class="biz-name">Garden District</div><div class="biz-owner">Raphael &amp; Jessica Jones</div><div class="biz-addr">55 Monroe Center St NW</div></div>
+      <div class="biz-card"><div class="biz-icon">🍽️</div><div class="biz-name">San Chez Bistro</div><div class="biz-owner">Dan &amp; Cindy Schneider</div><div class="biz-addr">38 Fulton St W</div></div>
+      <div class="biz-card"><div class="biz-icon">👗</div><div class="biz-name">Courage &amp; Soar</div><div class="biz-owner">Kayla &amp; Alex Benda</div><div class="biz-addr">40 Monroe Center St NW</div></div>
+      <div class="biz-card"><div class="biz-icon">👗</div><div class="biz-name">Second Vibess</div><div class="biz-owner">Camille Steverson &amp; Kaitlynn Fitzpatrick</div><div class="biz-addr">13 Division Ave S</div></div>
+      <div class="biz-card"><div class="biz-icon">👗</div><div class="biz-name">Boutique Emmanuel</div><div class="biz-owner">Sarah Knapp</div><div class="biz-addr">220 Lyon St NW</div></div>
+    </div>
+
+    <p class="closing-line">Visit these locations, get a stamp, say hello to your neighbors. They're investing in your community — not in corporate ads that sell you things you don't really need.</p>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="sec-eyebrow">About</div>
+    <h2 class="h2">Media Lab Midwest</h2>
+    <p class="lead">Ritsu Katsumata and Aaron Sundman form a Grand Rapids-based creative technology collaborative whose work sits at the intersection of generative AI, human experience design, and civic engagement.</p>
+    <div class="about-grid">
+      <div>
+        <div class="person-role">Co-Founder · Chief Experience Officer</div>
+        <div class="person-name">Ritsu Katsumata</div>
+        <p class="person-bio">Japanese-American sound artist and experience designer. Carnegie Hall to CBGB's — scoring silent films, building immersive installations, designing human-centered digital experiences across Dentsu, Wieden+Kennedy, Cornell University, and Ford Motor Company.</p>
+      </div>
+      <div>
+        <div class="person-role">Co-Founder · Chief Technology Officer</div>
+        <div class="person-name">Aaron Sundman</div>
+        <p class="person-bio">Technology evangelist with 30 years in enterprise digital innovation. RFID Business Development Leader at CCL eAgile. Creator of the PrismaLive AI platform.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section>
+    <div class="sec-eyebrow">Contact</div>
+    <h2 class="h2">Get in touch.</h2>
+    <div class="contact-row">
+      <div class="contact-item"><div class="stat-label">Email</div><div class="stat-value">ritsu@ritsu.com</div></div>
+      <div class="contact-item"><div class="stat-label">Text</div><div class="stat-value">+1.616.802.4533</div></div>
+      <div class="contact-item"><div class="stat-label">Collaborative</div><div class="stat-value">medialabmidwest.com</div></div>
+    </div>
+  </section>
+
+  <!-- EVENT DETAILS -->
+  <section style="border-bottom:none;">
+    <div class="sec-eyebrow">Event Details</div>
+    <h2 class="h2">ArtPrize 2026</h2>
+    <div class="stats-row" style="border:1px solid var(--line); border-radius:8px;">
+      <div class="stat"><div class="stat-label">Dates</div><div class="stat-value">Sep 17 – Oct 3, 2026</div></div>
+      <div class="stat"><div class="stat-label">Location</div><div class="stat-value">Grand Rapids, Michigan</div></div>
+      <div class="stat"><div class="stat-label">Venue</div><div class="stat-value">Kendall College of Art and Design<br>Woodbridge N. Ferris Building<br>17 Pearl St NW, Grand Rapids, MI 49503</div></div>
+      <div class="stat"><div class="stat-label">Admission</div><div class="stat-value">Free & open to the public</div></div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  Be A Global Citizen · Media Lab Midwest · ArtPrize 2026<br>
+  The world tour was commercial. Your neighborhood is real.
+</footer>
+
+</body>
+</html>
