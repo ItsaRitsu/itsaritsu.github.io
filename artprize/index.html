@@ -161,10 +161,16 @@ window.addEventListener('DOMContentLoaded', () => {
       track.style.transform = 'translateX(-' + (current*100) + '%)';
       dots.forEach((d,i) => d.classList.toggle('on', i === (current % n)));
     }
-    function nextSlide(){ current++; render(true); }
+  function nextSlide(){
+      current++;
+      render(true);
+      if(current >= n){
+        setTimeout(() => { current = 0; render(false); }, 750);
+      }
+    }
     function goTo(i){ current = i; render(true); resetTimer(); }
-    track.addEventListener('transitionend', () => {
-      if(current === n){ current = 0; render(false); }
+    document.addEventListener('visibilitychange', () => {
+      if(!document.hidden){ current = current % n; render(false); resetTimer(); }
     });
     function resetTimer(){ clearInterval(heroTimer); heroTimer = setInterval(nextSlide, 3000); }
     stage.addEventListener('mouseenter', () => clearInterval(heroTimer));
