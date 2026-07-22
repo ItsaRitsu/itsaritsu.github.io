@@ -132,6 +132,44 @@
     <h1>The <em>Somatic Supercomputer</em></h1>
     <p class="dateline">Record dated July 18, 2026 · Ritsu Katsumata</p>
   </header>
+  <!--
+  ============================================================
+  SNIPPET: link from the working record to the Introduction.
+  ============================================================
+  Paste the <a> tag below wherever you want the link to appear
+  on your working-record page. Two things to know:
+
+  1. href="introduction.html" is a RELATIVE path. It means
+     "a file named introduction.html sitting in the same folder
+     as this page." As long as both files live side by side in
+     your repo, this just works. If you later move the intro into
+     a subfolder called, say, /book/, change it to
+     href="book/introduction.html".
+
+  2. Everything between <a ...> and </a> is the clickable text.
+     Rewrite it in your own words freely.
+
+  The <style> block underneath is OPTIONAL. If your working-record
+  page already has its own CSS, delete the <style> block and the
+  link will inherit your existing look. It's here only so the link
+  isn't naked if you want something ready-made.
+-->
+
+<!-- ---------- the link itself (this is the part you need) ---------- -->
+<p class="record-entry">
+  <a class="record-link" href="introduction.html">
+    Read the Introduction &rarr;
+  </a>
+  <span class="record-note">Working draft, published <time datetime="2026-07-22">July 22, 2026</time>.</span>
+</p>
+
+<!-- ---------- optional styling; delete if your page has its own ---------- -->
+<style>
+  .record-entry   { font-family: Georgia, serif; margin: 1.2rem 0; }
+  .record-link    { color: #7c2d12; text-decoration: none; font-size: 1.1rem; }
+  .record-link:hover { text-decoration: underline; }
+  .record-note    { display: block; color: #6b6b6b; font-size: 0.85rem; margin-top: 0.2rem; }
+</style>
 
   <h2>The thesis</h2>
   <div class="thesis">
