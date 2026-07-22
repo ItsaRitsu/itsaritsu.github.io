@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Somatic Supercomputer — Ritsu Katsumata</title>
+<meta name="description" content="The somatic supercomputer: the human body as a sophisticated parallel processor. A term and framework by Ritsu Katsumata. Book in development.">
+<meta name="author" content="Ritsu Katsumata">
+<meta property="og:title" content="Somatic Supercomputer">
+<meta property="og:description" content="The human body as a sophisticated parallel processor. A term and framework by Ritsu Katsumata.">
+<meta property="og:url" content="https://somaticsupercomputer.com">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14100d;
+    --shadow: #241c15;
+    --parchment: #ede4d3;
+    --parchment-dim: #c9bda6;
+    --amber: #c98a3d;
+    --rosin: #8a6642;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'Newsreader', Georgia, serif;
+    font-weight: 300;
+    font-size: 1.1875rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 41rem;
+    margin: 0 auto;
+    padding: 4.5rem 1.5rem 3rem;
+  }
+
+  /* ---- Title block, set like the title page of a score ---- */
+  header { text-align: center; }
+
+  .term-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--rosin);
+  }
+
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    font-size: clamp(2.6rem, 9vw, 4.6rem);
+    line-height: 1.04;
+    letter-spacing: 0.005em;
+    color: var(--parchment);
+    margin: 1.1rem 0 0.4rem;
+  }
+
+  h1 .somatic { font-style: italic; color: var(--amber); }
+
+  .pronounce {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--parchment-dim);
+    letter-spacing: 0.06em;
+  }
+
+  /* ---- The breathing waveform ---- */
+  .wave-wrap {
+    margin: 3rem 0 3.2rem;
+    line-height: 0;
+  }
+
+  .wave-wrap svg { width: 100%; height: auto; display: block; }
+
+  .wave-stroke {
+    fill: none;
+    stroke: var(--amber);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+
+  .wave-ghost {
+    fill: none;
+    stroke: var(--rosin);
+    stroke-width: 1;
+    opacity: 0.35;
+  }
+
+  /* ---- Body prose ---- */
+  main p { margin-bottom: 1.5rem; }
+
+  main p.lede::first-letter {
+    font-family: 'Instrument Serif', serif;
+    font-size: 3.4em;
+    float: left;
+    line-height: 0.82;
+    padding-right: 0.09em;
+    color: var(--amber);
+  }
+
+  .definition {
+    border-left: 2px solid var(--amber);
+    padding-left: 1.4rem;
+    margin: 2.4rem 0;
+    font-weight: 400;
+  }
+
+  .definition em { font-style: italic; }
+
+  .interlude {
+    text-align: center;
+    color: var(--rosin);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 0.35em;
+    margin: 2.6rem 0;
+    user-select: none;
+  }
+
+  a {
+    color: var(--amber);
+    text-decoration: none;
+    border-bottom: 1px solid var(--rosin);
+    transition: border-color 160ms ease;
+  }
+
+  a:hover, a:focus-visible { border-color: var(--amber); }
+
+  a:focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* ---- Provenance record ---- */
+  .record {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--shadow);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 2;
+    color: var(--parchment-dim);
+    letter-spacing: 0.02em;
+  }
+
+  .record .k { color: var(--rosin); }
+
+  footer {
+    margin-top: 2.6rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--rosin);
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 480px) {
+    .page { padding-top: 3.2rem; }
+    body { font-size: 1.09rem; }
+    .definition { padding-left: 1rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <p class="term-label">A term and a book in progress</p>
+    <h1><span class="somatic">Somatic</span><br>Supercomputer</h1>
+    <p class="pronounce">n. the human body, running</p>
+  </header>
+
+  <div class="wave-wrap" aria-hidden="true">
+    <svg id="breathwave" viewBox="0 0 700 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <path class="wave-ghost" id="waveGhost" d=""></path>
+      <path class="wave-stroke" id="wavePath" d=""></path>
+    </svg>
+  </div>
+
+  <main>
+    <p class="lede">In a rehearsal at Carnegie Hall, the conductor leans in and more than a hundred musicians feel each other's hearts stop. The smallest gesture of his hand sets us in motion, but it's more than the baton: his breath and ours, the tension in our facial muscles releasing all the way down to our feet at the same instant, and the first notes, a hundred voices heard simultaneously, arriving in surround sound. Not just in my ears but in my entire body. My own violin vibrates, sending the sound waves through me too.</p>
+
+    <p>No protocol, no central clock, no latency negotiation. A hundred bodies synchronize through breath, skin, and air, and they do it in a single exhale.</p>
+
+    <div class="definition">
+      <p style="margin-bottom:0"><em>Somatic supercomputer</em> is the name I've given to what makes that possible: the human body as a sophisticated parallel processor. Not a metaphor for the brain. The whole instrument. The senses are the inputs, embodiment is the operating system, and self-awareness, expression, and connection run on top of it. AI can produce outputs that resemble ours. It can fake the applications. It cannot run the operating system.</p>
+    </div>
+
+    <p class="interlude" aria-hidden="true">· · ·</p>
+
+    <p>The processors network, and they don't need a conductor to do it. One night, in a borrowed gallery standing empty between exhibitions, I invited artists to bring their own art. A drummer I had never met set up in a room where we couldn't see each other. A dancer claimed a corner. A painter started on a blank wall. A filmmaker danced with her own projections. Somewhere in those two hours, without a word, we found the same pulse, and my music began changing to the shape of the dancer's motions. When I played my last note, only I knew it was my last note. It was everyone's.</p>
+
+    <p>The supercomputer runs at its own clock speed. I draft with machines and judge on foot: read, walk away, let it simmer while life happens, and come back to find an opinion my body formed while I wasn't watching. The machines work in seconds. The verdict takes a walk.</p>
+
+    <p>And I have been duetting with machines for decades. My loop pedal plays my own past back at me, and I play over it, across it, against its structure, melodies overrunning their bars until the memories collide, meld, and transform. Technology has been in the ensemble since the first violin was varnished. The question was never whether the machines join. It's who sets the tempo.</p>
+
+    <p class="interlude" aria-hidden="true">· · ·</p>
+
+    <p>This is becoming a book: what the body computes, why a hundred bodies can compute together, and what that means for how we raise, teach, and employ human beings in the age of machines that imitate us. The thinking unfolds at <a href="https://ritsu.com">ritsu.com</a>. A dated record of the work in progress, thesis and outline as they stand, lives <a href="working-record.html">here</a>.</p>
+  </main>
+
+  <div class="record" role="contentinfo">
+    <div><span class="k">term + framework</span> &nbsp;Ritsu Katsumata</div>
+    <div><span class="k">first documented</span> &nbsp;September 6, 2025, archived working conversation</div>
+    <div><span class="k">published development</span> &nbsp;essays at <a href="https://ritsu.com">ritsu.com</a>, 2025–2026</div>
+    <div><span class="k">this domain</span> &nbsp;registered July 2026</div>
+    <div><span class="k">status</span> &nbsp;book in development</div>
+    <div><span class="k">contact</span> &nbsp;via <a href="https://ritsu.com">ritsu.com</a></div>
+  </div>
+
+  <footer>
+    © 2025–2026 Ritsu Katsumata. All rights reserved.
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  var path = document.getElementById('wavePath');
+  var ghost = document.getElementById('waveGhost');
+  var W = 700, H = 120, MID = H / 2;
+
+  // Composite waveform: a slow fundamental with partials, like a bowed string.
+  function waveD(t, amp) {
+    var d = 'M 0 ' + MID.toFixed(1);
+    for (var x = 0; x <= W; x += 4) {
+      var u = x / W;
+      // Envelope keeps the ends quiet, the middle alive.
+      var env = Math.sin(Math.PI * u);
+      var y = MID + amp * env * (
+        Math.sin(u * 14 + t) * 0.55 +
+        Math.sin(u * 29 - t * 1.7) * 0.28 +
+        Math.sin(u * 47 + t * 0.6) * 0.17
+      );
+      d += ' L ' + x + ' ' + y.toFixed(1);
+    }
+    return d;
+  }
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduced) {
+    path.setAttribute('d', waveD(1.2, 34));
+    ghost.setAttribute('d', waveD(3.8, 20));
+    return;
+  }
+
+  var start = null;
+  function frame(ts) {
+    if (start === null) start = ts;
+    var s = (ts - start) / 1000;
+    // Breath cycle: ~9.5 seconds, amplitude swells and releases.
+    var breath = 0.5 - 0.5 * Math.cos(s * 2 * Math.PI / 9.5);
+    var amp = 12 + breath * 30;
+    path.setAttribute('d', waveD(s * 0.9, amp));
+    ghost.setAttribute('d', waveD(s * 0.9 + 2.6, amp * 0.55));
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
