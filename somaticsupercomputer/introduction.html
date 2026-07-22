@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- This line makes the page scale correctly on phones. Keep it. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Introduction — The Somatic Supercomputer</title>
+  <meta name="description"
+        content="Introduction to The Somatic Supercomputer: How AI Is Helping Us Understand What It Is to Be Human, by Ritsu Katsumata.">
+
+  <!--
+    ============================================================
+    STYLES
+    Everything between <style> and </style> controls how the page
+    looks. CSS is just: "which thing" { "property": value; }.
+    Change a value, refresh the page, see what moved. That's the
+    whole game. The :root block below holds variables so you can
+    recolor or re-space the whole page from one place.
+    ============================================================
+  -->
+  <style>
+    :root {
+      --ink:      #1a1a1a;   /* body text color */
+      --muted:    #6b6b6b;   /* footnotes, captions, back-link */
+      --rule:     #e2e2e2;   /* thin divider lines */
+      --accent:   #7c2d12;   /* links and small flourishes */
+      --measure:  38rem;     /* max text width. Long lines are hard to read;
+                                this caps them at a comfortable span. */
+    }
+
+    /* box-sizing makes width math sane; * means "every element". */
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      /* Georgia is a warm serif that ships on almost every device.
+         The list is a fallback chain: if one isn't available, use the next. */
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.125rem;      /* ~18px base */
+      line-height: 1.7;         /* space between lines; generous = readable */
+      color: var(--ink);
+      background: #fbfaf8;      /* warm off-white, easier than pure white */
+    }
+
+    /* .wrap centers the column and gives it breathing room on the sides. */
+    .wrap {
+      max-width: var(--measure);
+      margin: 0 auto;          /* auto left+right margins = centered */
+      padding: 4rem 1.5rem 6rem;
+    }
+
+    /* The small link back up to the working record. */
+    .back {
+      display: inline-block;
+      margin-bottom: 3rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .back:hover { color: var(--accent); }
+
+    /* Title block */
+    .titles { margin-bottom: 3.5rem; }
+    h1 {
+      font-size: 2.1rem;
+      line-height: 1.2;
+      margin: 0 0 0.4rem;
+      letter-spacing: 0.01em;
+    }
+    .subtitle {
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--muted);
+      margin: 0 0 1.2rem;
+    }
+    .byline {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* A thin rule to separate the title block from the essay. */
+    hr {
+      border: 0;
+      border-top: 1px solid var(--rule);
+      margin: 2.5rem 0;
+    }
+
+    /* Paragraph spacing. Book prose wants space between paragraphs
+       OR first-line indents, not both. This uses spacing. */
+    p { margin: 0 0 1.4rem; }
+
+    /* The one-line "I have been calling it..." beat. Centered and
+       spaced so it lands like a breath between sections. */
+    .beat {
+      text-align: center;
+      font-style: italic;
+      color: var(--muted);
+      margin: 2rem 0;
+    }
+
+    a { color: var(--accent); }
+
+    /* Footnote marker: the little raised number/asterisk. */
+    sup a {
+      text-decoration: none;
+      font-size: 0.7em;
+    }
+
+    /* Footnote block at the bottom. */
+    .notes {
+      margin-top: 3.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+    .notes p { margin: 0 0 0.8rem; }
+
+    /* Colophon: the provenance / trust-anchor note at the very bottom. */
+    .colophon {
+      margin-top: 3rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* On small screens, pull the top padding in a bit. */
+    @media (max-width: 480px) {
+      .wrap { padding-top: 2.5rem; }
+      h1 { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- CHANGE THIS HREF to match your working-record filename. -->
+    <a class="back" href="./index.html">&larr; Back to the working record</a>
+
+    <header class="titles">
+      <h1>The Somatic Supercomputer</h1>
+      <p class="subtitle">How AI Is Helping Us Understand What It Is to Be Human</p>
+      <p class="byline">Introduction &middot; Ritsu Katsumata</p>
+    </header>
+
+    <hr>
+
+    <main>
+      <p>Mara Naselli and I go on walks with our dogs. While I was workshopping what I wanted to present at TechWeek Grand Rapids (topic: Beyond the Algorithm), I was trying to articulate why I believe that making and creating is the most important human skill there is. I started telling Mara how my musical training informs my thinking, in my work as a digital strategist as well as at home as a mother of adult children. She could relate. She plays viola, rides horses, trained as a dancer, is raising two boys, and has a deep awareness of what mind and body do together. Somewhere on that walk she said, &ldquo;let me give you a word for this: somatic.&rdquo;</p>
+
+      <p class="beat">I have been calling it the somatic supercomputer ever since.</p>
+
+      <p>What did I mean by &ldquo;Somatic Supercomputer&rdquo;? I believe the body is a lived experience, what Thomas Hanna<sup><a href="#note-1" id="ref-1">*</a></sup> called the soma: the living, self-sensing process, the first-person data set. My understanding is that the soma is a multi-sensory input processor working at breakneck speed, turning an instant of stimulation into a feeling, a thought, or a reaction. And that processing does not happen in one place. It runs through the whole system at once: brain, gut, spine, glands, skin. Fight, flight, or freeze if stressful. Joy, sadness, excitement, anger if emotional. Automatic responses too, like the vasovagal shutdown, where the body pulls its own plug. The brain is a major organ of the soma. An important member of the system, but not its master.</p>
+
+      <p>A few months after TechWeek, I heard Michael Pollan on the Ezra Klein podcast, describing a moment when he was documenting his inner thoughts for a research experiment. He was standing in line at a bakery deciding whether to buy a roll. There was the smell of baked goods and cheese. There was the image of the woman in front of him wearing a loud plaid skirt he found hideous. There was his awareness of the other people there, did he recognize anyone? His thoughts inter-infected by one another, one thought coloring the next. The researcher&rsquo;s conclusion was that Pollan &ldquo;had very little inner life.&rdquo;</p>
+
+      <p>I thought the exact opposite. What Pollan was describing in that bakery is an incredibly fast processor of multi-sensory inputs that took a single unremarkable moment in a bread line and turned it into a smell, a sight, a social observation, an aesthetic judgment, a hunger pang, and a purchase decision. All automatically and simultaneously. What Pollan&rsquo;s researcher called &ldquo;little inner life,&rdquo; I would call computing.</p>
+
+      <p>That is the claim of this book: the human soma is a sophisticated parallel processor. The senses are its inputs. Embodiment is its operating system. Self-awareness, expression, and connection are its native applications. AI can imitate this system&rsquo;s outputs, often impressively, but it cannot run the system. It doesn&rsquo;t breathe, get goosebumps, or feel the exhaustion of a long day or the exhilaration of jumping into ocean waves. It can describe these things fluently, beautifully, in seventeen languages, but only if we experience them first and describe them for it.</p>
+
+      <p>I am neither a technophobe nor a tech maximalist. I am a daily user of AI tools for my work as a digital strategist, artist, and musician. I believe AI has a place in our world in a way that can improve our lives, but only if we give it the right jobs. And that starts with understanding our roles as human beings first.</p>
+
+      <p>The book comes in three parts. Part I is a diagnosis of the machine: what AI actually does when it produces human-seeming output, and the specific mechanisms by which imitation persuades. Part II describes the system AI cannot run, from the inside, with the evidence I have lived. Part III is about practice: what any of us can actually do, and what a school or a workplace built on this understanding would look like. The book does not end with a conclusion so much as an open door; the practices in Part III need to be taken up and tested beyond these pages, and the last chapter says where.</p>
+
+      <p>Humans can do more than impress algorithms, though social media has been training us to optimize how we look on camera, how we sound in a clip, how many seconds we hold someone&rsquo;s attention. We have been using our OS to serve the apps. Let&rsquo;s try to remember which one of us actually has the body.</p>
+    </main>
+
+    <!-- FOOTNOTES -->
+    <section class="notes">
+      <p id="note-1">
+        <a href="#ref-1">*</a> Thomas Hanna, &ldquo;What Is Somatics?&rdquo;,
+        <em>Somatics: Magazine-Journal of the Bodily Arts and Sciences</em>, 1986;
+        later expanded into book form in 1988. Hanna, a philosopher, coined the term
+        &ldquo;somatics&rdquo; in 1976 and defined the soma as &ldquo;the body as perceived
+        from within by first-person perception.&rdquo;
+      </p>
+    </section>
+
+    <!-- Provenance line. Edit the date; add your TrustAnchor link when ready. -->
+    <p class="colophon">
+      Introduction, working draft. Published to somaticsupercomputer.com as part of an open working record.
+      &copy; Ritsu Katsumata 2026.
+    </p>
+
+  </div>
+</body>
+</html>
