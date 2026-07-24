@@ -50,16 +50,24 @@
       padding: 4rem 1.5rem 6rem;
     }
 
-    /* The small link back up to the working record. */
-    .back {
-      display: inline-block;
+    /* Site navigation (shared across the three pages; styled for this
+       page's lighter palette so the links sit quietly above the title). */
+    .sitenav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.9rem;
       margin-bottom: 3rem;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
       color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 0.02em;
     }
-    .back:hover { color: var(--accent); }
+    .sitenav a { color: var(--muted); text-decoration: none; }
+    .sitenav a:hover { color: var(--accent); }
+    .sitenav .here { color: var(--accent); }        /* the page you are on */
+    .sitenav .sep { opacity: 0.5; }
 
     /* Title block */
     .titles { margin-bottom: 3.5rem; }
@@ -139,7 +147,13 @@
 <body>
   <div class="wrap">
 
-    <a class="back" href="./index.html">&larr; Back to the somatic supercomputer</a>
+    <nav class="sitenav" aria-label="Sections">
+      <a href="index.html">The Idea</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <span class="here" aria-current="page">The Book</span>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="working-record.html">The Record</a>
+    </nav>
 
     <header class="titles">
       <h1>The Somatic Supercomputer</h1>
@@ -150,7 +164,7 @@
     <hr>
 
     <main>
-      <p>Mara Naselli and I go on walks with our dogs. While I was workshopping what I wanted to present at TechWeek Grand Rapids (topic: Beyond the Algorithm), I was trying to articulate why I believe that making and creating is the most important human skill there is. I started telling Mara how my musical training informs my thinking, in my work as a digital strategist as well as at home as a mother of adult children. She could relate. She plays viola, rides horses, trained as a dancer, is raising two boys, and has a deep awareness of what mind and body do together. Somewhere on that walk she said, &ldquo;let me give you a word for this: somatic.&rdquo;</p>
+      <p>Mara Naselli and I go on walks with our dogs. While I was workshopping what I wanted to present at TechWeek Grand Rapids (topic: Beyond the Algorithm), I was trying to articulate why I believe that making and creating is the most important human skill there is. I started telling Mara how my musical training informs my thinking, in my work as a digital strategist as well as at home as a mother of adult children. She could relate. She is a writer and editor who plays viola, rides horses, trained as a dancer, is raising two boys, and has a deep awareness of what mind and body do together. Somewhere on that walk she said, &ldquo;I think the word you are looking for is _somatic_.&rdquo;</p>
 
       <p class="beat">I have been calling it the somatic supercomputer ever since.</p>
 

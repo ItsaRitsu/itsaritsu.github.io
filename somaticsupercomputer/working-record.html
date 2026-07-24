@@ -30,6 +30,27 @@
   }
   .page { max-width: 43rem; margin: 0 auto; padding: 4rem 1.5rem 3rem; }
 
+  /* ---- Site navigation (shared across the three pages) ---- */
+  .sitenav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-bottom: 2.6rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .sitenav a {
+    color: var(--parchment-dim);
+    border-bottom: none;
+  }
+  .sitenav a:hover, .sitenav a:focus-visible { color: var(--amber); border-bottom: none; }
+  .sitenav .here { color: var(--amber); }          /* the page you are on */
+  .sitenav .sep { color: var(--rosin); opacity: 0.55; }
+
   .term-label {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.72rem;
@@ -126,6 +147,14 @@
 </head>
 <body>
 <div class="page">
+
+  <nav class="sitenav" aria-label="Sections">
+    <a href="index.html">The Idea</a>
+    <span class="sep" aria-hidden="true">·</span>
+    <a href="introduction.html">The Book</a>
+    <span class="sep" aria-hidden="true">·</span>
+    <span class="here" aria-current="page">The Record</span>
+  </nav>
 
   <header>
     <p class="term-label">Working record · Book in development</p>
