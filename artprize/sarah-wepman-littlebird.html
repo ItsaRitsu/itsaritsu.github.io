@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Local Citizen — Littlebird</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0a0a0c; --navy:#141b2e;
+  --gold:#f0b429; --gold-dim:rgba(240,180,41,0.12);
+  --muted:#8b93a6; --line:rgba(255,255,255,0.09);
+  --serif:'Playfair Display',serif;
+  --grotesk:'Space Grotesk',sans-serif;
+}
+html{scroll-behavior:smooth;}
+body{ background:var(--bg); color:#eceef2; font-family:var(--grotesk); line-height:1.65; -webkit-font-smoothing:antialiased; }
+a{ color:inherit; }
+img{ display:block; }
+.wrap{ max-width:820px; margin:0 auto; padding:0 40px; }
+
+.kicker{
+  font-size:10px; font-weight:600; letter-spacing:4px;
+  text-transform:uppercase; color:var(--gold);
+  margin-bottom:22px; display:flex; align-items:center; gap:12px;
+}
+.kicker::before{ content:''; display:block; width:24px; height:1px; background:var(--gold); flex:0 0 24px; }
+
+nav{
+  position:fixed; top:0; left:0; right:0; height:70px; z-index:50;
+  border-bottom:1px solid var(--line);
+  background:rgba(10,10,12,0.9); backdrop-filter:blur(10px);
+}
+.nav-inner{ display:flex; justify-content:space-between; align-items:center; height:100%; max-width:820px; margin:0 auto; padding:0 40px; }
+.nav-logo{ font-weight:700; font-size:11.5px; letter-spacing:2px; text-transform:uppercase; }
+.nav-tag{ font-size:10px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
+
+.hero{ padding:165px 0 76px; }
+h1{
+  font-family:var(--serif); font-size:clamp(36px,5.6vw,58px);
+  line-height:1.06; font-weight:900; letter-spacing:-0.03em;
+  color:#fff; margin-bottom:26px;
+}
+.hero-note{ font-size:16px; color:#c4c9d6; max-width:560px; margin-bottom:15px; }
+.hero-note b{ color:#fff; font-weight:600; }
+
+.facts{ display:flex; flex-wrap:wrap; border:1px solid var(--line); margin-top:38px; }
+.fact{ flex:1 1 170px; min-width:0; padding:20px 24px; border-right:1px solid var(--line); }
+.fact:last-child{ border-right:none; }
+.fact-l{ font-size:9px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+.fact-v{ font-size:13.5px; font-weight:500; color:#fff; line-height:1.5; }
+
+section{ padding:70px 0; border-bottom:1px solid var(--line); }
+h2{
+  font-family:var(--serif); font-size:clamp(25px,3.1vw,36px);
+  line-height:1.1; font-weight:900; letter-spacing:-0.03em;
+  color:#fff; margin-bottom:22px; max-width:620px;
+}
+p.lead{ font-size:15.5px; color:#c4c9d6; max-width:600px; margin-bottom:16px; }
+p.lead b{ color:#fff; font-weight:600; }
+p.lead a{ color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(240,180,41,0.4); }
+
+.panel-frame{ margin:8px 0 26px; }
+.panel-caption{
+  font-size:10px; font-weight:600; letter-spacing:2px; text-transform:uppercase;
+  color:var(--muted); margin-bottom:14px;
+}
+.wall-panel{
+  background:#f4f1ea; color:#16171c; padding:52px 54px;
+  border-radius:2px; box-shadow:0 24px 60px rgba(0,0,0,0.45);
+}
+.wall-panel .wp-head{
+  font-family:var(--serif); font-size:clamp(26px,3.4vw,38px); font-weight:900;
+  line-height:1.05; letter-spacing:-0.03em; margin-bottom:26px; color:#0d0e12;
+}
+.wall-panel p{ font-size:16px; line-height:1.68; color:#2c2f38; margin-bottom:20px; }
+.wall-panel p:last-child{ margin-bottom:0; }
+.wall-panel .wp-turn{
+  font-family:var(--serif); font-size:clamp(22px,2.8vw,30px); font-weight:900;
+  letter-spacing:-0.02em; color:#0d0e12; margin:34px 0 20px; line-height:1.1;
+}
+.wall-panel .wp-rent{ font-weight:600; color:#0d0e12; }
+.wall-panel .wp-fine{ font-size:14px; color:#5c606c; }
+.wall-panel .wp-rule{ height:1px; background:rgba(0,0,0,0.13); margin:32px 0; }
+.wall-panel .wp-list{ list-style:none; }
+.wall-panel .wp-list li{
+  display:flex; justify-content:space-between; align-items:baseline; gap:16px;
+  font-size:15px; padding:11px 0; border-bottom:1px solid rgba(0,0,0,0.09);
+}
+.wall-panel .wp-list li:last-child{ border-bottom:none; }
+.wall-panel .wp-list .who{ font-size:11px; letter-spacing:1px; text-transform:uppercase; color:#6a6e7a; text-align:right; white-space:nowrap; }
+.wall-panel .wp-list li.mine .biz{ font-weight:700; }
+.wall-panel .wp-list li.mine{ background:rgba(240,180,41,0.22); margin:0 -14px; padding:11px 14px; }
+
+.attn{ font-size:13.5px; color:var(--muted); max-width:600px; margin-top:4px; }
+
+.ask{ display:grid; grid-template-columns:44px 1fr; gap:22px; padding:30px 0; border-bottom:1px solid var(--line); }
+.ask:last-of-type{ border-bottom:none; }
+.ask-n{ font-family:var(--serif); font-size:34px; font-weight:900; color:var(--gold); line-height:0.9; }
+.ask h3{ font-family:var(--serif); font-size:23px; font-weight:900; letter-spacing:-0.02em; color:#fff; margin-bottom:10px; line-height:1.15; }
+.ask p{ font-size:14.5px; color:#c4c9d6; margin-bottom:10px; max-width:520px; }
+.ask p:last-child{ margin-bottom:0; }
+.ask .yes{ font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:var(--gold); font-weight:600; margin-top:14px; }
+
+.poster-mock{
+  background:#f4f1ea; color:#16171c; width:210px; aspect-ratio:8.5/11;
+  padding:24px 20px; display:flex; flex-direction:column; justify-content:space-between;
+  box-shadow:0 18px 44px rgba(0,0,0,0.5); border-radius:2px; margin:22px 0 8px;
+}
+.poster-mock .pm-top{ font-size:8px; font-weight:600; letter-spacing:2.4px; text-transform:uppercase; color:#6a6e7a; }
+.poster-mock .pm-name{ font-family:var(--serif); font-size:27px; font-weight:900; line-height:0.98; letter-spacing:-0.03em; color:#0d0e12; }
+.poster-mock .pm-station{ font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#0d0e12; margin-top:8px; }
+.poster-mock .pm-foot{ font-size:9.5px; color:#5c606c; line-height:1.5; }
+.poster-note{ font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); }
+
+.callout{ background:var(--gold-dim); border-left:2px solid var(--gold); padding:24px 28px; font-size:15px; color:#eceef2; max-width:620px; margin:26px 0 0; }
+.callout b{ font-weight:700; letter-spacing:1.5px; text-transform:uppercase; font-size:11px; color:var(--gold); display:block; margin-bottom:10px; }
+
+.housekeeping{ border:1px solid var(--line); padding:8px 28px; margin:26px 0 0; max-width:620px; }
+.housekeeping .hk{ padding:20px 0; border-bottom:1px solid var(--line); }
+.housekeeping .hk:last-child{ border-bottom:none; }
+.housekeeping h4{ font-size:12.5px; font-weight:700; letter-spacing:0.4px; color:#fff; margin-bottom:6px; }
+.housekeeping p{ font-size:13.5px; color:var(--muted); }
+
+.img-row{ display:flex; gap:16px; margin:28px 0 0; flex-wrap:wrap; }
+figure{ flex:1 1 240px; min-width:0; }
+figure img{ width:100%; border:1px solid var(--line); border-radius:2px; }
+figcaption{ font-size:10px; font-weight:500; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); margin-top:9px; }
+
+.close-sec{ border-bottom:none; }
+.sig{ margin-top:44px; }
+.sig .name{ font-family:var(--serif); font-size:21px; color:#fff; margin-bottom:3px; }
+.sig .role{ font-size:12px; color:var(--muted); letter-spacing:0.3px; }
+.contact-row{ display:flex; gap:44px; margin-top:26px; flex-wrap:wrap; }
+.contact-item .cl{ font-size:9px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.contact-item .cv{ font-size:14.5px; color:#fff; }
+.contact-item .cv a{ color:#fff; text-decoration:none; border-bottom:1px solid var(--line); }
+
+footer{ padding:60px 40px 48px; text-align:center; font-size:10px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--muted); line-height:2.2; border-top:1px solid var(--line); margin-top:70px; }
+
+@media (max-width:640px){
+  .wrap{ padding:0 22px; }
+  .nav-inner{ padding:0 22px; }
+  .nav-tag{ display:none; }
+  .hero{ padding:126px 0 56px; }
+  section{ padding:56px 0; }
+  .wall-panel{ padding:34px 26px; }
+  .wall-panel .wp-list li{ flex-direction:column; gap:3px; }
+  .wall-panel .wp-list .who{ text-align:left; }
+  .ask{ grid-template-columns:1fr; gap:8px; }
+  figure{ flex:1 1 100%; }
+  .contact-row{ gap:26px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Media Lab Midwest</div>
+    <div class="nav-tag">Local Citizen · ArtPrize 2026</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="kicker">For Sarah Wepman · Littlebird</div>
+    <h1>We built an exhibit<br>about what's fake.<br>It ends at your table.</h1>
+    <p class="hero-note">Sarah, thank you for making time. This is the short version so our meeting can start somewhere past the explaining.</p>
+    <p class="hero-note">Two questions at the end, both yes or no, and three small things I will need from you if the answers are yes. <b>Everything here is a draft you get to change.</b></p>
+
+    <div class="facts">
+      <div class="fact"><div class="fact-l">Your station is live</div><div class="fact-v">Sep 12 through end of Oct</div></div>
+      <div class="fact"><div class="fact-l">Heaviest weeks</div><div class="fact-v">Sep 17 – Oct 3</div></div>
+      <div class="fact"><div class="fact-l">Walk from the exhibit</div><div class="fact-v">Two blocks, KCAD to your door</div></div>
+      <div class="fact"><div class="fact-l">Cost to Littlebird</div><div class="fact-v">None</div></div>
+    </div>
+  </div>
+
+  <!-- THE WALL PANEL -->
+  <section>
+    <div class="kicker">The Reveal</div>
+    <h2>This is the wall they read on the way out.</h2>
+    <p class="lead">Visitors spend twenty minutes inside a fake tour of the world, collecting AI passport stamps from country stations we built for Japan, France, Kenya, and six more. Then they reach this panel, and Littlebird is on it.</p>
+
+    <div class="panel-frame">
+      <div class="panel-caption">Gallery wall panel · draft</div>
+      <div class="wall-panel">
+        <div class="wp-head">Congratulations,<br>Global Citizen.</div>
+        <p>You are standing in a gallery in Grand Rapids holding pretend photographs of yourself on a fake tour of the world, shot through the lens of corporations that want to sell you something.</p>
+        <p>Look up from your phone. Look at the other people in the room.</p>
+        <p>Within a few blocks of where you are standing there are six doors. Behind them are Grand Rapidians who signed their own leases, hired your neighbors, and turned the lights on this morning. Those rooms are real and you can walk to all of them from here.</p>
+        <p class="wp-rent">The brands in those commercials paid for thirty seconds of your attention. The people behind these six doors pay rent on these streets.</p>
+
+        <div class="wp-turn">Now go be a Local Citizen.</div>
+
+        <ul class="wp-list">
+          <li><span class="biz">Has Heart Café</span><span class="who">22 Sheldon Ave NE</span></li>
+          <li><span class="biz">Morning Ritual Coffee Bar</span><span class="who">150 Ottawa Ave NW</span></li>
+          <li><span class="biz">Sugar Bar</span><span class="who">132 Monroe Center</span></li>
+          <li class="mine"><span class="biz">Littlebird</span><span class="who">95 Monroe Center</span></li>
+          <li><span class="biz">Garden District</span><span class="who">55 Monroe Center</span></li>
+          <li><span class="biz">San Chez Bistro</span><span class="who">38 Fulton St W</span></li>
+        </ul>
+
+        <div class="wp-rule"></div>
+        <p class="wp-fine">Hold your phone to the Local Citizen Station at each one to collect your stamp. No purchase required. Buy something anyway.</p>
+      </div>
+    </div>
+    <p class="attn">Kait on our team is still working the exact wording. You see it before it goes to print.</p>
+  </section>
+
+  <!-- WHY YOU -->
+  <section>
+    <div class="kicker">Why You</div>
+    <h2>You already wrote the thesis of the exhibit on your own website.</h2>
+    <p class="lead">The installation spends twenty minutes showing people a world assembled by companies large enough to buy national airtime. A cherry blossom festival selling cars. The Eiffel Tower selling cosmetics. Every scene beautiful, every scene bought.</p>
+    <p class="lead">Then it points at six rooms where the opposite is true. Littlebird calls itself a family owned bistro built on warm, thoughtful hospitality and supporting small. That is the argument our installation needs twenty minutes and nine countries to build toward, and you fit it on one line above your menu.</p>
+    <p class="lead">The turn works because the alternative has to be walkable and it has to be real. You are two blocks from the gallery door, you have been serving that room since 2017, and nobody paid you to say any of it.</p>
+
+    <div class="img-row">
+      <figure>
+        <img src="assets/6.jpg" alt="A visitor composited by AI into a Paris café scene on the gallery screen">
+        <figcaption>What the fake world looks like</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/12.jpg" alt="A stamped Global Citizen passport from testing">
+        <figcaption>What a collected stamp looks like</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- THE ASK -->
+  <section>
+    <div class="kicker">The Ask</div>
+    <h2>Two questions.</h2>
+
+    <div class="ask">
+      <div class="ask-n">1</div>
+      <div>
+        <h3>May we feature Littlebird in the exhibit, the way you just saw it?</h3>
+        <p>Your name and address on the gallery wall, on the printed Local Passport, and on the project website. Nothing else, nowhere else, and only for the run of the show.</p>
+        <p>You approve the wording before anything gets printed. If a line does not sound like Littlebird, we change it.</p>
+        <div class="yes">Answer needed: yes or no</div>
+      </div>
+    </div>
+
+    <div class="ask">
+      <div class="ask-n">2</div>
+      <div>
+        <h3>Would you keep the Littlebird Station near your host stand?</h3>
+        <p>A letter-sized poster with your name set in the same type as the country stations inside the exhibit, so anyone who just tapped Japan recognizes it on sight. The tag that carries your stamp is laminated behind the paper. Nothing to plug in, nothing to charge, nothing in your dining room that looks like equipment.</p>
+        <p>A visitor holds their phone to the poster and the Littlebird stamp lands in their passport. We print it, we deliver it, and we collect it at the end of October when KCAD closes the venue.</p>
+
+        <div class="poster-mock">
+          <div class="pm-top">Be a Local Citizen</div>
+          <div>
+            <div class="pm-name">Little<br>bird</div>
+            <div class="pm-station">Station</div>
+          </div>
+          <div class="pm-foot">Hold your phone here.<br>No purchase required.</div>
+        </div>
+        <div class="poster-note">Rough placement only · 8.5 × 11</div>
+
+        <p style="margin-top:16px;">Host stand rather than a table, so it never occupies a cover during a Friday dinner rush. Tell me a better spot and we will put it there.</p>
+
+        <div class="yes">Answer needed: yes or no</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SMALL PRINT -->
+  <section>
+    <div class="kicker">Small Print</div>
+    <h2>Three practical things, if you say yes.</h2>
+    <p class="lead">Not really asks. Things I need from you once, so the whole thing does not embarrass either of us.</p>
+
+    <div class="housekeeping">
+      <div class="hk">
+        <h4>Your hours, September 12 through the end of October</h4>
+        <p>You are closed Mondays and you close between three and four thirty, which is exactly the window a gallery visitor is most likely to wander over. Seven weeks is long enough that the rest will shift too. If someone walks down from KCAD at a quarter past three and finds the door locked, the stamp fails and they blame you, not us. Give me your real hours and I will print them next to your name so nobody has to guess.</p>
+      </div>
+      <div class="hk">
+        <h4>One person on the floor who knows what the poster is</h4>
+        <p>This is the part that breaks in programs like this. A visitor asks whoever is at the host stand what the poster is for and gets a shrug. I will bring a half page for the back of house so anyone on shift can answer in a sentence.</p>
+      </div>
+      <div class="hk">
+        <h4>A logo file, if you want your mark on the wall instead of your name</h4>
+        <p>Optional, and type alone looks intentional. Littlebird has a mark and I would rather set it properly than approximate it. Send whatever vector file you have.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU GET BACK -->
+  <section class="close-sec">
+    <div class="kicker">What You Get Back</div>
+    <h2>Seven weeks, and a post we make together.</h2>
+    <p class="lead">Foot traffic is the obvious part. The station is live from September 12 through the end of October, and the heaviest stretch is September 17 to October 3, when the ArtPrize crowds move through the venues. It keeps running the four weeks after that while KCAD stays open. Every one of those visitors arrives holding a passport that says the point of the exhibit was to find you.</p>
+    <p class="lead">The part we would rather build with you is the post. We are making one for each of the six, shot at your place, and running it as a collaboration so it lands on your feed and ours at the same time with both handles on it. You approve the image and the caption before anything goes up. If you would rather shoot it yourself, we will run yours.</p>
+
+    <div class="callout">
+      <b>What that costs Littlebird</b>
+      Nothing, at any point, including the poster, the printing, the stamp, and the photography. No purchase requirement for anyone who taps it, no fee, no exclusivity, and no commitment past the end of October.
+    </div>
+
+    <div class="sig">
+      <div class="name">Ritsu Katsumata</div>
+      <div class="role">Co-Founder, Media Lab Midwest</div>
+    </div>
+
+    <div class="contact-row">
+      <div class="contact-item">
+        <div class="cl">Email</div>
+        <div class="cv"><a href="mailto:ritzkat@gmail.com">ritzkat@gmail.com</a></div>
+      </div>
+      <div class="contact-item">
+        <div class="cl">The Full Installation</div>
+        <div class="cv"><a href="https://itsaritsu.github.io/artprize/">itsaritsu.github.io/artprize</a></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  Be A Global Citizen · Media Lab Midwest · ArtPrize 2026<br>
+  The world tour was commercial. Your neighborhood is real.
+</footer>
+
+</body>
+</html>
