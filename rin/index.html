@@ -28,15 +28,31 @@
   a{color:#0C7A88;text-decoration:none}
   a:hover{color:#111111;text-decoration:underline}
   a.cta:hover{background:#111111;color:#F7F7F5;text-decoration:none}
+  img{max-width:100%}
+  @media (max-width:900px){
+    .wrap{padding-left:24px !important;padding-right:24px !important}
+    .r-stack{grid-template-columns:1fr !important;gap:30px !important}
+    [data-work="1"]{gap:64px !important}
+  }
+  @media (max-width:720px){
+    .r-cols3{grid-template-columns:1fr 1fr !important}
+    .navlinks{gap:16px !important;font-size:12px !important}
+    .wrap{padding-left:18px !important;padding-right:18px !important}
+    [data-work="1"]{padding-top:44px !important}
+  }
+  @media (max-width:520px){
+    .r-cols3{grid-template-columns:1fr !important}
+    .r-stack{gap:24px !important}
+  }
 </style>
 </head>
 <body>
 <div style="background:#F7F7F5;color:#111111;font-family:Archivo, sans-serif;min-height:100vh">
 
   <div style="position:sticky;top:0;z-index:10;background:rgba(247,247,245,.94);backdrop-filter:blur(8px);border-bottom:1px solid #E2E2DE">
-    <div style="max-width:1120px;margin:0 auto;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <div class="wrap" style="max-width:1120px;margin:0 auto;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
       <a href="#top" style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.06em;color:#111111">RIN KATSUMATA</a>
-      <div style="display:flex;gap:26px;font-size:13px;letter-spacing:.04em">
+      <div class="navlinks" style="display:flex;gap:26px;font-size:13px;letter-spacing:.04em;flex-wrap:wrap">
         <a href="#work" style="color:#4A4A45">Work</a>
         <a href="#skills" style="color:#4A4A45">Skills</a>
         <a href="#experience" style="color:#4A4A45">Experience</a>
@@ -45,10 +61,10 @@
     </div>
   </div>
 
-  <div id="top" style="max-width:1120px;margin:0 auto;padding:88px 40px 72px;display:grid;grid-template-columns:1.35fr 1fr;gap:56px;align-items:end">
+  <div id="top" class="wrap r-stack" style="max-width:1120px;margin:0 auto;padding:88px 40px 72px;display:grid;grid-template-columns:1.35fr 1fr;gap:56px;align-items:end">
     <div style="display:flex;flex-direction:column;gap:26px">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.22em;color:#0C7A88">SEWING · FITTING · ALTERATIONS</div>
-      <h1 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:104px;line-height:.88;letter-spacing:.01em">RIN<br>KATSUMATA</h1>
+      <h1 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(46px,9.6vw,104px);line-height:.9;letter-spacing:.01em">RIN<br>KATSUMATA</h1>
       <p style="margin:0;font-size:17px;line-height:1.6;max-width:34em;text-wrap:pretty">Ten years sewing, eight years working with customers. Most jobs start the same way: someone tells me what they need, I take their measurements, and I draft or rework the garment until it fits.</p>
       <p style="margin:0;font-size:15px;line-height:1.65;max-width:34em;color:#4A4A45;text-wrap:pretty">I alter sleeves, collars, waistlines, crotches and pant legs. I set invisible zippers and buttonholes. I work on a machine or a serger. Below are six projects with the drafts and design sheets included, not just the finished pieces.</p>
       <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center">
@@ -72,24 +88,24 @@
     </div>
   </div>
 
-  <div style="max-width:1120px;margin:0 auto;padding:0 40px">
+  <div class="wrap" style="max-width:1120px;margin:0 auto;padding:0 40px">
     <div style="height:1px;background:#E2E2DE"></div>
   </div>
 
-  <div id="work" style="max-width:1120px;margin:0 auto;padding:64px 40px 0;display:flex;flex-direction:column;gap:88px">
+  <div id="work" class="wrap" style="max-width:1120px;margin:0 auto;padding:64px 40px 0;display:flex;flex-direction:column;gap:88px" data-work="1">
 <section data-screen-label="01 Denim jacket" style="display:flex;flex-direction:column;gap:28px">
       <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-bottom:2px solid #111111;padding-bottom:12px">
         <div style="display:flex;align-items:baseline;gap:18px">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:#0C7A88">01</span>
-          <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:44px;line-height:1;letter-spacing:.01em">REWORKED DENIM JACKET</h2>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:clamp(21px,3.4vw,30px);color:#0C7A88">01</span>
+          <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(27px,4.8vw,44px);line-height:1.02;letter-spacing:.01em">REWORKED DENIM JACKET</h2>
         </div>
         <div style="font-size:13px;color:#6F6F68;white-space:nowrap;padding-bottom:4px">Upcycle commission</div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+      <div class="r-stack" style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
         <p style="margin:0;font-size:15px;line-height:1.65;text-wrap:pretty">A secondhand jacket the client loved but never wore. I unpicked the yokes and the upper back, cut new panels in embroidered mesh, and set them into the original seam lines. The topstitching still reads as the jacket's own.</p>
         <p style="margin:0;font-size:15px;line-height:1.65;text-wrap:pretty">Sheer mesh on heavy denim: two fabrics with nothing in common at one seam. It is stabilized and stitched from the denim side, and the raw mesh edge is left frayed on purpose. Sleeves were re-set, fit taken in at the shoulder.</p>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div class="r-stack" style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
         <figure style="margin:0;display:flex;flex-direction:column;gap:10px">
           <div style="aspect-ratio:3/4;overflow:hidden;background:#EAEAE6">
             <img src="img/icEHxZVj.jpg" alt="Front of reworked denim jacket with embroidered mesh shoulder panels" style="width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block">
@@ -122,16 +138,16 @@
     <section data-screen-label="02 Aprons" style="display:flex;flex-direction:column;gap:28px">
       <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-bottom:2px solid #111111;padding-bottom:12px">
         <div style="display:flex;align-items:baseline;gap:18px">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:#0C7A88">02</span>
-          <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:44px;line-height:1;letter-spacing:.01em">CUSTOM ESTHETICIAN APRONS</h2>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:clamp(21px,3.4vw,30px);color:#0C7A88">02</span>
+          <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(27px,4.8vw,44px);line-height:1.02;letter-spacing:.01em">CUSTOM ESTHETICIAN APRONS</h2>
         </div>
         <div style="font-size:13px;color:#6F6F68;white-space:nowrap;padding-bottom:4px">2026 to present</div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+      <div class="r-stack" style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
         <p style="margin:0;font-size:15px;line-height:1.65;text-wrap:pretty">Stylists and estheticians stand in these for ten hours, so I start by asking what they carry and where their hands go. Then I measure the wearer, draft the pattern, and build to that spec. Pocket placement, adjustable straps, fabric that survives color and product.</p>
         <p style="margin:0;font-size:15px;line-height:1.65;text-wrap:pretty">I sketch the waistband length, the gathered skirt width, a 4&nbsp;×&nbsp;37&nbsp;in ruffle, 6&nbsp;×&nbsp;9&nbsp;in patch pockets cut 7&nbsp;×&nbsp;10 for seam allowance, and a shaped sleeve ruffle. Every apron also gets one personal detail: lace, appliqué or a patch.</p>
       </div>
-      <div style="display:grid;grid-template-columns:1.7fr 1fr;gap:20px;align-items:start">
+      <div class="r-stack" style="display:grid;grid-template-columns:1.7fr 1fr;gap:20px;align-items:start">
         <figure style="margin:0;display:flex;flex-direction:column;gap:10px">
           <div style="background:#FFFFFF;border:1px solid #E2E2DE;aspect-ratio:16/11;display:flex;align-items:center;justify-content:center;overflow:hidden">
             <img src="img/4OTEzhGk.jpg" alt="Hand drawn technical flat of the apron with measurements" style="width:100%;height:100%;object-fit:contain;display:block">
@@ -164,16 +180,16 @@
     <section data-screen-label="03 Veil" style="display:flex;flex-direction:column;gap:28px">
       <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-bottom:2px solid #111111;padding-bottom:12px">
         <div style="display:flex;align-items:baseline;gap:18px">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:#0C7A88">03</span>
-          <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:44px;line-height:1;letter-spacing:.01em">BRIDAL VEIL, DESIGN EXPLORATION</h2>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:clamp(21px,3.4vw,30px);color:#0C7A88">03</span>
+          <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(27px,4.8vw,44px);line-height:1.02;letter-spacing:.01em">BRIDAL VEIL, DESIGN EXPLORATION</h2>
         </div>
         <div style="font-size:13px;color:#6F6F68;white-space:nowrap;padding-bottom:4px">Private client</div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+      <div class="r-stack" style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
         <p style="margin:0;font-size:15px;line-height:1.65;text-wrap:pretty">When a client is not sure what she wants, I draw options. Several lengths, feather trim, lettuce hem, layered tulle, silk ruffles. I pin reference photos beside them, and we talk through veil forward, veil back and chest height until one direction wins.</p>
         <p style="margin:0;font-size:15px;line-height:1.65;text-wrap:pretty">The finished veil is the feather version. Machine hemmed on tulle, trimmed by hand.</p>
       </div>
-      <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:20px">
+      <div class="r-stack" style="display:grid;grid-template-columns:1.5fr 1fr;gap:20px">
         <figure style="margin:0;display:flex;flex-direction:column;gap:10px">
           <div style="background:#FFFFFF;border:1px solid #E2E2DE;aspect-ratio:4/3;overflow:hidden;display:flex;align-items:center;justify-content:center">
             <img src="img/izrBkc39.jpg" alt="Sheet of veil design variations in pink, blue and red pen with reference photos" style="width:100%;height:100%;object-fit:contain;display:block">
@@ -204,16 +220,16 @@
     <section data-screen-label="04 String trio" style="display:flex;flex-direction:column;gap:28px">
       <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-bottom:2px solid #111111;padding-bottom:12px">
         <div style="display:flex;align-items:baseline;gap:18px">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:#0C7A88">04</span>
-          <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:44px;line-height:1;letter-spacing:.01em">CUSTOM PERFORMANCE WEAR</h2>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:clamp(21px,3.4vw,30px);color:#0C7A88">04</span>
+          <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(27px,4.8vw,44px);line-height:1.02;letter-spacing:.01em">CUSTOM PERFORMANCE WEAR</h2>
         </div>
         <div style="font-size:13px;color:#6F6F68;white-space:nowrap;padding-bottom:4px">Professional string trio, 2020</div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+      <div class="r-stack" style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
         <p style="margin:0;font-size:15px;line-height:1.65;text-wrap:pretty">A three garment set for a working chamber ensemble. One color blocked design, three individual fits and color variations. The trio reads as a set on stage, but each dress is cut to its own wearer.</p>
         <p style="margin:0;font-size:15px;line-height:1.65;text-wrap:pretty">I sourced the coordinating knits. Then I built in the shoulder movement needed for bowing, and the ease needed to play cello seated.</p>
       </div>
-      <div style="display:grid;grid-template-columns:1.15fr .85fr;gap:20px">
+      <div class="r-stack" style="display:grid;grid-template-columns:1.15fr .85fr;gap:20px">
         <figure style="margin:0;display:flex;flex-direction:column;gap:10px">
           <div style="aspect-ratio:4/3;overflow:hidden;background:#EAEAE6">
             <img src="img/IMG_6707.jpg" alt="Three musicians wearing the coordinated color blocked dresses" style="width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block">
@@ -252,16 +268,16 @@
     <section data-screen-label="05 Harlequin jacket" style="display:flex;flex-direction:column;gap:28px">
       <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-bottom:2px solid #111111;padding-bottom:12px">
         <div style="display:flex;align-items:baseline;gap:18px">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:#0C7A88">05</span>
-          <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:44px;line-height:1;letter-spacing:.01em">HARLEQUIN JACKET</h2>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:clamp(21px,3.4vw,30px);color:#0C7A88">05</span>
+          <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(27px,4.8vw,44px);line-height:1.02;letter-spacing:.01em">HARLEQUIN JACKET</h2>
         </div>
         <div style="font-size:13px;color:#6F6F68;white-space:nowrap;padding-bottom:4px">Costume commission</div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+      <div class="r-stack" style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
         <p style="margin:0;font-size:15px;line-height:1.65;text-wrap:pretty">Drafted from the wearer's recorded measurements and built as a diamond patchwork. Every point matched by hand before the panels were joined. Gold braid along each seam.</p>
         <p style="margin:0;font-size:15px;line-height:1.65;text-wrap:pretty">The satin collar is interfaced and set with a clean roll line. The beaded trim on the back yoke went on one drop at a time. Fully lined, hemmed by hand, fitted over two rounds of revisions.</p>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div class="r-stack" style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
         <figure style="margin:0;display:flex;flex-direction:column;gap:10px">
           <div style="aspect-ratio:3/4;overflow:hidden;background:#EAEAE6">
             <img src="img/C0Exrgue.jpg" alt="Front of pink and blue harlequin jacket with red satin collar" style="width:100%;height:100%;object-fit:cover;object-position:50% 28%;display:block">
@@ -294,12 +310,12 @@
     <section data-screen-label="06 Costumes" style="display:flex;flex-direction:column;gap:28px">
       <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-bottom:2px solid #111111;padding-bottom:12px">
         <div style="display:flex;align-items:baseline;gap:18px">
-          <span style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:#0C7A88">06</span>
-          <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:44px;line-height:1;letter-spacing:.01em">COSTUMES &amp; COSPLAY</h2>
+          <span style="font-family:'Bebas Neue',sans-serif;font-size:clamp(21px,3.4vw,30px);color:#0C7A88">06</span>
+          <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(27px,4.8vw,44px);line-height:1.02;letter-spacing:.01em">COSTUMES &amp; COSPLAY</h2>
         </div>
         <div style="font-size:13px;color:#6F6F68;white-space:nowrap;padding-bottom:4px">2015 to present</div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+      <div class="r-stack" style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
         <p style="margin:0;font-size:15px;line-height:1.65;text-wrap:pretty">Cosplay is where I learned to match a spec exactly. Someone hands me a reference image and expects the garment to look like it. Not close. The same.</p>
         <p style="margin:0;font-size:15px;line-height:1.65;text-wrap:pretty">It also puts me on fabrics that punish mistakes. Vinyl keeps every needle hole. Satin shows every pucker. Lace has to be placed, not just sewn. These are the pieces I am proudest of.</p>
       </div>
@@ -323,7 +339,7 @@
           </figure>
         </div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr .68fr;gap:20px;align-items:start">
+      <div class="r-stack" style="display:grid;grid-template-columns:1fr 1fr .68fr;gap:20px;align-items:start">
         <figure style="margin:0;display:flex;flex-direction:column;gap:10px">
           <div style="aspect-ratio:2/3;overflow:hidden;background:#EAEAE6">
             <img src="img/mileena-1.jpg" alt="Purple and black vinyl costume with laced bodice and thigh high boot covers" style="width:100%;height:100%;object-fit:cover;object-position:50% 40%;display:block">
@@ -370,9 +386,9 @@
   </div>
 
   <div id="skills" style="background:#111111;color:#F7F7F5;margin-top:96px">
-    <div style="max-width:1120px;margin:0 auto;padding:72px 40px;display:flex;flex-direction:column;gap:34px">
-      <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:52px;line-height:1;letter-spacing:.01em">AT THE ALTERATIONS BENCH</h2>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px 40px">
+    <div class="wrap" style="max-width:1120px;margin:0 auto;padding:72px 40px;display:flex;flex-direction:column;gap:34px">
+      <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(31px,5.2vw,52px);line-height:1.02;letter-spacing:.01em">AT THE ALTERATIONS BENCH</h2>
+      <div class="r-cols3" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px 40px">
         <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid #3A3A36;padding-top:14px">
           <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.08em;color:#4FC9D6">MEASURING &amp; FITTING</div>
           <div style="font-size:14px;line-height:1.6;color:#CFCFC9">Take and record measurements. Fit on the body. Mark and pin for alteration.</div>
@@ -401,7 +417,7 @@
     </div>
   </div>
 
-  <div id="experience" style="max-width:1120px;margin:0 auto;padding:72px 40px 88px;display:grid;grid-template-columns:1.45fr 1fr;gap:56px">
+  <div id="experience" class="wrap r-stack" style="max-width:1120px;margin:0 auto;padding:72px 40px 88px;display:grid;grid-template-columns:1.45fr 1fr;gap:56px">
     <div style="display:flex;flex-direction:column;gap:18px">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:.2em;color:#0C7A88">SEWING &amp; GARMENT EXPERIENCE</div>
       <div style="display:flex;flex-direction:column;gap:16px">
@@ -475,9 +491,9 @@
   </div>
 
   <div id="contact" style="background:#111111;color:#F7F7F5">
-    <div style="max-width:1120px;margin:0 auto;padding:76px 40px;display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center">
+    <div class="wrap r-stack" style="max-width:1120px;margin:0 auto;padding:76px 40px;display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center">
       <div style="display:flex;flex-direction:column;gap:22px">
-        <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:52px;line-height:1;letter-spacing:.01em">GET IN TOUCH</h2>
+        <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(31px,5.2vw,52px);line-height:1.02;letter-spacing:.01em">GET IN TOUCH</h2>
         <p style="margin:0;font-size:16px;line-height:1.65;color:#CFCFC9;max-width:30em;text-wrap:pretty">I have been making things out of fabric since I was a kid. The first photo is 2016, with a pod of denim whales I designed, cut, sewed and stuffed for fun. Ten years later it is still what I love to do.</p>
         <p style="margin:0;font-size:16px;line-height:1.65;color:#CFCFC9;max-width:30em;text-wrap:pretty">If you have something that needs measuring, fitting or altering, contact me.</p>
         <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid #3A3A36;padding-top:20px">
@@ -503,7 +519,7 @@
   </div>
 
   <div style="border-top:1px solid #E2E2DE">
-    <div style="max-width:1120px;margin:0 auto;padding:44px 40px 64px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+    <div class="wrap" style="max-width:1120px;margin:0 auto;padding:44px 40px 64px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
       <div style="display:flex;flex-direction:column;gap:6px">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:.03em">RIN KATSUMATA</div>
         <div style="font-size:14px;color:#6F6F68">Milwaukee, WI</div>
