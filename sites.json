@@ -1,0 +1,54 @@
+{
+  "_readme": "Hand-tuning for the auto-generated index. Delete an override and the builder falls back to the page's own <title> / <meta description>. Override keys: repo subfolder name, gh:<repo>, or netlify:<site-name>.",
+  "overrides": {
+    "artprize": {
+      "title": "ArtPrize",
+      "description": "NFC passport experience · Be A Global Citizen",
+      "order": 1
+    },
+    "artisanalinstitute": {
+      "title": "Artisanal Institute",
+      "description": "Meaning-making cards · logotherapy-rooted",
+      "order": 2
+    },
+    "thinking-style": {
+      "title": "Thinking Style",
+      "description": "How do you think? An interactive quiz",
+      "order": 3
+    },
+    "uptowngr": {
+      "title": "Uptown GR",
+      "description": "Local Passport · Summer Stamp experience",
+      "order": 4
+    },
+    "rin": {
+      "title": "Rin Katsumata",
+      "description": "Sewing, fitting and alterations portfolio",
+      "order": 5
+    },
+    "somaticsupercomputer": {
+      "title": "Somatic Supercomputer",
+      "description": "The body as a parallel processor · book in development",
+      "order": 6
+    }
+  },
+  "hidden": [],
+  "_howto": {
+    "hide a site": "Add its key to \"hidden\".",
+    "put it on the public index": "Add \"public\": true to its override. Netlify and manual sites are private by default.",
+    "a site moved": "Add \"redirect\": \"https://new-url.com\" to its override. The card stays, the link follows.",
+    "a site the builder can't see": "Add it to \"manual\" - Cloudflare, Vercel, anywhere. \"group\" sets its heading."
+  },
+  "manual": [],
+  "_manual_example": [
+    {
+      "key": "rin-cloudflare",
+      "title": "Rin Katsumata",
+      "description": "Sewing and alterations portfolio",
+      "url": "https://example.pages.dev",
+      "group": "Cloudflare",
+      "public": true,
+      "order": 5
+    }
+  ]
+}

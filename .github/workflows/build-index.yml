@@ -1,0 +1,54 @@
+name: Build site index
+
+on:
+  schedule:
+    # 11:00 UTC daily — about 7am Eastern.
+    - cron: '0 11 * * *'
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'index.html'
+      - 'build/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-index
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Discover sites and rebuild index
+        env:
+          GH_INDEX_TOKEN: ${{ secrets.GH_INDEX_TOKEN }}
+          NETLIFY_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+          GH_OWNER: ItsaRitsu
+        run: node scripts/build-index.mjs
+
+      - name: Commit the public index
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet index.html; then
+            echo "index.html unchanged"
+          else
+            git add index.html
+            git commit -m "chore: rebuild site index"
+            git push
+          fi
+
+      - name: Publish the private index
+        env:
+          GH_INDEX_TOKEN: ${{ secrets.GH_INDEX_TOKEN }}
+          PRIVATE_INDEX_REPO: ${{ vars.PRIVATE_INDEX_REPO }}
+        run: node scripts/publish-private-index.mjs
