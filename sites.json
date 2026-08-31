@@ -29,10 +29,22 @@
     "somaticsupercomputer": {
       "title": "Somatic Supercomputer",
       "description": "The body as a parallel processor · book in development",
-      "order": 6
+      "order": 6,
+      "redirect": "https://somaticsupercomputer.com"
+    },
+    "netlify:artprizeglobalcitizen": {
+      "title": "ArtPrize · Global Citizen"
+    },
+    "netlify:ritsullc": {
+      "title": "Ritsu LLC"
+    },
+    "netlify:trustanchorestate": {
+      "title": "Trust Anchor Estate"
     }
   },
-  "hidden": [],
+  "hidden": [
+    "netlify:somaticsupercomputer"
+  ],
   "_howto": {
     "hide a site": "Add its key to \"hidden\".",
     "put it on the public index": "Add \"public\": true to its override. Netlify and manual sites are private by default.",
